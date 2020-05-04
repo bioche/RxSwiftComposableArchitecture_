@@ -52,7 +52,7 @@ public final class ViewStore<State, Action>: ObservableObject {
   /// - Parameters:
   ///   - store: A store.
   ///   - isDuplicate: A function to determine when two `State` values are equal. When values are
-  ///     equal, repeat view computations are removed,
+  ///     equal, repeat view computations are removed.
   public init(
     _ store: Store<State, Action>,
     removeDuplicates isDuplicate: @escaping (State, State) -> Bool
@@ -126,7 +126,7 @@ public final class ViewStore<State, Action>: ObservableObject {
   /// actions to the store.
   ///
   /// The method is useful for dealing with SwiftUI components that work with two-way `Binding`s
-  /// since the `Store` does not allow directly write its state; it only allows reading state and
+  /// since the `Store` does not allow directly writing its state; it only allows reading state and
   /// sending actions.
   ///
   /// For example, an alert binding can be dealt with like this:
@@ -187,7 +187,7 @@ public final class ViewStore<State, Action>: ObservableObject {
   /// actions to the store.
   ///
   /// The method is useful for dealing with SwiftUI components that work with two-way `Binding`s
-  /// since the `Store` does not allow directly write its state; it only allows reading state and
+  /// since the `Store` does not allow directly writing its state; it only allows reading state and
   /// sending actions.
   ///
   /// For example, an alert binding can be dealt with like this:
