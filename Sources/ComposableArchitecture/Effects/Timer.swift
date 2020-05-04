@@ -1,6 +1,7 @@
 import Combine
 import Foundation
 
+@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension Effect {
   /// Returns an effect that repeatedly emits the current time of the given
   /// scheduler on the given interval.

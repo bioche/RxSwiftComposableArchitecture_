@@ -142,6 +142,7 @@ extension DispatchQueue: CustomDebugOutputConvertible {
   }
 }
 
+@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension Effect: CustomDebugOutputConvertible {
   public var debugOutput: String {
     var empty: Any?
@@ -269,6 +270,8 @@ extension URL: CustomDebugOutputConvertible {
 
 #if canImport(Speech)
   import Speech
+
+  @available(macOS 10.15, tvOS 13.0, watchOS 6.0, *)
   extension SFSpeechRecognizerAuthorizationStatus: CustomDebugOutputConvertible {
     public var debugOutput: String {
       switch self {
