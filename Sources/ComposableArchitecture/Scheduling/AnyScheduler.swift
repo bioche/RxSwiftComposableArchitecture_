@@ -2,6 +2,7 @@ import Combine
 import Foundation
 
 /// A type-erasing scheduler that defines when and how to execute a closure.
+@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 public struct AnyScheduler<SchedulerTimeType, SchedulerOptions>: Scheduler
 where
   SchedulerTimeType: Strideable,
@@ -87,10 +88,12 @@ where
 
 /// A convenience type to specify an `AnyScheduler` by the scheduler it wraps rather than by the
 /// time type and options type.
+@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 public typealias AnySchedulerOf<Scheduler> = AnyScheduler<
   Scheduler.SchedulerTimeType, Scheduler.SchedulerOptions
 > where Scheduler: Combine.Scheduler
 
+@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension Scheduler {
   /// Wraps this scheduler with a type eraser.
   public func eraseToAnyScheduler() -> AnyScheduler<SchedulerTimeType, SchedulerOptions> {

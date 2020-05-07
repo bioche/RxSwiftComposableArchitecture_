@@ -16,6 +16,7 @@ import Combine
 ///   values on the same thread, **and** if the `Store` is being used to drive UI then all output
 ///   must be on the main thread. You can use the `Publisher` method `receive(on:)` for make the
 ///   effect output its values on the thread of your choice.
+@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 public struct Reducer<State, Action, Environment> {
   private let reducer: (inout State, Action, Environment) -> Effect<Action, Never>
 
@@ -281,6 +282,7 @@ public struct Reducer<State, Action, Environment> {
   }
 }
 
+@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension Reducer where Environment == Void {
   public func callAsFunction(
     _ state: inout State,
