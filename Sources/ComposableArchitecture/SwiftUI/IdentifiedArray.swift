@@ -93,12 +93,15 @@ where ID: Hashable {
     }
   }
 
-  public subscript(id: ID) -> Element? {
+  public subscript(id id: ID) -> Element? {
     get {
       self.dictionary[id]
     }
     _modify {
       yield &self.dictionary[id]
+      if self.dictionary[id] == nil {
+        self.ids.removeAll(where: { $0 == id })
+      }
     }
   }
 
@@ -116,6 +119,7 @@ where ID: Hashable {
     }
   }
 
+  @discardableResult
   public mutating func remove(at position: Int) -> Element {
     let id = self.ids.remove(at: position)
     let element = self.dictionary[id]!
@@ -139,7 +143,7 @@ where ID: Hashable {
   }
 
   public mutating func remove(atOffsets offsets: IndexSet) {
-    for offset in offsets {
+    for offset in offsets.reversed() {
       _ = self.remove(at: offset)
     }
   }

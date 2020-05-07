@@ -89,7 +89,7 @@ extension Reducer {
         )
       }
     #else
-      return .empty
+      return self
     #endif
   }
 }
