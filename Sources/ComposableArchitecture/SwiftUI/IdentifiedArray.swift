@@ -36,7 +36,6 @@ import Foundation
 ///         }
 ///       }
 ///     }
-@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 public struct IdentifiedArray<ID, Element>: MutableCollection, RandomAccessCollection
 where ID: Hashable {
   /// A key path to a value that identifies an element.
@@ -153,49 +152,47 @@ where ID: Hashable {
   }
 }
 
-@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension IdentifiedArray: CustomDebugStringConvertible {
   public var debugDescription: String {
     self.elements.debugDescription
   }
 }
 
-@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension IdentifiedArray: CustomReflectable {
   public var customMirror: Mirror {
     Mirror(reflecting: self.elements)
   }
 }
 
-@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension IdentifiedArray: CustomStringConvertible {
   public var description: String {
     self.elements.description
   }
 }
 
-@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-extension IdentifiedArray: Decodable where Element: Decodable & Identifiable, ID == Element.ID {
-  public init(from decoder: Decoder) throws {
-    self.init(try [Element](from: decoder))
-  }
-}
+// Decodable conformance cannot be as long as we have to keep handling iOS 12.
+// Swift can't handle @available protocol conformance : https://forums.swift.org/t/available-on-structure-extensions/36290
 
-@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+//extension IdentifiedArray: Decodable where Element: Decodable & Identifiable, ID == Element.ID {
+//  public init(from decoder: Decoder) throws {
+//    self.init(try [Element](from: decoder))
+//  }
+//}
+
 extension IdentifiedArray: Encodable where Element: Encodable {
   public func encode(to encoder: Encoder) throws {
     try self.elements.encode(to: encoder)
   }
 }
 
-@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension IdentifiedArray: Equatable where Element: Equatable {}
 
-@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension IdentifiedArray: Hashable where Element: Hashable {}
 
+// ExpressibleByArrayLiteral conformance cannot be as long as we have to keep handling iOS 12.
+// Swift can't handle @available protocol conformance : https://forums.swift.org/t/available-on-structure-extensions/36290
 @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-extension IdentifiedArray: ExpressibleByArrayLiteral where Element: Identifiable, ID == Element.ID {
+extension IdentifiedArray /*: ExpressibleByArrayLiteral */ where Element: Identifiable, ID == Element.ID {
   public init(arrayLiteral elements: Element...) {
     self.init(elements)
   }
@@ -208,9 +205,10 @@ extension IdentifiedArray where Element: Identifiable, ID == Element.ID {
   }
 }
 
+// RangeReplaceableCollection conformance cannot be as long as we have to keep handling iOS 12.
+// Swift can't handle @available protocol conformance : https://forums.swift.org/t/available-on-structure-extensions/36290
 @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-extension IdentifiedArray: RangeReplaceableCollection
-where Element: Identifiable, ID == Element.ID {
+extension IdentifiedArray /*: RangeReplaceableCollection */ where Element: Identifiable, ID == Element.ID {
   public init() {
     self.init([], id: \.id)
   }
