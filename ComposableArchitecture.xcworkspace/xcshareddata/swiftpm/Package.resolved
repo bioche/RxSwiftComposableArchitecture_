@@ -2,12 +2,21 @@
   "object": {
     "pins": [
       {
-        "package": "swift-composable-architecture",
-        "repositoryURL": "http://github.com/stephencelis/swift-composable-architecture",
+        "package": "RxCombine",
+        "repositoryURL": "https://github.com/bioche/RxCombine.git",
         "state": {
-          "branch": "master",
-          "revision": "644a8f5d7c40522389ecd4631d53153aee62d717",
+          "branch": "ios_compatibility",
+          "revision": "b1781ac35f5668decb0c59275cad55aeae9d85c5",
           "version": null
+        }
+      },
+      {
+        "package": "RxSwift",
+        "repositoryURL": "https://github.com/ReactiveX/RxSwift.git",
+        "state": {
+          "branch": null,
+          "revision": "002d325b0bdee94e7882e1114af5ff4fe1e96afa",
+          "version": "5.1.1"
         }
       }
     ]

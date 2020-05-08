@@ -20,11 +20,12 @@ let package = Package(
       targets: ["ComposableArchitectureTestSupport"]
     ),
   ],
+  dependencies: [.package(url: "https://github.com/ReactiveX/RxSwift.git", from: "5.0.0"),
+                 .package(url: "https://github.com/bioche/RxCombine.git", .branch("ios_compatibility"))],
   targets: [
     .target(
       name: "ComposableArchitecture",
-      dependencies: [
-      ]
+      dependencies: ["RxSwift", "RxCombine"]
     ),
     .testTarget(
       name: "ComposableArchitectureTests",
