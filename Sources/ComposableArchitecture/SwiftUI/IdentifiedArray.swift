@@ -170,14 +170,11 @@ extension IdentifiedArray: CustomStringConvertible {
   }
 }
 
-// Decodable conformance cannot be as long as we have to keep handling iOS 12.
-// Swift can't handle @available protocol conformance : https://forums.swift.org/t/available-on-structure-extensions/36290
-
-//extension IdentifiedArray: Decodable where Element: Decodable & Identifiable, ID == Element.ID {
-//  public init(from decoder: Decoder) throws {
-//    self.init(try [Element](from: decoder))
-//  }
-//}
+extension IdentifiedArray: Decodable where Element: Decodable & Identifiable, ID == Element.ID {
+  public init(from decoder: Decoder) throws {
+    self.init(try [Element](from: decoder))
+  }
+}
 
 extension IdentifiedArray: Encodable where Element: Encodable {
   public func encode(to encoder: Encoder) throws {
@@ -189,32 +186,25 @@ extension IdentifiedArray: Equatable where Element: Equatable {}
 
 extension IdentifiedArray: Hashable where Element: Hashable {}
 
-// ExpressibleByArrayLiteral conformance cannot be as long as we have to keep handling iOS 12.
-// Swift can't handle @available protocol conformance : https://forums.swift.org/t/available-on-structure-extensions/36290
-@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-extension IdentifiedArray /*: ExpressibleByArrayLiteral */ where Element: Identifiable, ID == Element.ID {
+extension IdentifiedArray: ExpressibleByArrayLiteral where Element: Identifiable, ID == Element.ID {
   public init(arrayLiteral elements: Element...) {
     self.init(elements)
   }
 }
 
-@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension IdentifiedArray where Element: Identifiable, ID == Element.ID {
   public init<S>(_ elements: S) where S: Sequence, S.Element == Element {
     self.init(elements, id: \.id)
   }
 }
 
-// RangeReplaceableCollection conformance cannot be as long as we have to keep handling iOS 12.
-// Swift can't handle @available protocol conformance : https://forums.swift.org/t/available-on-structure-extensions/36290
-@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-extension IdentifiedArray /*: RangeReplaceableCollection */ where Element: Identifiable, ID == Element.ID {
+extension IdentifiedArray: RangeReplaceableCollection
+where Element: Identifiable, ID == Element.ID {
   public init() {
     self.init([], id: \.id)
   }
 }
 
 /// A convenience type to specify an `IdentifiedArray` by an identifiable element.
-@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 public typealias IdentifiedArrayOf<Element> = IdentifiedArray<Element.ID, Element>
 where Element: Identifiable

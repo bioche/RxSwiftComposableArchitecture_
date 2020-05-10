@@ -4,6 +4,7 @@ import XCTest
 
 @testable import ComposableArchitecture
 
+@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 final class EffectTests: XCTestCase {
   var cancellables: Set<AnyCancellable> = []
   let scheduler = DispatchQueue.testScheduler
@@ -94,7 +95,7 @@ final class EffectTests: XCTestCase {
   }
 
   func testEffectSubscriberInitializer() {
-    let effect = Effect<Int, Never>.async { subscriber in
+    let effect = Effect<Int, Never>.async { subscriber -> AnyCancellable in
       subscriber.send(1)
       subscriber.send(2)
       self.scheduler.schedule(after: self.scheduler.now.advanced(by: .seconds(1))) {
@@ -131,7 +132,7 @@ final class EffectTests: XCTestCase {
   func testEffectSubscriberInitializer_WithCancellation() {
     struct CancelId: Hashable {}
 
-    let effect = Effect<Int, Never>.async { subscriber in
+    let effect = Effect<Int, Never>.async { subscriber -> AnyCancellable in
       subscriber.send(1)
       self.scheduler.schedule(after: self.scheduler.now.advanced(by: .seconds(1))) {
         subscriber.send(2)
