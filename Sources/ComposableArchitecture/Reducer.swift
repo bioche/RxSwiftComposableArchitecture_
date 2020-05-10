@@ -17,7 +17,7 @@ import Combine
 ///   must be on the main thread. You can use the `Publisher` method `receive(on:)` for make the
 ///   effect output its values on the thread of your choice.
 public struct Reducer<State, Action, Environment> {
-  private let reducer: (inout State, Action, Environment) -> Effect<Action>
+  private let reducer: (inout State, Action, Environment) -> Effect<Action, Never>
 
   /// Initializes a reducer from a simple reducer function signature.
   ///
@@ -46,7 +46,7 @@ public struct Reducer<State, Action, Environment> {
   ///
   /// - Parameter reducer: A function signature that takes state, action and
   ///   environment.
-  public init(_ reducer: @escaping (inout State, Action, Environment) -> Effect<Action>) {
+  public init(_ reducer: @escaping (inout State, Action, Environment) -> Effect<Action, Never>) {
     self.reducer = reducer
   }
 
@@ -287,7 +287,7 @@ public struct Reducer<State, Action, Environment> {
     _ state: inout State,
     _ action: Action,
     _ environment: Environment
-  ) -> Effect<Action> {
+  ) -> Effect<Action, Never> {
     self.reducer(&state, action, environment)
   }
 }
@@ -296,7 +296,7 @@ extension Reducer where Environment == Void {
   public func callAsFunction(
     _ state: inout State,
     _ action: Action
-  ) -> Effect<Action> {
+  ) -> Effect<Action, Never> {
     self.callAsFunction(&state, action, ())
   }
 }

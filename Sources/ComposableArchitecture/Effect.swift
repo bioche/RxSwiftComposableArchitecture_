@@ -12,8 +12,13 @@ import Foundation
 ///
 /// An effect simply wraps a `Publisher` value and provides some convenience initializers for
 /// constructing some common types of effects.
-//TODO: Should we add the error in generic and assert in do(onError) ?
-public struct Effect<Output>: ObservableType {
+
+/// Error management
+/// Rx doesn't is way less explicit in its error management than Combine.
+/// We choose to keep Failure to avoid diverging too much from the original library
+/// and also try to force enforce the error handling
+
+public struct Effect<Output, Failure: Error>: ObservableType {
   
   public typealias Element = Output
   
@@ -55,7 +60,7 @@ public struct Effect<Output>: ObservableType {
   /// Initializes an effect that immediately failues with the error passed in.
   ///
   /// - Parameter error: The error that is immediately emitted by the effect.
-  public init(error: Error) {
+  public init(error: Failure) {
     self.init(Observable.error(error))
   }
 
@@ -245,7 +250,7 @@ public struct Effect<Output>: ObservableType {
   /// - Parameter transform: A closure that transforms the upstream effect's output to a new output.
   /// - Returns: A publisher that uses the provided closure to map elements from the upstream effect
   ///   to new elements that it then publishes.
-  public func map<T>(_ transform: @escaping (Output) -> T) -> Effect<T> {
+  public func map<T>(_ transform: @escaping (Output) -> T) -> Effect<T, Failure> {
     upstream.map(transform).eraseToEffect()
   }
 }
@@ -295,43 +300,9 @@ extension Effect where Output == Never {
   ///         .fireAndForget()
   ///
   /// - Returns: An effect.
-  public func fireAndForget<T>() -> Effect<T> {
+  public func fireAndForget<T>() -> Effect<T, Failure> {
     func absurd<A>(_ never: Never) -> A {}
     return self.map(absurd)
   }
-}
 
-extension Observable {
-  /// Turns any publisher into an `Effect`.
-  ///
-  /// This can be useful for when you perform a chain of publisher transformations in a reducer, and
-  /// you need to convert that publisher to an effect so that you can return it from the reducer:
-  ///
-  ///     case .buttonTapped:
-  ///       return fetchUser(id: 1)
-  ///         .filter(\.isAdmin)
-  ///         .eraseToEffect()
-  ///
-  /// - Returns: An effect that wraps `self`.
-  public func eraseToEffect() -> Effect<Element> {
-    Effect(self)
-  }
-
-  /// Turns any publisher into an `Effect` that cannot fail by wrapping its output and failure in a
-  /// result.
-  ///
-  /// This can be useful when you are working with a failing API but want to deliver its data to an
-  /// action that handles both success and failure.
-  ///
-  ///     case .buttonTapped:
-  ///       return fetchUser(id: 1)
-  ///         .catchToEffect()
-  ///         .map(ProfileAction.userResponse)
-  ///
-  /// - Returns: An effect that wraps `self`.
-  public func catchToEffect() -> Effect<Result<Element, Error>> {
-    self.map(Result.success)
-      .catchError { .just(.failure($0)) }
-      .eraseToEffect()
-  }
 }

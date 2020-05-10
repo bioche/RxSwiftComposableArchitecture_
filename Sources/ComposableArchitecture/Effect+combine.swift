@@ -6,8 +6,6 @@ import RxCombine
 @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension Effect: Publisher {
     
-    public typealias Failure = Error
-    
     /// Initializes an effect that wraps a publisher. Each emission of the wrapped publisher will be
     /// emitted by the effect.
     ///
@@ -26,14 +24,25 @@ extension Effect: Publisher {
     ///       .eraseToEffect()
     ///
     /// - Parameter publisher: A publisher.
-    public init<P: Publisher>(_ publisher: P) where P.Output == Output, P.Failure == Error {
+    public init<P: Publisher>(_ publisher: P) where P.Output == Output, P.Failure == Failure {
       self.upstream = publisher.asObservable()
     }
     
     public func receive<S>(
       subscriber: S
-    ) where S: Combine.Subscriber, Error == S.Failure, Output == S.Input {
-        self.upstream.asPublisher().receive(subscriber: subscriber)
+    ) where S: Combine.Subscriber, Failure == S.Failure, Output == S.Input {
+        self.upstream.asPublisher()
+            .catch { received -> AnyPublisher<Output, Failure> in
+                // Because Rx doesn't give any guaranty on the error type,
+                // We have to make sure the error of the Publisher is of type Failure
+                // If we find this isn't the case, we raise assertion failure & complete the stream
+                guard let expected = received as? Failure else {
+                    assertionFailure("Expected error of type \(Failure.self), received this : \(received)")
+                    return Empty().eraseToAnyPublisher()
+                }
+                return Fail(error: expected).eraseToAnyPublisher()
+            }
+            .receive(subscriber: subscriber)
     }
     
     /// Initializes an effect from a callback that can send as many values as it wants, and can send
@@ -89,8 +98,8 @@ extension Publisher {
   ///         .eraseToEffect()
   ///
   /// - Returns: An effect that wraps `self`.
-  public func eraseToEffect() -> Effect<Output> {
-    Effect(self.mapError { $0 as Error })
+  public func eraseToEffect() -> Effect<Output, Failure> {
+    Effect(self)
   }
 
   /// Turns any publisher into an `Effect` that cannot fail by wrapping its output and failure in a
@@ -105,7 +114,7 @@ extension Publisher {
   ///         .map(ProfileAction.userResponse)
   ///
   /// - Returns: An effect that wraps `self`.
-  public func catchToEffect() -> Effect<Result<Output, Failure>> {
+  public func catchToEffect() -> Effect<Result<Output, Failure>, Never> {
     self.map(Result.success)
       .catch { Just(.failure($0)) }
       .eraseToEffect()

@@ -106,12 +106,12 @@ private class DemandBuffer<S: Subscriber> {
 
 @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension AnyPublisher {
-  init(_ callback: @escaping (Effect<Output>.Subscriber<Output, Failure>) -> Cancellable) {
+  init(_ callback: @escaping (Effect<Output, Failure>.Subscriber<Output, Failure>) -> Cancellable) {
     self = Publishers.Create(callback: callback).eraseToAnyPublisher()
   }
 
   static func create(
-    _ factory: @escaping (Effect<Output>.Subscriber<Output, Failure>) -> Cancellable
+    _ factory: @escaping (Effect<Output, Failure>.Subscriber<Output, Failure>) -> Cancellable
   ) -> AnyPublisher<Output, Failure> {
     AnyPublisher(factory)
   }
@@ -120,9 +120,9 @@ extension AnyPublisher {
 @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension Publishers {
   class Create<Output, Failure: Swift.Error>: Publisher {
-    private let callback: (Effect<Output>.Subscriber<Output, Failure>) -> Cancellable
+    private let callback: (Effect<Output, Failure>.Subscriber<Output, Failure>) -> Cancellable
 
-    init(callback: @escaping (Effect<Output>.Subscriber<Output, Failure>) -> Cancellable) {
+    init(callback: @escaping (Effect<Output, Failure>.Subscriber<Output, Failure>) -> Cancellable) {
       self.callback = callback
     }
 
@@ -140,7 +140,7 @@ extension Publishers.Create {
     private var cancellable: Cancellable?
 
     init(
-      callback: @escaping (Effect<Output>.Subscriber<Output, Failure>) -> Cancellable,
+      callback: @escaping (Effect<Output, Failure>.Subscriber<Output, Failure>) -> Cancellable,
       downstream: Downstream
     ) {
       self.buffer = DemandBuffer(subscriber: downstream)
