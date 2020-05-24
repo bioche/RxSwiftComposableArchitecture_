@@ -77,7 +77,7 @@ extension Effect: Publisher {
     /// - Parameter run: A closure that accepts a `Subscriber` value and returns a cancellable. When
     ///   the `Effect` is completed, the cancellable will be used to clean up any
     ///   resources created when the effect was started.
-    public static func async(
+    public static func run(
       _ run: @escaping (Effect.Subscriber<Output, Failure>) -> Cancellable
     ) -> Self {
       AnyPublisher.create(run).eraseToEffect()

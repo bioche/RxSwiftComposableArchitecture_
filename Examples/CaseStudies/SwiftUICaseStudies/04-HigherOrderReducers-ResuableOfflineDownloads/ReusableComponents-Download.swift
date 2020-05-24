@@ -82,10 +82,6 @@ let cityMapReducer = Reducer<CityMapState, CityMapAction, CityMapEnvironment> {
 struct CityMapRowView: View {
   let store: Store<CityMapState, CityMapAction>
 
-  init(store: Store<CityMapState, CityMapAction>) {
-    self.store = store
-  }
-
   var body: some View {
     WithViewStore(self.store) { viewStore in
       HStack {
@@ -181,7 +177,7 @@ struct CitiesView: View {
         header: Text(readMe)
       ) {
         ForEachStore(
-          self.store.scope(state: \.cityMaps, action: MapAppAction.cityMaps(index:action:))
+          self.store.scope(state: { $0.cityMaps }, action: MapAppAction.cityMaps(index:action:))
         ) { cityMapStore in
           CityMapRowView(store: cityMapStore)
             .buttonStyle(BorderlessButtonStyle())

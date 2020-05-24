@@ -1,3 +1,4 @@
+import CasePaths
 import Combine
 
 /// A reducer describes how to evolve the current state of an application to the next state, given
@@ -55,8 +56,8 @@ public struct Reducer<State, Action, Environment> {
     Self { _, _, _ in .none }
   }
 
-  /// Combines many reducers into a single one by running each one on the state, and merging all of
-  /// the effects together.
+  /// Combines many reducers into a single one by running each one on the state, and concatenating
+  /// all of the effects.
   ///
   /// - Parameter reducers: A list of reducers.
   /// - Returns: A single reducer.
@@ -65,7 +66,7 @@ public struct Reducer<State, Action, Environment> {
   }
 
   /// Combines an array of reducers into a single one by running each one on the state, and
-  /// concatenating all of the arrays of effects.
+  /// concatenating all of the effects.
   ///
   /// - Parameter reducers: An array of reducers.
   /// - Returns: A single reducer.
@@ -73,6 +74,15 @@ public struct Reducer<State, Action, Environment> {
     Self { value, action, environment in
       .merge(reducers.map { $0.reducer(&value, action, environment) })
     }
+  }
+
+  /// Combines the current reducer with another given reducer by running each one on the state,
+  /// and concatenating their effects.
+  ///
+  /// - Parameter other: Another reducer.
+  /// - Returns: A single reducer.
+  public func combined(with other: Reducer) -> Reducer {
+    .combine(self, other)
   }
 
   /// Transforms a reducer that works on local state, action and environment into one that works on
@@ -156,7 +166,7 @@ public struct Reducer<State, Action, Environment> {
   public var optional: Reducer<State?, Action, Environment> {
     .init { state, action, environment in
       guard state != nil else { return .none }
-      return self.callAsFunction(&state!, action, environment)
+      return self.reducer(&state!, action, environment)
     }
   }
 
@@ -283,20 +293,26 @@ public struct Reducer<State, Action, Environment> {
     }
   }
 
-  public func callAsFunction(
+  /// Runs the reducer.
+  ///
+  /// - Parameters:
+  ///   - state: Mutable state.
+  ///   - action: An action.
+  ///   - environment: An environment.
+  /// - Returns: An effect that can emit zero or more actions.
+  public func run(
     _ state: inout State,
     _ action: Action,
     _ environment: Environment
   ) -> Effect<Action, Never> {
     self.reducer(&state, action, environment)
   }
-}
 
-extension Reducer where Environment == Void {
   public func callAsFunction(
     _ state: inout State,
-    _ action: Action
+    _ action: Action,
+    _ environment: Environment
   ) -> Effect<Action, Never> {
-    self.callAsFunction(&state, action, ())
+    self.reducer(&state, action, environment)
   }
 }

@@ -1,6 +1,5 @@
 import Combine
 import ComposableArchitecture
-import ComposableArchitectureTestSupport
 import XCTest
 
 @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
@@ -105,8 +104,8 @@ final class TimerTests: XCTestCase {
 
     scheduler.run()
 
-    XCTAssertEqual(count2, 14)
-    XCTAssertEqual(count3, 9)
+    XCTAssertEqual(count2, 15)
+    XCTAssertEqual(count3, 10)
   }
 
   func testTimerCompletion() {

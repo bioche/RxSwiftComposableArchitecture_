@@ -57,7 +57,7 @@ public struct Effect<Output, Failure: Error>: ObservableType {
     self.init(Observable.just(value))
   }
 
-  /// Initializes an effect that immediately failues with the error passed in.
+  /// Initializes an effect that immediately fails with the error passed in.
   ///
   /// - Parameter error: The error that is immediately emitted by the effect.
   public init(error: Failure) {
@@ -96,13 +96,13 @@ public struct Effect<Output, Failure: Error>: ObservableType {
   ///  If you need to deliver more than one value to the effect, you should use the `Effect`
   ///  initializer that accepts a `Subscriber` value.
   ///
-  /// - Parameter work: A closure that takes a `callback` as an argument which can be used to feed
-  ///   it `Output` values.
+  /// - Parameter attemptToFulfill: A closure that takes a `callback` as an argument which can be
+  ///   used to feed it `Result<Output, Failure>` values.
   public static func future(
-    work: @escaping (@escaping (Result<Output, Error>) -> Void) -> Void
+    _ attemptToFulfill: @escaping (@escaping (Result<Output, Failure>) -> Void) -> Void
   ) -> Effect {
     Observable.create({ observer -> Disposable in
-      work({ result in
+      attemptToFulfill({ result in
         switch result {
         case .success(let output):
           observer.onNext(output)
@@ -137,11 +137,11 @@ public struct Effect<Output, Failure: Error>: ObservableType {
   ///       return result
   ///     }
   ///
-  /// - Parameter work: A closure encapsulating some work to execute in the real world.
+  /// - Parameter attemptToFulfill: A closure encapsulating some work to execute in the real world.
   /// - Returns: An effect.
-  public static func result(_ work: @escaping () -> Result<Output, Error>) -> Self {
+  public static func result(_ attemptToFulfill: @escaping () -> Result<Output, Failure>) -> Self {
     Observable.just(())
-      .map { try work().get() }
+      .map { try attemptToFulfill().get() }
       .eraseToEffect()
   }
 
@@ -156,7 +156,7 @@ public struct Effect<Output, Failure: Error>: ObservableType {
   /// sending the current status immediately, and then if the current status is `notDetermined` it
   /// can request authorization, and once a status is received it can send that back to the effect:
   ///
-  ///     Effect.async { subscriber in
+  ///     Effect.run { subscriber in
   ///       subscriber.send(MPMediaLibrary.authorizationStatus())
   ///
   ///       guard MPMediaLibrary.authorizationStatus() == .notDetermined else {
@@ -174,13 +174,13 @@ public struct Effect<Output, Failure: Error>: ObservableType {
   ///       }
   ///     }
   ///
-  /// - Parameter run: A closure that accepts a `Subscriber` value and returns a cancellable. When
-  ///   the `Effect` is completed, the cancellable will be used to clean up any
-  ///   resources created when the effect was started.
-  public static func async(
-    _ run: @escaping (AnyObserver<Output>) -> Disposable
+  /// - Parameter work: A closure that accepts a `Subscriber` value and returns a cancellable. When
+  ///   the `Effect` is completed, the cancellable will be used to clean up any resources created
+  ///   when the effect was started.
+  public static func run(
+    _ work: @escaping (AnyObserver<Output>) -> Disposable
   ) -> Self {
-    Observable.create(run).eraseToEffect()
+    Observable.create(work).eraseToEffect()
   }
 
   /// Concatenates a variadic list of effects together into a single effect, which runs the effects
@@ -192,8 +192,8 @@ public struct Effect<Output, Failure: Error>: ObservableType {
     .concatenate(effects)
   }
 
-  /// Concatenates a collection of effects together into a single effect, which runs the effects
-  /// one after the other.
+  /// Concatenates a collection of effects together into a single effect, which runs the effects one
+  /// after the other.
   ///
   /// - Parameter effects: A collection of effects.
   /// - Returns: A new effect
@@ -239,7 +239,7 @@ public struct Effect<Output, Failure: Error>: ObservableType {
   ///
   /// - Parameter work: A closure encapsulating some work to execute in the real world.
   /// - Returns: An effect.
-  public static func fireAndForget(work: @escaping () -> Void) -> Effect {
+  public static func fireAndForget(_ work: @escaping () -> Void) -> Effect {
     Observable<Output>.empty()
       .do(onCompleted: { work() })
       .eraseToEffect()
@@ -261,13 +261,13 @@ extension Effect {
   }
 }
 
-extension Effect /* where Failure == Swift.Error */ {
+extension Effect where Failure == Swift.Error {
   /// Initializes an effect that lazily executes some work in the real world and synchronously sends
   /// that data back into the store.
   ///
   /// For example, to load a user from some JSON on the disk, one can wrap that work in an effect:
   ///
-  ///     Effect<User, Error>.sync {
+  ///     Effect<User, Error>.catching {
   ///       let fileUrl = URL(
   ///         fileURLWithPath: NSSearchPathForDirectoriesInDomains(
   ///           .documentDirectory, .userDomainMask, true
@@ -281,7 +281,7 @@ extension Effect /* where Failure == Swift.Error */ {
   ///
   /// - Parameter work: A closure encapsulating some work to execute in the real world.
   /// - Returns: An effect.
-  public static func sync(_ work: @escaping () throws -> Output) -> Self {
+  public static func catching(_ work: @escaping () throws -> Output) -> Self {
     .future { $0(Result { try work() }) }
   }
 }

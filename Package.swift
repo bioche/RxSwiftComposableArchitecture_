@@ -11,33 +11,37 @@ let package = Package(
   products: [
     .library(
       name: "ComposableArchitecture",
-      type: .dynamic,
       targets: ["ComposableArchitecture"]
     ),
     .library(
-      name: "ComposableArchitectureTestSupport",
-      type: .dynamic,
-      targets: ["ComposableArchitectureTestSupport"]
+      name: "ComposableCoreLocation",
+      targets: ["ComposableCoreLocation"]
     ),
   ],
   dependencies: [.package(url: "https://github.com/ReactiveX/RxSwift.git", from: "5.0.0"),
-                 .package(url: "https://github.com/bioche/RxCombine.git", .branch("ios_compatibility"))],
+  .package(url: "https://github.com/bioche/RxCombine.git", .branch("ios_compatibility")),
+  .package(url: "https://github.com/pointfreeco/swift-case-paths", from: "0.1.1")],
   targets: [
     .target(
       name: "ComposableArchitecture",
-      dependencies: ["RxSwift", "RxCombine"]
+      dependencies: ["RxSwift", "RxCombine", "CasePaths"]
     ),
     .testTarget(
       name: "ComposableArchitectureTests",
       dependencies: [
         "ComposableArchitecture",
-        "ComposableArchitectureTestSupport",
       ]
     ),
     .target(
-      name: "ComposableArchitectureTestSupport",
+      name: "ComposableCoreLocation",
       dependencies: [
-        "ComposableArchitecture",
+        "ComposableArchitecture"
+      ]
+    ),
+    .testTarget(
+      name: "ComposableCoreLocationTests",
+      dependencies: [
+        "ComposableCoreLocation",
       ]
     ),
   ]

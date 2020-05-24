@@ -1,6 +1,5 @@
 import Combine
 import ComposableArchitecture
-import ComposableArchitectureTestSupport
 import XCTest
 
 @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
@@ -14,17 +13,7 @@ final class ReducerTests: XCTestCase {
     }
 
     var state = 0
-    _ = reducer.callAsFunction(&state, (), ())
-    XCTAssertEqual(state, 1)
-  }
-
-  func testSimpleReducer() {
-    let reducer = Reducer<Int, Void, Void> { state, _, _ in state += 1
-      return .none
-    }
-
-    var state = 0
-    _ = reducer.callAsFunction(&state, ())
+    _ = reducer.run(&state, (), ())
     XCTAssertEqual(state, 1)
   }
 
@@ -71,6 +60,42 @@ final class ReducerTests: XCTestCase {
     )
   }
 
+  func testCombine() {
+    enum Action: Equatable {
+      case increment
+    }
+
+    var childEffectExecuted = false
+    let childReducer = Reducer<Int, Action, Void> { state, _, _ in
+      state += 1
+      return Effect.fireAndForget { childEffectExecuted = true }
+        .eraseToEffect()
+    }
+
+    var mainEffectExecuted = false
+    let mainReducer = Reducer<Int, Action, Void> { state, _, _ in
+      state += 1
+      return Effect.fireAndForget { mainEffectExecuted = true }
+        .eraseToEffect()
+    }
+    .combined(with: childReducer)
+
+    let store = TestStore(
+      initialState: 0,
+      reducer: mainReducer,
+      environment: ()
+    )
+
+    store.assert(
+      .send(.increment) {
+        $0 = 2
+      }
+    )
+
+    XCTAssertTrue(childEffectExecuted)
+    XCTAssertTrue(mainEffectExecuted)
+  }
+
   func testPrint() {
     struct Unit: Equatable {}
     struct State: Equatable { var count = 0 }
@@ -83,7 +108,7 @@ final class ReducerTests: XCTestCase {
       state.count += 1
       return .none
     }
-    .debug(prefix: "[prefix]") { _ in
+    .debug("[prefix]") { _ in
       DebugEnvironment(
         printer: {
           logs.append($0)
