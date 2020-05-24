@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4142542E2469CA160037D818 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4142542D2469CA160037D818 /* AppDelegate.swift */; };
+		414254322469CA160037D818 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414254312469CA160037D818 /* ViewController.swift */; };
+		414254352469CA160037D818 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 414254332469CA160037D818 /* Main.storyboard */; };
+		414254372469CA180037D818 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 414254362469CA180037D818 /* Assets.xcassets */; };
+		4142543A2469CA180037D818 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 414254382469CA180037D818 /* LaunchScreen.storyboard */; };
+		414254402469EE9C0037D818 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 4142543F2469EE9C0037D818 /* ComposableArchitecture */; };
+		414254412469EE9C0037D818 /* ComposableArchitecture in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 4142543F2469EE9C0037D818 /* ComposableArchitecture */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		CA0C51FB245389CC00A04EAB /* 04-HigherOrderReducers-ResuableOfflineDownloadsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0C51FA245389CC00A04EAB /* 04-HigherOrderReducers-ResuableOfflineDownloadsTests.swift */; };
 		CA25E5D224463AD700DA666A /* 01-GettingStarted-Bindings-Basics.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA25E5D124463AD700DA666A /* 01-GettingStarted-Bindings-Basics.swift */; };
 		CA27C0B7245780CE00CB1E59 /* 03-Effects-SystemEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA27C0B6245780CE00CB1E59 /* 03-Effects-SystemEnvironment.swift */; };
@@ -86,6 +93,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		414254422469EE9C0037D818 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				414254412469EE9C0037D818 /* ComposableArchitecture in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DC4C6ECD2450E0B30066A05D /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -133,6 +151,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4142542B2469CA160037D818 /* UIKitCaseStudiesiOS12.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UIKitCaseStudiesiOS12.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4142542D2469CA160037D818 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		414254312469CA160037D818 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		414254342469CA160037D818 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		414254362469CA180037D818 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		414254392469CA180037D818 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4142543B2469CA180037D818 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA0C51FA245389CC00A04EAB /* 04-HigherOrderReducers-ResuableOfflineDownloadsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "04-HigherOrderReducers-ResuableOfflineDownloadsTests.swift"; sourceTree = "<group>"; };
 		CA25E5D124463AD700DA666A /* 01-GettingStarted-Bindings-Basics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "01-GettingStarted-Bindings-Basics.swift"; sourceTree = "<group>"; };
 		CA27C0B6245780CE00CB1E59 /* 03-Effects-SystemEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "03-Effects-SystemEnvironment.swift"; sourceTree = "<group>"; };
@@ -196,6 +221,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		414254282469CA160037D818 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				414254402469EE9C0037D818 /* ComposableArchitecture in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DC4C6EA42450DD380066A05D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -231,6 +264,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4142542C2469CA160037D818 /* UIKitCaseStudiesiOS12 */ = {
+			isa = PBXGroup;
+			children = (
+				4142542D2469CA160037D818 /* AppDelegate.swift */,
+				414254312469CA160037D818 /* ViewController.swift */,
+				414254332469CA160037D818 /* Main.storyboard */,
+				414254362469CA180037D818 /* Assets.xcassets */,
+				414254382469CA180037D818 /* LaunchScreen.storyboard */,
+				4142543B2469CA180037D818 /* Info.plist */,
+			);
+			path = UIKitCaseStudiesiOS12;
+			sourceTree = "<group>";
+		};
 		CA6AC25F2451131C00C71CB3 /* 04-HigherOrderReducers-ResuableOfflineDownloads */ = {
 			isa = PBXGroup;
 			children = (
@@ -295,9 +341,11 @@
 				DC89C42C24460F96006900B9 /* SwiftUICaseStudiesTests */,
 				DC4C6EA82450DD380066A05D /* UIKitCaseStudies */,
 				DC4C6EBF2450DD390066A05D /* UIKitCaseStudiesTests */,
+				4142542C2469CA160037D818 /* UIKitCaseStudiesiOS12 */,
 				DC89C41424460F95006900B9 /* Products */,
 				DC89C43A2446106D006900B9 /* Frameworks */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
 		};
 		DC89C41424460F95006900B9 /* Products */ = {
@@ -307,6 +355,7 @@
 				DC89C42924460F96006900B9 /* SwiftUICaseStudiesTests.xctest */,
 				DC4C6EA72450DD380066A05D /* UIKitCaseStudies.app */,
 				DC4C6EBC2450DD390066A05D /* UIKitCaseStudiesTests.xctest */,
+				4142542B2469CA160037D818 /* UIKitCaseStudiesiOS12.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -380,6 +429,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4142542A2469CA160037D818 /* UIKitCaseStudiesiOS12 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4142543C2469CA180037D818 /* Build configuration list for PBXNativeTarget "UIKitCaseStudiesiOS12" */;
+			buildPhases = (
+				414254272469CA160037D818 /* Sources */,
+				414254282469CA160037D818 /* Frameworks */,
+				414254292469CA160037D818 /* Resources */,
+				414254422469EE9C0037D818 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UIKitCaseStudiesiOS12;
+			packageProductDependencies = (
+				4142543F2469EE9C0037D818 /* ComposableArchitecture */,
+			);
+			productName = UIKitCaseStudiesiOS12;
+			productReference = 4142542B2469CA160037D818 /* UIKitCaseStudiesiOS12.app */;
+			productType = "com.apple.product-type.application";
+		};
 		DC4C6EA62450DD380066A05D /* UIKitCaseStudies */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DC4C6EC32450DD390066A05D /* Build configuration list for PBXNativeTarget "UIKitCaseStudies" */;
@@ -479,6 +549,9 @@
 				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = "Point-Free";
 				TargetAttributes = {
+					4142542A2469CA160037D818 = {
+						CreatedOnToolsVersion = 11.4.1;
+					};
 					DC4C6EA62450DD380066A05D = {
 						CreatedOnToolsVersion = 11.4.1;
 					};
@@ -512,11 +585,22 @@
 				DC89C42824460F96006900B9 /* SwiftUICaseStudiesTests */,
 				DC4C6EA62450DD380066A05D /* UIKitCaseStudies */,
 				DC4C6EBB2450DD390066A05D /* UIKitCaseStudiesTests */,
+				4142542A2469CA160037D818 /* UIKitCaseStudiesiOS12 */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		414254292469CA160037D818 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4142543A2469CA180037D818 /* LaunchScreen.storyboard in Resources */,
+				414254372469CA180037D818 /* Assets.xcassets in Resources */,
+				414254352469CA160037D818 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DC4C6EA52450DD380066A05D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -552,6 +636,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		414254272469CA160037D818 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				414254322469CA160037D818 /* ViewController.swift in Sources */,
+				4142542E2469CA160037D818 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DC4C6EA32450DD380066A05D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -655,6 +748,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		414254332469CA160037D818 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				414254342469CA160037D818 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		414254382469CA180037D818 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				414254392469CA180037D818 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
 		DC4C6EB42450DD380066A05D /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -666,6 +775,44 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4142543D2469CA180037D818 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = MLDJM8453C;
+				INFOPLIST_FILE = UIKitCaseStudiesiOS12/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.UIKitCaseStudiesiOS12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4142543E2469CA180037D818 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = MLDJM8453C;
+				INFOPLIST_FILE = UIKitCaseStudiesiOS12/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.UIKitCaseStudiesiOS12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		DC4C6EC42450DD390066A05D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -674,6 +821,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"UIKitCaseStudies/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = UIKitCaseStudies/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -693,6 +841,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"UIKitCaseStudies/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = UIKitCaseStudies/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -939,6 +1088,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4142543C2469CA180037D818 /* Build configuration list for PBXNativeTarget "UIKitCaseStudiesiOS12" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4142543D2469CA180037D818 /* Debug */,
+				4142543E2469CA180037D818 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		DC4C6EC32450DD390066A05D /* Build configuration list for PBXNativeTarget "UIKitCaseStudies" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -987,6 +1145,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4142543F2469EE9C0037D818 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ComposableArchitecture;
+		};
 		DC4C6EC92450E0AF0066A05D /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ComposableArchitecture;

@@ -202,7 +202,7 @@ public struct Effect<Output, Failure: Error>: ObservableType {
   ) -> Effect where C.Element == Effect {
     //guard let first = effects.first else { return .none }
     
-    return Observable.concat(effects.map { $0.upstream }).eraseToEffect()
+    Observable.concat(effects.map { $0.upstream }).eraseToEffect()
     
 //    return
 //      effects

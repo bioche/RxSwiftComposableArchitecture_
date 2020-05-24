@@ -24,7 +24,7 @@ extension DownloadClient {
       }
     },
     download: { id, url in
-      Effect.async { subscriber in
+      Effect.async { subscriber -> AnyCancellable in
         let task = URLSession.shared.dataTask(with: url) { data, _, error in
           switch (data, error) {
           case let (.some(data), _):
