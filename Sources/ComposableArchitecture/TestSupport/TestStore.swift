@@ -154,6 +154,7 @@
     }
   }
 
+  @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
   extension TestStore where LocalState: Equatable {
     /// Asserts against a script of actions.
     public func assert(
