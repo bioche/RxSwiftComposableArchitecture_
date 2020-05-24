@@ -8,7 +8,10 @@ extension ObservableConvertibleType {
     /// In case the observable sends an error it will complete
     var unfailablePublisher: AnyPublisher<Element, Never> {
         publisher
-        .catch { _ in Empty() }
+        .catch { _ -> Empty<Element, Never> in
+            assertionFailure("Intercepted an error on observable used to build unfailable publisher !")
+            return Empty()
+        }
         .eraseToAnyPublisher()
     }
 }
