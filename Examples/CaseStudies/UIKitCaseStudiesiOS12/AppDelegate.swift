@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ComposableArchitecture
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,7 +18,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     self.window = UIWindow()
     self.window?.rootViewController = UINavigationController(
-      rootViewController: ViewController())
+      rootViewController: CounterViewController(
+        store: Store(
+          initialState: CounterState(),
+          reducer: counterReducer,
+          environment: CounterEnvironment()
+        )
+      ))
     self.window?.makeKeyAndVisible()
     
     return true
