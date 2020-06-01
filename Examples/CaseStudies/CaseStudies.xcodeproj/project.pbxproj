@@ -9,12 +9,12 @@
 /* Begin PBXBuildFile section */
 		410F88ED247C618B002FED62 /* CounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410F88EC247C618B002FED62 /* CounterViewController.swift */; };
 		410F88EF247C65CB002FED62 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 410F88EE247C65CB002FED62 /* ComposableArchitecture */; };
+		41147DFB24854770002906F5 /* ListOfStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41147DFA24854770002906F5 /* ListOfStates.swift */; };
+		41412FD124855B0300363E37 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41412FD024855B0300363E37 /* RootViewController.swift */; };
 		4142542E2469CA160037D818 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4142542D2469CA160037D818 /* AppDelegate.swift */; };
 		414254352469CA160037D818 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 414254332469CA160037D818 /* Main.storyboard */; };
 		414254372469CA180037D818 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 414254362469CA180037D818 /* Assets.xcassets */; };
 		4142543A2469CA180037D818 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 414254382469CA180037D818 /* LaunchScreen.storyboard */; };
-		414254402469EE9C0037D818 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
-		414254412469EE9C0037D818 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		CA0C51FB245389CC00A04EAB /* 04-HigherOrderReducers-ResuableOfflineDownloadsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0C51FA245389CC00A04EAB /* 04-HigherOrderReducers-ResuableOfflineDownloadsTests.swift */; };
 		CA25E5D224463AD700DA666A /* 01-GettingStarted-Bindings-Basics.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA25E5D124463AD700DA666A /* 01-GettingStarted-Bindings-Basics.swift */; };
 		CA27C0B7245780CE00CB1E59 /* 03-Effects-SystemEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA27C0B6245780CE00CB1E59 /* 03-Effects-SystemEnvironment.swift */; };
@@ -93,7 +93,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				414254412469EE9C0037D818 /* (null) in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,6 +141,8 @@
 
 /* Begin PBXFileReference section */
 		410F88EC247C618B002FED62 /* CounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterViewController.swift; sourceTree = "<group>"; };
+		41147DFA24854770002906F5 /* ListOfStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOfStates.swift; sourceTree = "<group>"; };
+		41412FD024855B0300363E37 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		4142542B2469CA160037D818 /* UIKitCaseStudiesiOS12.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UIKitCaseStudiesiOS12.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4142542D2469CA160037D818 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		414254342469CA160037D818 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -215,7 +216,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				410F88EF247C65CB002FED62 /* ComposableArchitecture in Frameworks */,
-				414254402469EE9C0037D818 /* (null) in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,11 +256,13 @@
 			isa = PBXGroup;
 			children = (
 				4142542D2469CA160037D818 /* AppDelegate.swift */,
+				41412FD024855B0300363E37 /* RootViewController.swift */,
 				414254332469CA160037D818 /* Main.storyboard */,
 				414254362469CA180037D818 /* Assets.xcassets */,
 				414254382469CA180037D818 /* LaunchScreen.storyboard */,
 				4142543B2469CA180037D818 /* Info.plist */,
 				410F88EC247C618B002FED62 /* CounterViewController.swift */,
+				41147DFA24854770002906F5 /* ListOfStates.swift */,
 			);
 			path = UIKitCaseStudiesiOS12;
 			sourceTree = "<group>";
@@ -625,6 +627,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				410F88ED247C618B002FED62 /* CounterViewController.swift in Sources */,
+				41147DFB24854770002906F5 /* ListOfStates.swift in Sources */,
+				41412FD124855B0300363E37 /* RootViewController.swift in Sources */,
 				4142542E2469CA160037D818 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

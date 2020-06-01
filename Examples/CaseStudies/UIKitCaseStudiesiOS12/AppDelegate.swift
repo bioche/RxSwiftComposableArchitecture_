@@ -18,13 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     self.window = UIWindow()
     self.window?.rootViewController = UINavigationController(
-      rootViewController: CounterViewController(
-        store: Store(
-          initialState: CounterState(),
-          reducer: counterReducer,
-          environment: CounterEnvironment()
-        )
-      ))
+      rootViewController: RootViewController())
     self.window?.makeKeyAndVisible()
     
     return true
