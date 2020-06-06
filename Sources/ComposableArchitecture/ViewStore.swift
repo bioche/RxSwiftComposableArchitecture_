@@ -70,7 +70,7 @@ public final class ViewStore<State, Action> {
   /// The current state.
   public internal(set) var state: State {
     didSet {
-      if #available(iOS 13.0, *) {
+        if #available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *) {
         objectWillChange.send()
       }
     }

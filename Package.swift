@@ -19,12 +19,11 @@ let package = Package(
     ),
   ],
   dependencies: [.package(url: "https://github.com/ReactiveX/RxSwift.git", from: "5.0.0"),
-                 .package(url: "https://github.com/CombineCommunity/RxCombine.git", from: "1.6.0"),
   .package(url: "https://github.com/pointfreeco/swift-case-paths", from: "0.1.1")],
   targets: [
     .target(
       name: "ComposableArchitecture",
-      dependencies: ["RxSwift", "RxCocoa", "RxCombine", "CasePaths"]
+      dependencies: ["RxSwift", "RxCocoa", "CasePaths"]
     ),
     .testTarget(
       name: "ComposableArchitectureTests",
