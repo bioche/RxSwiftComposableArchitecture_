@@ -7,7 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4144544C248C36E1009F8B84 /* ComposableArchitecture.h in Headers */ = {isa = PBXBuildFile; fileRef = 4144544A248C36E1009F8B84 /* ComposableArchitecture.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4144545E248C4583009F8B84 /* TestStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445411248C3653009F8B84 /* TestStore.swift */; };
+		4144545F248C4583009F8B84 /* Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445412248C3653009F8B84 /* Reducer.swift */; };
+		41445460248C4583009F8B84 /* Publisher+asObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445414248C3653009F8B84 /* Publisher+asObservable.swift */; };
+		41445461248C4583009F8B84 /* Observable+asPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445415248C3653009F8B84 /* Observable+asPublisher.swift */; };
+		41445462248C4583009F8B84 /* TestScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445417248C3653009F8B84 /* TestScheduler.swift */; };
+		41445463248C4583009F8B84 /* AnyScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445418248C3653009F8B84 /* AnyScheduler.swift */; };
+		41445464248C4583009F8B84 /* IfLetUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4144541A248C3653009F8B84 /* IfLetUIKit.swift */; };
+		41445465248C4583009F8B84 /* ReducerDebugging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4144541C248C3653009F8B84 /* ReducerDebugging.swift */; };
+		41445466248C4583009F8B84 /* Diff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4144541E248C3653009F8B84 /* Diff.swift */; };
+		41445467248C4583009F8B84 /* Deprecations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4144541F248C3653009F8B84 /* Deprecations.swift */; };
+		41445468248C4583009F8B84 /* Throttling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445420248C3653009F8B84 /* Throttling.swift */; };
+		41445469248C4583009F8B84 /* Exports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445421248C3653009F8B84 /* Exports.swift */; };
+		4144546A248C4583009F8B84 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445422248C3653009F8B84 /* Debug.swift */; };
+		4144546B248C4583009F8B84 /* Create.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445423248C3653009F8B84 /* Create.swift */; };
+		4144546C248C4583009F8B84 /* Locking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445424248C3653009F8B84 /* Locking.swift */; };
+		4144546D248C4583009F8B84 /* Effect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445425248C3653009F8B84 /* Effect.swift */; };
+		4144546E248C4583009F8B84 /* Effect+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445426248C3653009F8B84 /* Effect+Combine.swift */; };
+		4144546F248C4583009F8B84 /* Effect+failure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445427248C3653009F8B84 /* Effect+failure.swift */; };
+		41445470248C4583009F8B84 /* ViewStore+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445428248C3653009F8B84 /* ViewStore+Combine.swift */; };
+		41445471248C4583009F8B84 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445429248C3653009F8B84 /* Store.swift */; };
+		41445472248C4583009F8B84 /* Store+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4144542A248C3653009F8B84 /* Store+Combine.swift */; };
+		41445473248C4583009F8B84 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4144542C248C3653009F8B84 /* Timer.swift */; };
+		41445474248C4583009F8B84 /* Cancellation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4144542D248C3653009F8B84 /* Cancellation.swift */; };
+		41445475248C4583009F8B84 /* Debouncing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4144542E248C3653009F8B84 /* Debouncing.swift */; };
+		41445476248C4583009F8B84 /* ViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4144542F248C3653009F8B84 /* ViewStore.swift */; };
+		41445477248C4583009F8B84 /* IdentifiedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445431248C3653009F8B84 /* IdentifiedArray.swift */; };
+		41445478248C4583009F8B84 /* Identified.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445432248C3653009F8B84 /* Identified.swift */; };
+		41445479248C4583009F8B84 /* IfLetStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445433248C3653009F8B84 /* IfLetStore.swift */; };
+		4144547A248C4583009F8B84 /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445434248C3653009F8B84 /* Identifiable.swift */; };
+		4144547B248C4583009F8B84 /* ForEachStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445435248C3653009F8B84 /* ForEachStore.swift */; };
+		4144547C248C4583009F8B84 /* WithViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41445436248C3653009F8B84 /* WithViewStore.swift */; };
+		4144547E248C462B009F8B84 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 4144547D248C462B009F8B84 /* Cartfile */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,8 +74,7 @@
 		41445435248C3653009F8B84 /* ForEachStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForEachStore.swift; sourceTree = "<group>"; };
 		41445436248C3653009F8B84 /* WithViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithViewStore.swift; sourceTree = "<group>"; };
 		41445448248C36E1009F8B84 /* ComposableArchitecture.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ComposableArchitecture.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4144544A248C36E1009F8B84 /* ComposableArchitecture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComposableArchitecture.h; sourceTree = "<group>"; };
-		4144544B248C36E1009F8B84 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4144547D248C462B009F8B84 /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,8 +91,8 @@
 		41413015248C2B0900363E37 = {
 			isa = PBXGroup;
 			children = (
+				4144547D248C462B009F8B84 /* Cartfile */,
 				4144540F248C3653009F8B84 /* ComposableArchitecture */,
-				41445449248C36E1009F8B84 /* ComposableArchitecture */,
 				41413020248C2B0900363E37 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -178,15 +208,6 @@
 			path = SwiftUI;
 			sourceTree = "<group>";
 		};
-		41445449248C36E1009F8B84 /* ComposableArchitecture */ = {
-			isa = PBXGroup;
-			children = (
-				4144544A248C36E1009F8B84 /* ComposableArchitecture.h */,
-				4144544B248C36E1009F8B84 /* Info.plist */,
-			);
-			path = ComposableArchitecture;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -194,7 +215,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4144544C248C36E1009F8B84 /* ComposableArchitecture.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +276,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4144547E248C462B009F8B84 /* Cartfile in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,6 +287,37 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41445463248C4583009F8B84 /* AnyScheduler.swift in Sources */,
+				41445474248C4583009F8B84 /* Cancellation.swift in Sources */,
+				41445460248C4583009F8B84 /* Publisher+asObservable.swift in Sources */,
+				41445467248C4583009F8B84 /* Deprecations.swift in Sources */,
+				4144546F248C4583009F8B84 /* Effect+failure.swift in Sources */,
+				41445462248C4583009F8B84 /* TestScheduler.swift in Sources */,
+				4144546D248C4583009F8B84 /* Effect.swift in Sources */,
+				41445461248C4583009F8B84 /* Observable+asPublisher.swift in Sources */,
+				4144546E248C4583009F8B84 /* Effect+Combine.swift in Sources */,
+				41445475248C4583009F8B84 /* Debouncing.swift in Sources */,
+				41445478248C4583009F8B84 /* Identified.swift in Sources */,
+				41445477248C4583009F8B84 /* IdentifiedArray.swift in Sources */,
+				4144546B248C4583009F8B84 /* Create.swift in Sources */,
+				41445473248C4583009F8B84 /* Timer.swift in Sources */,
+				41445469248C4583009F8B84 /* Exports.swift in Sources */,
+				41445472248C4583009F8B84 /* Store+Combine.swift in Sources */,
+				4144547C248C4583009F8B84 /* WithViewStore.swift in Sources */,
+				41445479248C4583009F8B84 /* IfLetStore.swift in Sources */,
+				4144546A248C4583009F8B84 /* Debug.swift in Sources */,
+				41445464248C4583009F8B84 /* IfLetUIKit.swift in Sources */,
+				4144545F248C4583009F8B84 /* Reducer.swift in Sources */,
+				41445468248C4583009F8B84 /* Throttling.swift in Sources */,
+				41445466248C4583009F8B84 /* Diff.swift in Sources */,
+				4144547B248C4583009F8B84 /* ForEachStore.swift in Sources */,
+				41445471248C4583009F8B84 /* Store.swift in Sources */,
+				4144545E248C4583009F8B84 /* TestStore.swift in Sources */,
+				4144547A248C4583009F8B84 /* Identifiable.swift in Sources */,
+				41445465248C4583009F8B84 /* ReducerDebugging.swift in Sources */,
+				41445476248C4583009F8B84 /* ViewStore.swift in Sources */,
+				4144546C248C4583009F8B84 /* Locking.swift in Sources */,
+				41445470248C4583009F8B84 /* ViewStore+Combine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
