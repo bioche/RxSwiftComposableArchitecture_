@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:ComposableArchitecture.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:CarthageSupport/CarthageSupport.xcodeproj">
    </FileRef>
    <FileRef
