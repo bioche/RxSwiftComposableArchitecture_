@@ -2,15 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "RxCombine",
-        "repositoryURL": "https://github.com/bioche/RxCombine.git",
-        "state": {
-          "branch": "ios_compatibility",
-          "revision": "b1781ac35f5668decb0c59275cad55aeae9d85c5",
-          "version": null
-        }
-      },
-      {
         "package": "RxSwift",
         "repositoryURL": "https://github.com/ReactiveX/RxSwift.git",
         "state": {
