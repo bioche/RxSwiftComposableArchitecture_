@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ComposableArchitecture"
-               BuildableName = "ComposableArchitecture"
+               BlueprintIdentifier = "4168FAFB248C5D4700CD8FB5"
+               BuildableName = "ComposableArchitecture.framework"
                BlueprintName = "ComposableArchitecture"
-               ReferencedContainer = "container:">
+               ReferencedContainer = "container:ComposableArchitecture.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -28,16 +28,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ComposableArchitectureTests"
-               BuildableName = "ComposableArchitectureTests"
-               BlueprintName = "ComposableArchitectureTests"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -60,10 +50,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "ComposableArchitecture"
-            BuildableName = "ComposableArchitecture"
+            BlueprintIdentifier = "4168FAFB248C5D4700CD8FB5"
+            BuildableName = "ComposableArchitecture.framework"
             BlueprintName = "ComposableArchitecture"
-            ReferencedContainer = "container:">
+            ReferencedContainer = "container:ComposableArchitecture.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
