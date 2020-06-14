@@ -1,4 +1,6 @@
+#if canImport(Combine)
 import Combine
+#if canImport(Combine)
 import SwiftUI
 
 import RxSwift
@@ -98,3 +100,5 @@ extension ViewStore where State: Equatable {
     self.init(store, removeDuplicates: ==)
   }
 }
+#endif
+#endif

@@ -1,3 +1,4 @@
+#if canImport(Combine)
 import Combine
 import ComposableArchitecture
 import CoreLocation
@@ -661,3 +662,4 @@ extension LocationManager {
     }
   }
 }
+#endif

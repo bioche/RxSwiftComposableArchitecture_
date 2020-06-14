@@ -1,4 +1,5 @@
 import Foundation
+#if canImport(Combine)
 import Combine
 import RxSwift
 
@@ -84,3 +85,4 @@ public struct StorePublisher<State>: Publisher {
     .init(self.upstream.map(keyPath).removeDuplicates())
   }
 }
+#endif

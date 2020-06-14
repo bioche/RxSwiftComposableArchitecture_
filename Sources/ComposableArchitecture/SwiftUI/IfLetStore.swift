@@ -1,3 +1,4 @@
+#if canImport(Combine)
 import SwiftUI
 
 /// A view that safely unwraps a store of optional state in order to show one of two views.
@@ -84,3 +85,4 @@ extension IfLetStore where ElseContent == EmptyView {
     self.init(store, then: ifContent, else: EmptyView())
   }
 }
+#endif

@@ -1,3 +1,4 @@
+#if canImport(Combine)
 import Combine
 
 // NB: Deprecated after 0.1.4:
@@ -61,3 +62,4 @@ extension Effect where Failure == Swift.Error {
     self.catching(work)
   }
 }
+#endif

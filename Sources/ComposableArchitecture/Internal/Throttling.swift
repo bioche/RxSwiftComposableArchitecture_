@@ -1,3 +1,4 @@
+#if canImport(Combine)
 import Combine
 import Dispatch
 
@@ -50,3 +51,4 @@ extension Effect {
 
 var throttleTimes: [AnyHashable: Any] = [:]
 var throttleValues: [AnyHashable: Any] = [:]
+#endif

@@ -1,3 +1,4 @@
+#if canImport(Combine)
 import Combine
 import Foundation
 
@@ -100,3 +101,4 @@ extension Scheduler {
     AnyScheduler(self)
   }
 }
+#endif

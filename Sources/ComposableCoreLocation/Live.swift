@@ -1,3 +1,4 @@
+#if canImport(Combine)
 import Combine
 import ComposableArchitecture
 import CoreLocation
@@ -365,3 +366,4 @@ private class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
     }
   #endif
 }
+#endif

@@ -181,9 +181,11 @@ where ID: Hashable {
     }
   }
 
+  #if canImport(Combine) // the move method is on arrays but has been added in an extension in SwiftUI ...
   public mutating func move(fromOffsets source: IndexSet, toOffset destination: Int) {
     self.ids.move(fromOffsets: source, toOffset: destination)
   }
+  #endif
 
   public mutating func sort(by areInIncreasingOrder: (Element, Element) throws -> Bool) rethrows {
     try self.ids.sort {

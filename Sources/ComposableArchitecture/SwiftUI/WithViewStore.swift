@@ -1,4 +1,6 @@
+#if canImport(Combine)
 import Combine
+#if canImport(Combine)
 import SwiftUI
 
 /// A structure that transforms a store into an observable view store in order to compute views from
@@ -104,3 +106,5 @@ extension WithViewStore: DynamicViewContent where State: Collection, Content: Dy
     self.viewStore.state
   }
 }
+#endif
+#endif

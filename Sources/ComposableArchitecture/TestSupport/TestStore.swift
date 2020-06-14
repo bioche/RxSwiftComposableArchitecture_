@@ -1,5 +1,6 @@
 #if DEBUG
-  import Combine
+  #if canImport(Combine)
+import Combine
   import Foundation
 
   /// A testable runtime for a reducer.
@@ -463,4 +464,5 @@
     .flatMap { dlsym($0, "_XCTCurrentTestCase") }
     .map({ unsafeBitCast($0, to: XCTCurrentTestCase.self) })
 
+#endif
 #endif

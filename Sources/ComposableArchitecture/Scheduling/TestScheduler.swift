@@ -1,3 +1,4 @@
+#if canImport(Combine)
 import Combine
 import Foundation
 
@@ -136,3 +137,4 @@ where
 public typealias TestSchedulerOf<Scheduler> = TestScheduler<
   Scheduler.SchedulerTimeType, Scheduler.SchedulerOptions
 > where Scheduler: Combine.Scheduler
+#endif

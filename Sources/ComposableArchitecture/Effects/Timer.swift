@@ -1,3 +1,4 @@
+#if canImport(Combine)
 import Combine
 import Foundation
 
@@ -58,3 +59,4 @@ extension Effect {
     .cancellable(id: id)
   }
 }
+#endif
