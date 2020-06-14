@@ -255,7 +255,6 @@
 		41364C8A248C6028007EBA46 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				41626049248D31E3003FCAA8 /* CasePaths */,
 				41364C8B248C6028007EBA46 /* ComposableCoreLocation */,
 				41364C97248C6028007EBA46 /* ComposableArchitecture */,
 			);
@@ -298,6 +297,7 @@
 		41364C97248C6028007EBA46 /* ComposableArchitecture */ = {
 			isa = PBXGroup;
 			children = (
+				41626049248D31E3003FCAA8 /* CasePaths */,
 				4168FB07248C5D9900CD8FB5 /* Info.plist */,
 				41364C98248C6028007EBA46 /* TestSupport */,
 				41364C9A248C6028007EBA46 /* Reducer.swift */,
