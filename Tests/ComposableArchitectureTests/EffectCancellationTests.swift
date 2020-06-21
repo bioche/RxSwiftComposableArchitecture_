@@ -230,6 +230,14 @@ final class EffectCancellationTests: XCTestCase {
 
     XCTAssertTrue(cancellationCancellables.isEmpty)
   }
+  
+  func testConcurrentCancelsRepeated() {
+    (1...100).forEach { idx in
+      print("loop \(idx)")
+      testConcurrentCancels()
+    }
+  }
+  
 }
 
 @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)

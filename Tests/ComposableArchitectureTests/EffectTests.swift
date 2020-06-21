@@ -94,7 +94,7 @@ final class EffectTests: XCTestCase {
   }
 
   func testEffectSubscriberInitializer() {
-    let effect = Effect<Int, Never>.run { subscriber -> AnyCancellable in
+    let effect = Effect<Int, Never>.run { subscriber -> Cancellable in
       subscriber.send(1)
       subscriber.send(2)
       self.scheduler.schedule(after: self.scheduler.now.advanced(by: .seconds(1))) {
@@ -131,7 +131,7 @@ final class EffectTests: XCTestCase {
   func testEffectSubscriberInitializer_WithCancellation() {
     struct CancelId: Hashable {}
 
-    let effect = Effect<Int, Never>.run { subscriber -> AnyCancellable in
+    let effect = Effect<Int, Never>.run { subscriber -> Cancellable in
       subscriber.send(1)
       self.scheduler.schedule(after: self.scheduler.now.advanced(by: .seconds(1))) {
         subscriber.send(2)

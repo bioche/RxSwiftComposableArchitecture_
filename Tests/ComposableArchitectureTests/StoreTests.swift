@@ -1,21 +1,22 @@
 import Combine
+import RxSwift
 import XCTest
 
 @testable import ComposableArchitecture
 
 @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 final class StoreTests: XCTestCase {
-  var cancellables: Set<AnyCancellable> = []
+  let disposeBag = DisposeBag()
 
   func testCancellableIsRemovedOnImmediatelyCompletingEffect() {
     let reducer = Reducer<Void, Void, Void> { _, _, _ in .none }
     let store = Store(initialState: (), reducer: reducer, environment: ())
 
-    XCTAssertEqual(store.effectCancellables.count, 0)
+    XCTAssertEqual(store.effectDisposables.count, 0)
 
     store.send(())
 
-    XCTAssertEqual(store.effectCancellables.count, 0)
+    XCTAssertEqual(store.effectDisposables.count, 0)
   }
 
   func testCancellableIsRemovedWhenEffectCompletes() {
@@ -36,15 +37,15 @@ final class StoreTests: XCTestCase {
     }
     let store = Store(initialState: (), reducer: reducer, environment: ())
 
-    XCTAssertEqual(store.effectCancellables.count, 0)
+    XCTAssertEqual(store.effectDisposables.count, 0)
 
     store.send(.start)
 
-    XCTAssertEqual(store.effectCancellables.count, 1)
+    XCTAssertEqual(store.effectDisposables.count, 1)
 
     scheduler.advance(by: 2)
 
-    XCTAssertEqual(store.effectCancellables.count, 0)
+    XCTAssertEqual(store.effectDisposables.count, 0)
   }
 
   func testScopedStoreReceivesUpdatesFromParent() {
@@ -58,9 +59,9 @@ final class StoreTests: XCTestCase {
     let childStore = parentStore.scope(state: String.init)
 
     var values: [String] = []
-    childStore.$state
-      .sink(receiveValue: { values.append($0) })
-      .store(in: &self.cancellables)
+    childStore.stateRelay
+      .subscribe(onNext: { values.append($0) })
+      .disposed(by: disposeBag)
 
     XCTAssertEqual(values, ["0"])
 
@@ -80,9 +81,9 @@ final class StoreTests: XCTestCase {
     let childViewStore = ViewStore(childStore)
 
     var values: [Int] = []
-    parentStore.$state
-      .sink(receiveValue: { values.append($0) })
-      .store(in: &self.cancellables)
+    parentStore.stateRelay
+      .subscribe(onNext: { values.append($0) })
+      .disposed(by: disposeBag)
 
     XCTAssertEqual(values, [0])
 
@@ -101,13 +102,13 @@ final class StoreTests: XCTestCase {
     var outputs: [String] = []
 
     parentStore
-      .scope(state: { $0.map { "\($0)" }.removeDuplicates() })
-      .sink { childStore in
-        childStore.$state
-          .sink { outputs.append($0) }
-          .store(in: &self.cancellables)
-      }
-      .store(in: &self.cancellables)
+      .scope(state: { $0.map { "\($0)" }.distinctUntilChanged() })
+        .subscribe(onNext: { childStore in
+        childStore.stateRelay
+          .subscribe(onNext: { outputs.append($0) })
+          .disposed(by: self.disposeBag)
+      })
+      .disposed(by: disposeBag)
 
     parentStore.send(0)
     XCTAssertEqual(outputs, ["0"])

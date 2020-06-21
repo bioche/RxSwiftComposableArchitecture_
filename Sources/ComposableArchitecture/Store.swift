@@ -18,7 +18,8 @@ public final class Store<State, Action> {
     }
   }
     
-  private var effectCancellables: [UUID: Disposable] = [:]
+  var effectDisposables: [UUID: Disposable] = [:]
+    
   private var isSending = false
   private var parentCancellable: Disposable?
   private let reducer: (inout State, Action) -> Effect<Action, Never>
@@ -130,6 +131,19 @@ public final class Store<State, Action> {
         return localStore
       }.asObservable()
   }
+    
+  /// Scopes the store to a publisher of stores of more local state and local actions.
+  ///
+  /// - Parameter toLocalState: A function that transforms a publisher of `State` into a publisher
+  ///   of `LocalState`.
+  /// - Returns: A publisher of stores with its domain (state and action)
+  ///   transformed.
+  public func scope<O: ObservableType, LocalState>(
+    state toLocalState: @escaping (Observable<State>) -> O
+  ) -> Observable<Store<LocalState, Action>>
+    where O.Element == LocalState {
+      self.scope(state: toLocalState, action: { $0 })
+  }
 
   func send(_ action: Action) {
     if self.isSending {
@@ -160,13 +174,13 @@ public final class Store<State, Action> {
       },
       onCompleted: { [weak self] in
         didComplete = true
-        self?.effectCancellables[uuid] = nil
+        self?.effectDisposables[uuid] = nil
       }
     )
     isProcessingEffects = false
 
     if !didComplete {
-      self.effectCancellables[uuid] = effectCancellable
+      self.effectDisposables[uuid] = effectCancellable
     }
 
     while !self.synchronousActionsToSend.isEmpty {
