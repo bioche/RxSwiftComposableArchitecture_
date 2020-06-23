@@ -11,7 +11,7 @@ extension Publisher {
   /// the sink is cancelled.
   ///
   /// - returns: Observable<Output>
-  func asObservable() -> Observable<Output> {
+  public func asObservable() -> Observable<Output> {
     Observable<Output>.create { observer in
       let cancellable = self.sink(
         receiveCompletion: { completion in
