@@ -35,7 +35,7 @@
 		41364CE1248C6028007EBA46 /* IdentifiedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CB9248C6028007EBA46 /* IdentifiedArray.swift */; };
 		41364CE2248C6028007EBA46 /* Identified.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CBA248C6028007EBA46 /* Identified.swift */; };
 		41364CE3248C6028007EBA46 /* IfLetStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CBB248C6028007EBA46 /* IfLetStore.swift */; };
-		41364CE4248C6028007EBA46 /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CBC248C6028007EBA46 /* Identifiable.swift */; };
+		41364CE4248C6028007EBA46 /* TCAIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CBC248C6028007EBA46 /* TCAIdentifiable.swift */; };
 		41364CE5248C6028007EBA46 /* ForEachStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CBD248C6028007EBA46 /* ForEachStore.swift */; };
 		41364CE6248C6028007EBA46 /* WithViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CBE248C6028007EBA46 /* WithViewStore.swift */; };
 		41626031248D2D6E003FCAA8 /* Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364C8C248C6028007EBA46 /* Mock.swift */; };
@@ -194,7 +194,7 @@
 		41364CB9248C6028007EBA46 /* IdentifiedArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifiedArray.swift; sourceTree = "<group>"; };
 		41364CBA248C6028007EBA46 /* Identified.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identified.swift; sourceTree = "<group>"; };
 		41364CBB248C6028007EBA46 /* IfLetStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IfLetStore.swift; sourceTree = "<group>"; };
-		41364CBC248C6028007EBA46 /* Identifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identifiable.swift; sourceTree = "<group>"; };
+		41364CBC248C6028007EBA46 /* TCAIdentifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCAIdentifiable.swift; sourceTree = "<group>"; };
 		41364CBD248C6028007EBA46 /* ForEachStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForEachStore.swift; sourceTree = "<group>"; };
 		41364CBE248C6028007EBA46 /* WithViewStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithViewStore.swift; sourceTree = "<group>"; };
 		41626029248D2CBA003FCAA8 /* ComposableCoreLocation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ComposableCoreLocation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -416,7 +416,7 @@
 				41364CB9248C6028007EBA46 /* IdentifiedArray.swift */,
 				41364CBA248C6028007EBA46 /* Identified.swift */,
 				41364CBB248C6028007EBA46 /* IfLetStore.swift */,
-				41364CBC248C6028007EBA46 /* Identifiable.swift */,
+				41364CBC248C6028007EBA46 /* TCAIdentifiable.swift */,
 				41364CBD248C6028007EBA46 /* ForEachStore.swift */,
 				41364CBE248C6028007EBA46 /* WithViewStore.swift */,
 			);
@@ -773,7 +773,7 @@
 				41364CDB248C6028007EBA46 /* Store.swift in Sources */,
 				41364CE3248C6028007EBA46 /* IfLetStore.swift in Sources */,
 				41364CD6248C6028007EBA46 /* Locking.swift in Sources */,
-				41364CE4248C6028007EBA46 /* Identifiable.swift in Sources */,
+				41364CE4248C6028007EBA46 /* TCAIdentifiable.swift in Sources */,
 				4162604F248D31E3003FCAA8 /* CasePaths.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

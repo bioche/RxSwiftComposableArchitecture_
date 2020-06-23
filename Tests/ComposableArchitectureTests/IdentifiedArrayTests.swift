@@ -4,7 +4,7 @@ import XCTest
 
 final class IdentifiedArrayTests: XCTestCase {
   func testIdSubscript() {
-    struct User: Equatable, Identifiable {
+    struct User: Equatable, TCAIdentifiable {
       let id: Int
       var name: String
     }
@@ -15,7 +15,7 @@ final class IdentifiedArrayTests: XCTestCase {
   }
 
   func testRemoveId() {
-    struct User: Equatable, Identifiable {
+    struct User: Equatable, TCAIdentifiable {
       let id: Int
       var name: String
     }
@@ -27,7 +27,7 @@ final class IdentifiedArrayTests: XCTestCase {
   }
 
   func testInsert() {
-    struct User: Equatable, Identifiable {
+    struct User: Equatable, TCAIdentifiable {
       let id: Int
       var name: String
     }
@@ -39,7 +39,7 @@ final class IdentifiedArrayTests: XCTestCase {
   }
 
   func testInsertContentsOf() {
-    struct User: Equatable, Identifiable {
+    struct User: Equatable, TCAIdentifiable {
       let id: Int
       var name: String
     }
@@ -54,7 +54,7 @@ final class IdentifiedArrayTests: XCTestCase {
   }
 
   func testRemoveAt() {
-    struct User: Equatable, Identifiable {
+    struct User: Equatable, TCAIdentifiable {
       let id: Int
       var name: String
     }
@@ -70,7 +70,7 @@ final class IdentifiedArrayTests: XCTestCase {
   }
 
   func testRemoveAllWhere() {
-    struct User: Equatable, Identifiable {
+    struct User: Equatable, TCAIdentifiable {
       let id: Int
       var name: String
     }
@@ -86,7 +86,7 @@ final class IdentifiedArrayTests: XCTestCase {
   }
 
   func testRemoveAtOffsets() {
-    struct User: Equatable, Identifiable {
+    struct User: Equatable, TCAIdentifiable {
       let id: Int
       var name: String
     }
@@ -102,7 +102,7 @@ final class IdentifiedArrayTests: XCTestCase {
   }
 
   func testMoveFromOffsets() {
-    struct User: Equatable, Identifiable {
+    struct User: Equatable, TCAIdentifiable {
       let id: Int
       var name: String
     }
@@ -121,7 +121,7 @@ final class IdentifiedArrayTests: XCTestCase {
   }
 
   func testReplaceSubrange() {
-    struct User: Equatable, Identifiable {
+    struct User: Equatable, TCAIdentifiable {
       let id: Int
       var name: String
     }
@@ -150,7 +150,7 @@ final class IdentifiedArrayTests: XCTestCase {
     )
   }
 
-  struct ComparableValue: Comparable, Identifiable {
+  struct ComparableValue: Comparable, TCAIdentifiable {
     let id: Int
     let value: Int
 

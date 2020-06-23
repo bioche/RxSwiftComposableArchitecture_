@@ -19,7 +19,7 @@ private let readMe = """
   most sense for each platform.
   """
 
-enum GameType: Identifiable {
+enum GameType: Identifiable, TCAIdentifiable {
   case swiftui
   case uikit
   var id: Self { self }

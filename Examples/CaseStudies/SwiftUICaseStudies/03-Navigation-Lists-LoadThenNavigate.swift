@@ -13,7 +13,7 @@ struct LazyListNavigationState: Equatable {
   var rows: IdentifiedArrayOf<Row> = []
   var selection: Identified<Row.ID, CounterState>?
 
-  struct Row: Equatable, Identifiable {
+  struct Row: Equatable, Identifiable, TCAIdentifiable {
     var count: Int
     let id: UUID
     var isActivityIndicatorVisible = false

@@ -15,14 +15,14 @@ private let readMe = """
   screen to see that the state is carried over.
   """
 
-struct CityMap: Equatable, Identifiable {
+struct CityMap: Equatable, TCAIdentifiable {
   var blurb: String
   var downloadVideoUrl: URL
   let id: UUID
   var title: String
 }
 
-struct CityMapState: Equatable, Identifiable {
+struct CityMapState: Equatable, TCAIdentifiable {
   var downloadAlert: DownloadAlert?
   var downloadMode: Mode
   var cityMap: CityMap

@@ -5,7 +5,7 @@ import CoreMotion
 extension MotionClient {
   static let live = MotionClient(
     create: { id in
-      .run { subscriber in
+      .run { subscriber -> Cancellable in
         let manager = MotionManager(
           manager: CMMotionManager(),
           handler: { motion, error in

@@ -112,7 +112,7 @@ struct AppView: View {
   }
 }
 
-struct AppAlert: Identifiable {
+struct AppAlert: Identifiable, TCAIdentifiable {
   var title: String
   var id: String { self.title }
 }
