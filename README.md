@@ -1,3 +1,19 @@
+# RxSwift compatibility
+
+The aim of this fork is to bring RxSwift support to Composable Architecture while keeping it as close as possible to the (awesome) original material.
+In order to meet this goal, almost all methods in the original package are still available here or will be soon, including those interfacing with Combine publishers.
+
+Besides RxSwift support it also lowers the target to iOS 10 (also macOS 10_12, tvOS 10 & watchOS 3) and supports Carthage integration.
+In your cartfile :
+```
+github "bioche/RxSwiftComposableArchitecture" "0.2.0"
+```
+
+Current limitations :
+* Identifiable being limited to iOS 13 and above, this provides its own protocol TCAIdentifiable. All structs implementing Identifiable in sample app are now implementing both with no additional effort giving TCAIdentifiable is an exact replica of Identifiable.
+* Special effects (pun not intended :p ) like Debouncing, Timer & cancellation are Combine/iOS 13 only for now but should be rxified in near future
+* Because the signatures between Rx and Combine methods on effects & stores are very close, the compiler may require more help to identify which method to use.
+
 # The Composable Architecture
 
 [![Swift 5.2](https://img.shields.io/badge/swift-5.2-ED523F.svg?style=flat)](https://swift.org/download/)
