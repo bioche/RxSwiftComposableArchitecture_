@@ -33,7 +33,7 @@ extension Effect {
       let subject = PassthroughSubject<Output, Failure>()
       let uuid = UUID()
 
-      var isCleaningUp = false
+      var isCleaningUp = Atomic<Bool>(false)
 
       cancellablesLock.sync {
         if cancelInFlight {
@@ -45,15 +45,15 @@ extension Effect {
 
         cancellationCancellables[id] = cancellationCancellables[id] ?? [:]
         cancellationCancellables[id]?[uuid] = AnyCancellable {
-          cancellable.cancel()
-          if !isCleaningUp {
+          if !isCleaningUp.value {
             subject.send(completion: .finished)
           }
+          cancellable.cancel()
         }
       }
 
       func cleanup() {
-        isCleaningUp = true
+        isCleaningUp.mutate { $0 = true }
         cancellablesLock.sync {
           cancellationCancellables[id]?[uuid] = nil
           if cancellationCancellables[id]?.isEmpty == true {
@@ -88,4 +88,25 @@ extension Effect {
 @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 var cancellationCancellables: [AnyHashable: [UUID: AnyCancellable]] = [:]
 let cancellablesLock = NSRecursiveLock()
+
+final class Atomic<A> {
+    private let queue = DispatchQueue(label: "Atomic serial queue")
+    private var _value: A
+    init(_ value: A) {
+        self._value = value
+    }
+
+    var value: A {
+        get {
+            return queue.sync { self._value }
+        }
+    }
+
+    func mutate(_ transform: (inout A) -> ()) {
+        queue.sync {
+            transform(&self._value)
+        }
+    }
+}
+
 #endif

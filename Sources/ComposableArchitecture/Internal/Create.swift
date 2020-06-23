@@ -22,7 +22,7 @@
 
 #if canImport(Combine)
 import Combine
-import Darwin
+import class Foundation.NSRecursiveLock
 
 @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 private class DemandBuffer<S: Subscriber> {
@@ -30,29 +30,24 @@ private class DemandBuffer<S: Subscriber> {
   private let subscriber: S
   private var completion: Subscribers.Completion<S.Failure>?
   private var demandState = Demand()
-  private let lock: os_unfair_lock_t
+  private let lock = NSRecursiveLock()
 
   init(subscriber: S) {
     self.subscriber = subscriber
-    self.lock = os_unfair_lock_t.allocate(capacity: 1)
-    self.lock.initialize(to: os_unfair_lock())
-  }
-
-  deinit {
-    self.lock.deinitialize(count: 1)
-    self.lock.deallocate()
   }
 
   func buffer(value: S.Input) -> Subscribers.Demand {
     precondition(
       self.completion == nil, "How could a completed publisher sent values?! Beats me 🤷‍♂️")
 
-    switch demandState.requested {
-    case .unlimited:
-      return subscriber.receive(value)
-    default:
-      buffer.append(value)
-      return flush()
+    return lock.sync {
+      switch demandState.requested {
+      case .unlimited:
+        return subscriber.receive(value)
+      default:
+        buffer.append(value)
+        return flush()
+      }
     }
   }
 

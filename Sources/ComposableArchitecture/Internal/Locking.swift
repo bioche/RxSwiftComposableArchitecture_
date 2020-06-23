@@ -16,4 +16,11 @@ extension NSRecursiveLock {
     defer { self.unlock() }
     work()
   }
+  
+  @inlinable
+  func sync<R>(_ work: () -> R) -> R {
+    self.lock()
+    defer { self.unlock() }
+    return work()
+  }
 }
