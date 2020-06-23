@@ -69,7 +69,7 @@ where Data: Collection, ID: Hashable, Content: View {
       Data, (Data.Index, EachAction),
       ForEach<ContiguousArray<(Data.Index, EachState)>, ID, EachContent>
     >,
-    EachState: Identifiable,
+    EachState: TCAIdentifiable,
     EachState.ID == ID
   {
     self.init(store, id: \.id, content: content)

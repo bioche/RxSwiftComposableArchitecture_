@@ -212,7 +212,7 @@ extension IdentifiedArray: CustomStringConvertible {
   }
 }
 
-extension IdentifiedArray: Decodable where Element: Decodable & Identifiable, ID == Element.ID {
+extension IdentifiedArray: Decodable where Element: Decodable & TCAIdentifiable, ID == Element.ID {
   public init(from decoder: Decoder) throws {
     self.init(try [Element](from: decoder))
   }
@@ -234,20 +234,20 @@ extension IdentifiedArray where Element: Comparable {
   }
 }
 
-extension IdentifiedArray: ExpressibleByArrayLiteral where Element: Identifiable, ID == Element.ID {
+extension IdentifiedArray: ExpressibleByArrayLiteral where Element: TCAIdentifiable, ID == Element.ID {
   public init(arrayLiteral elements: Element...) {
     self.init(elements)
   }
 }
 
-extension IdentifiedArray where Element: Identifiable, ID == Element.ID {
+extension IdentifiedArray where Element: TCAIdentifiable, ID == Element.ID {
   public init<S>(_ elements: S) where S: Sequence, S.Element == Element {
     self.init(elements, id: \.id)
   }
 }
 
 extension IdentifiedArray: RangeReplaceableCollection
-where Element: Identifiable, ID == Element.ID {
+where Element: TCAIdentifiable, ID == Element.ID {
   public init() {
     self.init([], id: \.id)
   }
@@ -270,4 +270,4 @@ where Element: Identifiable, ID == Element.ID {
 
 /// A convenience type to specify an `IdentifiedArray` by an identifiable element.
 public typealias IdentifiedArrayOf<Element> = IdentifiedArray<Element.ID, Element>
-where Element: Identifiable
+where Element: TCAIdentifiable

@@ -20,7 +20,7 @@ private let readMe = """
 
 // MARK: - Favorite domain
 
-struct FavoriteState<ID>: Equatable, Identifiable where ID: Hashable {
+struct FavoriteState<ID>: Equatable, TCAIdentifiable where ID: Hashable {
   let id: ID
   var isFavorite: Bool
   var error: FavoriteError?
@@ -108,7 +108,7 @@ struct FavoriteButton<ID>: View where ID: Hashable {
 
 // MARK: Feature domain -
 
-struct EpisodeState: Equatable, Identifiable {
+struct EpisodeState: Equatable, TCAIdentifiable {
   var error: FavoriteError?
   let id: UUID
   var isFavorite: Bool

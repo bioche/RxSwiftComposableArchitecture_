@@ -399,7 +399,7 @@ struct VoiceMemoView: View {
   }
 }
 
-private struct AlertData: Identifiable {
+private struct AlertData: Identifiable, TCAIdentifiable {
   var message: String
   var id: String { self.message }
 }

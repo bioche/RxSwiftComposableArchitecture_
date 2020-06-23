@@ -12,7 +12,7 @@ struct EagerListNavigationState: Equatable {
   var rows: IdentifiedArrayOf<Row> = []
   var selection: Identified<Row.ID, CounterState?>?
 
-  struct Row: Equatable, Identifiable {
+  struct Row: Equatable, TCAIdentifiable, Identifiable {
     var count: Int
     let id: UUID
   }
