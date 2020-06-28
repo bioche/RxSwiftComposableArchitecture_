@@ -3,6 +3,7 @@ import CoreMotion
 /// Encapsulated measurements of the attitude, rotation rate, and acceleration of a device.
 ///
 /// See the documentation for `CMDeviceMotion` for more info.
+@available(iOS 11, macOS 10.15, watchOS 4.0, *)
 public struct DeviceMotion: Equatable {
   public var attitude: Attitude
   public var gravity: CMAcceleration

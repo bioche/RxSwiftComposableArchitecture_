@@ -194,6 +194,7 @@ public struct LocationManager {
     @available(macOS, unavailable)
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
+    @available(iOS 13.0, *)
     case didFailRanging(beaconConstraint: CLBeaconIdentityConstraint, error: Error)
 
     case didFailWithError(Error)
@@ -236,6 +237,7 @@ public struct LocationManager {
     @available(macOS, unavailable)
     @available(tvOS, unavailable)
     @available(watchOS, unavailable)
+    @available(iOS 13.0, *)
     case didRangeBeacons([Beacon], satisfyingConstraint: CLBeaconIdentityConstraint)
   }
 

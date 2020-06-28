@@ -1,12 +1,11 @@
+#if canImport(Combine)
 import Combine
 import ComposableArchitecture
 import CoreMotion
 
-@available(iOS 4.0, *)
-@available(macCatalyst 13.0, *)
 @available(macOS, unavailable)
 @available(tvOS, unavailable)
-@available(watchOS 2.0, *)
+@available(iOS 13, watchOS 6.0, *)
 extension MotionManager {
   public static let live = MotionManager(
     accelerometerData: { id in
@@ -237,26 +236,27 @@ extension MotionManager {
     })
 }
 
+@available(iOS 13, watchOS 6.0, *)
 private var accelerometerUpdatesSubscribers:
   [AnyHashable: Effect<AccelerometerData, Error>.Subscriber] = [:]
+@available(iOS 13, watchOS 6.0, *)
 private var deviceMotionUpdatesSubscribers: [AnyHashable: Effect<DeviceMotion, Error>.Subscriber] =
   [:]
+@available(iOS 13, watchOS 6.0, *)
 private var deviceGyroUpdatesSubscribers: [AnyHashable: Effect<GyroData, Error>.Subscriber] = [:]
+@available(iOS 13, watchOS 6.0, *)
 private var deviceMagnetometerUpdatesSubscribers:
   [AnyHashable: Effect<MagnetometerData, Error>.Subscriber] = [:]
 
-@available(iOS 4.0, *)
-@available(macCatalyst 13.0, *)
+
 @available(macOS, unavailable)
 @available(tvOS, unavailable)
-@available(watchOS 2.0, *)
+@available(iOS 13, watchOS 6.0, *)
 private var managers: [AnyHashable: CMMotionManager] = [:]
 
-@available(iOS 4.0, *)
-@available(macCatalyst 13.0, *)
 @available(macOS, unavailable)
 @available(tvOS, unavailable)
-@available(watchOS 2.0, *)
+@available(iOS 13, watchOS 6.0, *)
 private func requireMotionManager(id: AnyHashable) -> CMMotionManager? {
   if managers[id] == nil {
     couldNotFindMotionManager(id: id)
@@ -273,3 +273,4 @@ private func couldNotFindMotionManager(id: Any) {
     time you invoke this endpoint.
     """)
 }
+#endif

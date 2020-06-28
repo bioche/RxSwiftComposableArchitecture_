@@ -162,11 +162,9 @@ import CoreMotion
 /// application logic. This can be incredibly powerful, and is typically not the kind of thing one
 /// can test easily.
 ///
-@available(iOS 4.0, *)
-@available(macCatalyst 13.0, *)
 @available(macOS, unavailable)
 @available(tvOS, unavailable)
-@available(watchOS 2.0, *)
+@available(iOS 13, watchOS 6.0, *)
 public struct MotionManager {
   /// The latest sample of accelerometer data.
   public func accelerometerData(id: AnyHashable) -> AccelerometerData? {

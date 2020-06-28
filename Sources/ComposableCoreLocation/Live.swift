@@ -3,6 +3,7 @@ import Combine
 import ComposableArchitecture
 import CoreLocation
 
+@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension LocationManager {
 
   /// The live implementation of the `LocationManager` interface. This implementation is capable of
@@ -23,7 +24,7 @@ extension LocationManager {
     manager.authorizationStatus = CLLocationManager.authorizationStatus
 
     manager.create = { id in
-      Effect.run { subscriber in
+      Effect.run { subscriber -> Cancellable in
         let manager = CLLocationManager()
         var delegate = LocationManagerDelegate(subscriber)
         manager.delegate = delegate
@@ -131,14 +132,17 @@ extension LocationManager {
   }()
 }
 
+@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 private struct Dependencies {
   let delegate: LocationManagerDelegate
   let manager: CLLocationManager
   let subscriber: Effect<LocationManager.Action, Never>.Subscriber
 }
 
+@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 private var dependencies: [AnyHashable: Dependencies] = [:]
 
+@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 private class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
   let subscriber: Effect<LocationManager.Action, Never>.Subscriber
 
