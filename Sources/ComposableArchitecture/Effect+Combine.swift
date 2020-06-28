@@ -78,7 +78,7 @@ extension Effect: Publisher {
     ///   the `Effect` is completed, the cancellable will be used to clean up any
     ///   resources created when the effect was started.
     public static func run(
-      _ run: @escaping (Effect.Subscriber<Output, Failure>) -> Cancellable
+      _ run: @escaping (Effect.Subscriber) -> Cancellable
     ) -> Self {
       AnyPublisher.create(run).eraseToEffect()
     }

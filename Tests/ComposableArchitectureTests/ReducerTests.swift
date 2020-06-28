@@ -1,6 +1,7 @@
 import Combine
 import ComposableArchitecture
 import XCTest
+import os.signpost
 
 @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 final class ReducerTests: XCTestCase {
@@ -96,23 +97,28 @@ final class ReducerTests: XCTestCase {
     XCTAssertTrue(mainEffectExecuted)
   }
 
-  func testPrint() {
-    struct Unit: Equatable {}
+  func testDebug() {
+    enum Action: Equatable { case incr, noop }
     struct State: Equatable { var count = 0 }
 
     var logs: [String] = []
+    let logsExpectation = self.expectation(description: "logs")
+    logsExpectation.expectedFulfillmentCount = 2
 
-    let expectation = self.expectation(description: "printed")
-
-    let reducer = Reducer<State, Unit, Void> { state, _, _ in
-      state.count += 1
-      return .none
+    let reducer = Reducer<State, Action, Void> { state, action, _ in
+      switch action {
+      case .incr:
+        state.count += 1
+        return .none
+      case .noop:
+        return .none
+      }
     }
     .debug("[prefix]") { _ in
       DebugEnvironment(
         printer: {
           logs.append($0)
-          expectation.fulfill()
+          logsExpectation.fulfill()
         }
       )
     }
@@ -123,24 +129,103 @@ final class ReducerTests: XCTestCase {
       environment: ()
     )
     store.assert(
-      .send(Unit()) { $0.count = 1 }
+      .send(.incr) { $0.count = 1 },
+      .send(.noop)
     )
 
-    self.wait(for: [expectation], timeout: 1)
+    self.wait(for: [logsExpectation], timeout: 2)
 
     XCTAssertEqual(
       logs,
       [
         #"""
         [prefix]: received action:
-          Unit()
+          Action.incr
           State(
         −   count: 0
         +   count: 1
           )
 
-        """#
+        """#,
+        #"""
+        [prefix]: received action:
+          Action.noop
+          (No state changes)
+
+        """#,
       ]
     )
+  }
+
+  func testDebug_ActionFormat_OnlyLabels() {
+    enum Action: Equatable { case incr(Bool) }
+    struct State: Equatable { var count = 0 }
+
+    var logs: [String] = []
+    let logsExpectation = self.expectation(description: "logs")
+
+    let reducer = Reducer<State, Action, Void> { state, action, _ in
+      switch action {
+      case let .incr(bool):
+        state.count += bool ? 1 : 0
+        return .none
+      }
+    }
+    .debug("[prefix]", actionFormat: .labelsOnly) { _ in
+      DebugEnvironment(
+        printer: {
+          logs.append($0)
+          logsExpectation.fulfill()
+        }
+      )
+    }
+
+    let viewStore = ViewStore(
+      Store(
+        initialState: State(),
+        reducer: reducer,
+        environment: ()
+      )
+    )
+    viewStore.send(.incr(true))
+
+    self.wait(for: [logsExpectation], timeout: 2)
+
+    XCTAssertEqual(
+      logs,
+      [
+        #"""
+        [prefix]: received action:
+          Action.incr
+          State(
+        −   count: 0
+        +   count: 1
+          )
+
+        """#,
+      ]
+    )
+  }
+
+  func testDefaultSignpost() {
+    let reducer = Reducer<Int, Void, Void>.empty.signpost(log: .default)
+    var n = 0
+    let effect = reducer.run(&n, (), ())
+    let expectation = self.expectation(description: "effect")
+    effect
+      .sink(receiveCompletion: { _ in expectation.fulfill() }, receiveValue: { _ in })
+      .store(in: &self.cancellables)
+    self.wait(for: [expectation], timeout: 0.1)
+  }
+
+  func testDisabledSignpost() {
+    let reducer = Reducer<Int, Void, Void>.empty.signpost(log: .disabled)
+    var n = 0
+    let effect = reducer.run(&n, (), ())
+    let expectation = self.expectation(description: "effect")
+    effect
+      .sink(receiveCompletion: { _ in expectation.fulfill() }, receiveValue: { _ in })
+      .store(in: &self.cancellables)
+    self.wait(for: [expectation], timeout: 0.1)
   }
 }

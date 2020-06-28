@@ -11,8 +11,6 @@
 		41364CC9248C6028007EBA46 /* Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364C9A248C6028007EBA46 /* Reducer.swift */; };
 		41364CCA248C6028007EBA46 /* Publisher+asObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364C9C248C6028007EBA46 /* Publisher+asObservable.swift */; };
 		41364CCB248C6028007EBA46 /* Observable+asPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364C9D248C6028007EBA46 /* Observable+asPublisher.swift */; };
-		41364CCC248C6028007EBA46 /* TestScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364C9F248C6028007EBA46 /* TestScheduler.swift */; };
-		41364CCD248C6028007EBA46 /* AnyScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CA0248C6028007EBA46 /* AnyScheduler.swift */; };
 		41364CCE248C6028007EBA46 /* IfLetUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CA2248C6028007EBA46 /* IfLetUIKit.swift */; };
 		41364CCF248C6028007EBA46 /* ReducerDebugging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CA4248C6028007EBA46 /* ReducerDebugging.swift */; };
 		41364CD0248C6028007EBA46 /* Diff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CA6248C6028007EBA46 /* Diff.swift */; };
@@ -28,7 +26,7 @@
 		41364CDA248C6028007EBA46 /* ViewStore+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CB0248C6028007EBA46 /* ViewStore+Combine.swift */; };
 		41364CDB248C6028007EBA46 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CB1248C6028007EBA46 /* Store.swift */; };
 		41364CDC248C6028007EBA46 /* Store+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CB2248C6028007EBA46 /* Store+Combine.swift */; };
-		41364CDD248C6028007EBA46 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CB4248C6028007EBA46 /* Timer.swift */; };
+		41364CDD248C6028007EBA46 /* Effect+Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CB4248C6028007EBA46 /* Effect+Timer.swift */; };
 		41364CDE248C6028007EBA46 /* Cancellation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CB5248C6028007EBA46 /* Cancellation.swift */; };
 		41364CDF248C6028007EBA46 /* Debouncing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CB6248C6028007EBA46 /* Debouncing.swift */; };
 		41364CE0248C6028007EBA46 /* ViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CB7248C6028007EBA46 /* ViewStore.swift */; };
@@ -63,7 +61,6 @@
 		4162607F248D4AB2003FCAA8 /* ComposableArchitectureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41626054248D4983003FCAA8 /* ComposableArchitectureTests.swift */; };
 		41626080248D4AB2003FCAA8 /* MemoryManagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41626055248D4983003FCAA8 /* MemoryManagementTests.swift */; };
 		41626081248D4AB2003FCAA8 /* ReducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41626056248D4983003FCAA8 /* ReducerTests.swift */; };
-		41626082248D4AB2003FCAA8 /* SchedulerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41626057248D4983003FCAA8 /* SchedulerTests.swift */; };
 		41626083248D4AB2003FCAA8 /* EffectThrottleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41626059248D4983003FCAA8 /* EffectThrottleTests.swift */; };
 		41626084248D4AB2003FCAA8 /* EffectDebounceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4162605A248D4983003FCAA8 /* EffectDebounceTests.swift */; };
 		41626085248D4AB2003FCAA8 /* EffectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4162605B248D4983003FCAA8 /* EffectTests.swift */; };
@@ -88,6 +85,33 @@
 		416260B324996ABC003FCAA8 /* RxSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 416260B024996ABC003FCAA8 /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		416260B424996ABC003FCAA8 /* RxCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 416260B124996ABC003FCAA8 /* RxCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		416260B524996ABC003FCAA8 /* RxRelay.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 416260B224996ABC003FCAA8 /* RxRelay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4176B2FC24A8D18E003D6097 /* Observable+onCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B2FB24A8D18E003D6097 /* Observable+onCompletion.swift */; };
+		4176B30524A8E1AA003D6097 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B2FE24A8E1AA003D6097 /* Timer.swift */; };
+		4176B30624A8E1AA003D6097 /* Lock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B30024A8E1AA003D6097 /* Lock.swift */; };
+		4176B30724A8E1AA003D6097 /* TestScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B30124A8E1AA003D6097 /* TestScheduler.swift */; };
+		4176B30824A8E1AA003D6097 /* UIScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B30224A8E1AA003D6097 /* UIScheduler.swift */; };
+		4176B30924A8E1AA003D6097 /* ImmediateScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B30324A8E1AA003D6097 /* ImmediateScheduler.swift */; };
+		4176B30A24A8E1AA003D6097 /* AnyScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B30424A8E1AA003D6097 /* AnyScheduler.swift */; };
+		4176B30C24A8F515003D6097 /* ReducerInstrumentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B30B24A8F515003D6097 /* ReducerInstrumentation.swift */; };
+		4176B33C24A90209003D6097 /* ComposableCoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4176B32824A901D8003D6097 /* ComposableCoreMotion.framework */; };
+		4176B34224A90266003D6097 /* GyroData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B31124A901B1003D6097 /* GyroData.swift */; };
+		4176B34324A90266003D6097 /* AccelerometerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B31224A901B1003D6097 /* AccelerometerData.swift */; };
+		4176B34424A90266003D6097 /* MagnetometerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B31324A901B1003D6097 /* MagnetometerData.swift */; };
+		4176B34524A90266003D6097 /* DeviceMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B31424A901B1003D6097 /* DeviceMotion.swift */; };
+		4176B34624A90266003D6097 /* Attitude.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B31524A901B1003D6097 /* Attitude.swift */; };
+		4176B34724A90266003D6097 /* MotionManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B31724A901B1003D6097 /* MotionManagerMock.swift */; };
+		4176B34824A90266003D6097 /* MotionManagerLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B31824A901B1003D6097 /* MotionManagerLive.swift */; };
+		4176B34924A90266003D6097 /* MotionManagerInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B31924A901B1003D6097 /* MotionManagerInterface.swift */; };
+		4176B34B24A90272003D6097 /* Exports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B30F24A901B1003D6097 /* Exports.swift */; };
+		4176B34C24A9027D003D6097 /* ComposableCoreMotionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B33124A901ED003D6097 /* ComposableCoreMotionTests.swift */; };
+		4176B34D24A90324003D6097 /* ComposableArchitecture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4168FAFC248C5D4700CD8FB5 /* ComposableArchitecture.framework */; };
+		4176B34E24A90324003D6097 /* ComposableArchitecture.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4168FAFC248C5D4700CD8FB5 /* ComposableArchitecture.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4176B35224A9033B003D6097 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626040248D2E14003FCAA8 /* RxCocoa.framework */; };
+		4176B35324A9033B003D6097 /* RxCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 41626040248D2E14003FCAA8 /* RxCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4176B35424A9033B003D6097 /* RxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4162603F248D2E14003FCAA8 /* RxRelay.framework */; };
+		4176B35524A9033B003D6097 /* RxRelay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4162603F248D2E14003FCAA8 /* RxRelay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4176B35624A9033B003D6097 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; };
+		4176B35724A9033B003D6097 /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +130,20 @@
 			remoteInfo = ComposableCoreLocation;
 		};
 		4162609C248D4C4A003FCAA8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4168FAF3248C5D4700CD8FB5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4168FAFB248C5D4700CD8FB5;
+			remoteInfo = ComposableArchitecture;
+		};
+		4176B33D24A90209003D6097 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4168FAF3248C5D4700CD8FB5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4176B32724A901D8003D6097;
+			remoteInfo = ComposableCoreMotion;
+		};
+		4176B34F24A90324003D6097 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4168FAF3248C5D4700CD8FB5 /* Project object */;
 			proxyType = 1;
@@ -154,6 +192,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4176B35124A90325003D6097 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4176B35724A9033B003D6097 /* RxSwift.framework in Embed Frameworks */,
+				4176B35324A9033B003D6097 /* RxCocoa.framework in Embed Frameworks */,
+				4176B34E24A90324003D6097 /* ComposableArchitecture.framework in Embed Frameworks */,
+				4176B35524A9033B003D6097 /* RxRelay.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -170,8 +222,6 @@
 		41364C9A248C6028007EBA46 /* Reducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reducer.swift; sourceTree = "<group>"; };
 		41364C9C248C6028007EBA46 /* Publisher+asObservable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Publisher+asObservable.swift"; sourceTree = "<group>"; };
 		41364C9D248C6028007EBA46 /* Observable+asPublisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+asPublisher.swift"; sourceTree = "<group>"; };
-		41364C9F248C6028007EBA46 /* TestScheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestScheduler.swift; sourceTree = "<group>"; };
-		41364CA0248C6028007EBA46 /* AnyScheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyScheduler.swift; sourceTree = "<group>"; };
 		41364CA2248C6028007EBA46 /* IfLetUIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IfLetUIKit.swift; sourceTree = "<group>"; };
 		41364CA4248C6028007EBA46 /* ReducerDebugging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReducerDebugging.swift; sourceTree = "<group>"; };
 		41364CA6248C6028007EBA46 /* Diff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Diff.swift; sourceTree = "<group>"; };
@@ -187,7 +237,7 @@
 		41364CB0248C6028007EBA46 /* ViewStore+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ViewStore+Combine.swift"; sourceTree = "<group>"; };
 		41364CB1248C6028007EBA46 /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		41364CB2248C6028007EBA46 /* Store+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Store+Combine.swift"; sourceTree = "<group>"; };
-		41364CB4248C6028007EBA46 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
+		41364CB4248C6028007EBA46 /* Effect+Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Effect+Timer.swift"; sourceTree = "<group>"; };
 		41364CB5248C6028007EBA46 /* Cancellation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cancellation.swift; sourceTree = "<group>"; };
 		41364CB6248C6028007EBA46 /* Debouncing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Debouncing.swift; sourceTree = "<group>"; };
 		41364CB7248C6028007EBA46 /* ViewStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewStore.swift; sourceTree = "<group>"; };
@@ -211,7 +261,6 @@
 		41626054248D4983003FCAA8 /* ComposableArchitectureTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposableArchitectureTests.swift; sourceTree = "<group>"; };
 		41626055248D4983003FCAA8 /* MemoryManagementTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryManagementTests.swift; sourceTree = "<group>"; };
 		41626056248D4983003FCAA8 /* ReducerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReducerTests.swift; sourceTree = "<group>"; };
-		41626057248D4983003FCAA8 /* SchedulerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchedulerTests.swift; sourceTree = "<group>"; };
 		41626059248D4983003FCAA8 /* EffectThrottleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EffectThrottleTests.swift; sourceTree = "<group>"; };
 		4162605A248D4983003FCAA8 /* EffectDebounceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EffectDebounceTests.swift; sourceTree = "<group>"; };
 		4162605B248D4983003FCAA8 /* EffectTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EffectTests.swift; sourceTree = "<group>"; };
@@ -231,6 +280,28 @@
 		416260B224996ABC003FCAA8 /* RxRelay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxRelay.framework; path = Carthage/Build/iOS/RxRelay.framework; sourceTree = "<group>"; };
 		4168FAFC248C5D4700CD8FB5 /* ComposableArchitecture.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ComposableArchitecture.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4168FB07248C5D9900CD8FB5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4176B2FB24A8D18E003D6097 /* Observable+onCompletion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+onCompletion.swift"; sourceTree = "<group>"; };
+		4176B2FE24A8E1AA003D6097 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
+		4176B30024A8E1AA003D6097 /* Lock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lock.swift; sourceTree = "<group>"; };
+		4176B30124A8E1AA003D6097 /* TestScheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestScheduler.swift; sourceTree = "<group>"; };
+		4176B30224A8E1AA003D6097 /* UIScheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIScheduler.swift; sourceTree = "<group>"; };
+		4176B30324A8E1AA003D6097 /* ImmediateScheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImmediateScheduler.swift; sourceTree = "<group>"; };
+		4176B30424A8E1AA003D6097 /* AnyScheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyScheduler.swift; sourceTree = "<group>"; };
+		4176B30B24A8F515003D6097 /* ReducerInstrumentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReducerInstrumentation.swift; sourceTree = "<group>"; };
+		4176B30F24A901B1003D6097 /* Exports.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Exports.swift; sourceTree = "<group>"; };
+		4176B31124A901B1003D6097 /* GyroData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GyroData.swift; sourceTree = "<group>"; };
+		4176B31224A901B1003D6097 /* AccelerometerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccelerometerData.swift; sourceTree = "<group>"; };
+		4176B31324A901B1003D6097 /* MagnetometerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MagnetometerData.swift; sourceTree = "<group>"; };
+		4176B31424A901B1003D6097 /* DeviceMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceMotion.swift; sourceTree = "<group>"; };
+		4176B31524A901B1003D6097 /* Attitude.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attitude.swift; sourceTree = "<group>"; };
+		4176B31724A901B1003D6097 /* MotionManagerMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionManagerMock.swift; sourceTree = "<group>"; };
+		4176B31824A901B1003D6097 /* MotionManagerLive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionManagerLive.swift; sourceTree = "<group>"; };
+		4176B31924A901B1003D6097 /* MotionManagerInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionManagerInterface.swift; sourceTree = "<group>"; };
+		4176B32824A901D8003D6097 /* ComposableCoreMotion.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ComposableCoreMotion.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4176B32B24A901D8003D6097 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4176B33124A901ED003D6097 /* ComposableCoreMotionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposableCoreMotionTests.swift; sourceTree = "<group>"; };
+		4176B33724A90209003D6097 /* ComposableCoreMotionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ComposableCoreMotionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4176B33B24A90209003D6097 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -274,12 +345,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4176B32524A901D8003D6097 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4176B35624A9033B003D6097 /* RxSwift.framework in Frameworks */,
+				4176B35224A9033B003D6097 /* RxCocoa.framework in Frameworks */,
+				4176B34D24A90324003D6097 /* ComposableArchitecture.framework in Frameworks */,
+				4176B35424A9033B003D6097 /* RxRelay.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4176B33424A90209003D6097 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4176B33C24A90209003D6097 /* ComposableCoreMotion.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		41364C8A248C6028007EBA46 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				4176B30D24A901B1003D6097 /* ComposableCoreMotion */,
 				41364C8B248C6028007EBA46 /* ComposableCoreLocation */,
 				41364C97248C6028007EBA46 /* ComposableArchitecture */,
 			);
@@ -322,12 +413,13 @@
 		41364C97248C6028007EBA46 /* ComposableArchitecture */ = {
 			isa = PBXGroup;
 			children = (
+				4176B2FD24A8E147003D6097 /* CombineSchedulers */,
+				4176B2FA24A8CEE2003D6097 /* RxUtils */,
 				41626049248D31E3003FCAA8 /* CasePaths */,
 				4168FB07248C5D9900CD8FB5 /* Info.plist */,
 				41364C98248C6028007EBA46 /* TestSupport */,
 				41364C9A248C6028007EBA46 /* Reducer.swift */,
 				41364C9B248C6028007EBA46 /* RxCombine */,
-				41364C9E248C6028007EBA46 /* Scheduling */,
 				41364CA1248C6028007EBA46 /* UIKit */,
 				41364CA3248C6028007EBA46 /* Debugging */,
 				41364CA5248C6028007EBA46 /* Internal */,
@@ -361,15 +453,6 @@
 			path = RxCombine;
 			sourceTree = "<group>";
 		};
-		41364C9E248C6028007EBA46 /* Scheduling */ = {
-			isa = PBXGroup;
-			children = (
-				41364C9F248C6028007EBA46 /* TestScheduler.swift */,
-				41364CA0248C6028007EBA46 /* AnyScheduler.swift */,
-			);
-			path = Scheduling;
-			sourceTree = "<group>";
-		};
 		41364CA1248C6028007EBA46 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -381,6 +464,7 @@
 		41364CA3248C6028007EBA46 /* Debugging */ = {
 			isa = PBXGroup;
 			children = (
+				4176B30B24A8F515003D6097 /* ReducerInstrumentation.swift */,
 				41364CA4248C6028007EBA46 /* ReducerDebugging.swift */,
 			);
 			path = Debugging;
@@ -403,7 +487,7 @@
 		41364CB3248C6028007EBA46 /* Effects */ = {
 			isa = PBXGroup;
 			children = (
-				41364CB4248C6028007EBA46 /* Timer.swift */,
+				41364CB4248C6028007EBA46 /* Effect+Timer.swift */,
 				41364CB5248C6028007EBA46 /* Cancellation.swift */,
 				41364CB6248C6028007EBA46 /* Debouncing.swift */,
 			);
@@ -448,6 +532,7 @@
 		41626052248D4983003FCAA8 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				4176B33024A901ED003D6097 /* ComposableCoreMotionTests */,
 				41626053248D4983003FCAA8 /* ComposableArchitectureTests */,
 				41626061248D4983003FCAA8 /* ComposableCoreLocationTests */,
 			);
@@ -461,7 +546,6 @@
 				41626054248D4983003FCAA8 /* ComposableArchitectureTests.swift */,
 				41626055248D4983003FCAA8 /* MemoryManagementTests.swift */,
 				41626056248D4983003FCAA8 /* ReducerTests.swift */,
-				41626057248D4983003FCAA8 /* SchedulerTests.swift */,
 				41626058248D4983003FCAA8 /* Internal */,
 				4162605A248D4983003FCAA8 /* EffectDebounceTests.swift */,
 				4162605B248D4983003FCAA8 /* EffectTests.swift */,
@@ -514,8 +598,89 @@
 				41626029248D2CBA003FCAA8 /* ComposableCoreLocation.framework */,
 				41626074248D49CA003FCAA8 /* ComposableArchitectureTests.xctest */,
 				4162608F248D4B98003FCAA8 /* ComposableCoreLocationTests.xctest */,
+				4176B32824A901D8003D6097 /* ComposableCoreMotion.framework */,
+				4176B33724A90209003D6097 /* ComposableCoreMotionTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		4176B2FA24A8CEE2003D6097 /* RxUtils */ = {
+			isa = PBXGroup;
+			children = (
+				4176B2FB24A8D18E003D6097 /* Observable+onCompletion.swift */,
+			);
+			path = RxUtils;
+			sourceTree = "<group>";
+		};
+		4176B2FD24A8E147003D6097 /* CombineSchedulers */ = {
+			isa = PBXGroup;
+			children = (
+				4176B30424A8E1AA003D6097 /* AnyScheduler.swift */,
+				4176B30324A8E1AA003D6097 /* ImmediateScheduler.swift */,
+				4176B2FF24A8E1AA003D6097 /* Internal */,
+				4176B30124A8E1AA003D6097 /* TestScheduler.swift */,
+				4176B2FE24A8E1AA003D6097 /* Timer.swift */,
+				4176B30224A8E1AA003D6097 /* UIScheduler.swift */,
+			);
+			path = CombineSchedulers;
+			sourceTree = "<group>";
+		};
+		4176B2FF24A8E1AA003D6097 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				4176B30024A8E1AA003D6097 /* Lock.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		4176B30D24A901B1003D6097 /* ComposableCoreMotion */ = {
+			isa = PBXGroup;
+			children = (
+				4176B32B24A901D8003D6097 /* Info.plist */,
+				4176B30E24A901B1003D6097 /* Internal */,
+				4176B31024A901B1003D6097 /* Models */,
+				4176B31624A901B1003D6097 /* MotionManager */,
+			);
+			path = ComposableCoreMotion;
+			sourceTree = "<group>";
+		};
+		4176B30E24A901B1003D6097 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				4176B30F24A901B1003D6097 /* Exports.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		4176B31024A901B1003D6097 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4176B31124A901B1003D6097 /* GyroData.swift */,
+				4176B31224A901B1003D6097 /* AccelerometerData.swift */,
+				4176B31324A901B1003D6097 /* MagnetometerData.swift */,
+				4176B31424A901B1003D6097 /* DeviceMotion.swift */,
+				4176B31524A901B1003D6097 /* Attitude.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		4176B31624A901B1003D6097 /* MotionManager */ = {
+			isa = PBXGroup;
+			children = (
+				4176B31724A901B1003D6097 /* MotionManagerMock.swift */,
+				4176B31824A901B1003D6097 /* MotionManagerLive.swift */,
+				4176B31924A901B1003D6097 /* MotionManagerInterface.swift */,
+			);
+			path = MotionManager;
+			sourceTree = "<group>";
+		};
+		4176B33024A901ED003D6097 /* ComposableCoreMotionTests */ = {
+			isa = PBXGroup;
+			children = (
+				4176B33B24A90209003D6097 /* Info.plist */,
+				4176B33124A901ED003D6097 /* ComposableCoreMotionTests.swift */,
+			);
+			path = ComposableCoreMotionTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -529,6 +694,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		4168FAF7248C5D4700CD8FB5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4176B32324A901D8003D6097 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -614,6 +786,44 @@
 			productReference = 4168FAFC248C5D4700CD8FB5 /* ComposableArchitecture.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		4176B32724A901D8003D6097 /* ComposableCoreMotion */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4176B32D24A901D8003D6097 /* Build configuration list for PBXNativeTarget "ComposableCoreMotion" */;
+			buildPhases = (
+				4176B32324A901D8003D6097 /* Headers */,
+				4176B32424A901D8003D6097 /* Sources */,
+				4176B32524A901D8003D6097 /* Frameworks */,
+				4176B32624A901D8003D6097 /* Resources */,
+				4176B35124A90325003D6097 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4176B35024A90324003D6097 /* PBXTargetDependency */,
+			);
+			name = ComposableCoreMotion;
+			productName = ComposableCoreMotion;
+			productReference = 4176B32824A901D8003D6097 /* ComposableCoreMotion.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		4176B33624A90209003D6097 /* ComposableCoreMotionTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4176B33F24A90209003D6097 /* Build configuration list for PBXNativeTarget "ComposableCoreMotionTests" */;
+			buildPhases = (
+				4176B33324A90209003D6097 /* Sources */,
+				4176B33424A90209003D6097 /* Frameworks */,
+				4176B33524A90209003D6097 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4176B33E24A90209003D6097 /* PBXTargetDependency */,
+			);
+			name = ComposableCoreMotionTests;
+			productName = ComposableCoreMotionTests;
+			productReference = 4176B33724A90209003D6097 /* ComposableCoreMotionTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -636,6 +846,12 @@
 					4168FAFB248C5D4700CD8FB5 = {
 						CreatedOnToolsVersion = 11.4.1;
 					};
+					4176B32724A901D8003D6097 = {
+						CreatedOnToolsVersion = 11.4.1;
+					};
+					4176B33624A90209003D6097 = {
+						CreatedOnToolsVersion = 11.4.1;
+					};
 				};
 			};
 			buildConfigurationList = 4168FAF6248C5D4700CD8FB5 /* Build configuration list for PBXProject "ComposableArchitecture" */;
@@ -653,8 +869,10 @@
 			targets = (
 				4168FAFB248C5D4700CD8FB5 /* ComposableArchitecture */,
 				41626028248D2CBA003FCAA8 /* ComposableCoreLocation */,
+				4176B32724A901D8003D6097 /* ComposableCoreMotion */,
 				41626073248D49CA003FCAA8 /* ComposableArchitectureTests */,
 				4162608E248D4B98003FCAA8 /* ComposableCoreLocationTests */,
+				4176B33624A90209003D6097 /* ComposableCoreMotionTests */,
 			);
 		};
 /* End PBXProject section */
@@ -690,6 +908,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4176B32624A901D8003D6097 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4176B33524A90209003D6097 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -715,7 +947,6 @@
 			files = (
 				41626089248D4AB2003FCAA8 /* EffectCancellationTests.swift in Sources */,
 				41626081248D4AB2003FCAA8 /* ReducerTests.swift in Sources */,
-				41626082248D4AB2003FCAA8 /* SchedulerTests.swift in Sources */,
 				41626085248D4AB2003FCAA8 /* EffectTests.swift in Sources */,
 				4162607F248D4AB2003FCAA8 /* ComposableArchitectureTests.swift in Sources */,
 				41626086248D4AB2003FCAA8 /* IdentifiedArrayTests.swift in Sources */,
@@ -742,39 +973,69 @@
 			files = (
 				41364CD7248C6028007EBA46 /* Effect.swift in Sources */,
 				41364CE6248C6028007EBA46 /* WithViewStore.swift in Sources */,
+				4176B30C24A8F515003D6097 /* ReducerInstrumentation.swift in Sources */,
+				4176B30624A8E1AA003D6097 /* Lock.swift in Sources */,
 				41626050248D31E3003FCAA8 /* CasePath.swift in Sources */,
 				41364CCF248C6028007EBA46 /* ReducerDebugging.swift in Sources */,
 				41364CDF248C6028007EBA46 /* Debouncing.swift in Sources */,
 				41364CD2248C6028007EBA46 /* Throttling.swift in Sources */,
 				41364CC9248C6028007EBA46 /* Reducer.swift in Sources */,
 				41364CD1248C6028007EBA46 /* Deprecations.swift in Sources */,
+				4176B30824A8E1AA003D6097 /* UIScheduler.swift in Sources */,
 				41364CE0248C6028007EBA46 /* ViewStore.swift in Sources */,
 				41364CD0248C6028007EBA46 /* Diff.swift in Sources */,
 				41364CCE248C6028007EBA46 /* IfLetUIKit.swift in Sources */,
 				41364CDC248C6028007EBA46 /* Store+Combine.swift in Sources */,
 				41364CD4248C6028007EBA46 /* Debug.swift in Sources */,
 				41364CCB248C6028007EBA46 /* Observable+asPublisher.swift in Sources */,
-				41364CDD248C6028007EBA46 /* Timer.swift in Sources */,
+				4176B30924A8E1AA003D6097 /* ImmediateScheduler.swift in Sources */,
+				41364CDD248C6028007EBA46 /* Effect+Timer.swift in Sources */,
+				4176B2FC24A8D18E003D6097 /* Observable+onCompletion.swift in Sources */,
+				4176B30524A8E1AA003D6097 /* Timer.swift in Sources */,
 				41364CD8248C6028007EBA46 /* Effect+Combine.swift in Sources */,
 				41626051248D31E3003FCAA8 /* Operators.swift in Sources */,
 				4162604E248D31E3003FCAA8 /* EnumReflection.swift in Sources */,
 				41364CD5248C6028007EBA46 /* Create.swift in Sources */,
+				4176B30A24A8E1AA003D6097 /* AnyScheduler.swift in Sources */,
 				41364CDA248C6028007EBA46 /* ViewStore+Combine.swift in Sources */,
 				41364CD3248C6028007EBA46 /* Exports.swift in Sources */,
-				41364CCD248C6028007EBA46 /* AnyScheduler.swift in Sources */,
 				41364CD9248C6028007EBA46 /* Effect+failure.swift in Sources */,
 				41364CCA248C6028007EBA46 /* Publisher+asObservable.swift in Sources */,
 				41364CE2248C6028007EBA46 /* Identified.swift in Sources */,
 				41364CDE248C6028007EBA46 /* Cancellation.swift in Sources */,
-				41364CCC248C6028007EBA46 /* TestScheduler.swift in Sources */,
 				41364CE5248C6028007EBA46 /* ForEachStore.swift in Sources */,
 				41364CE1248C6028007EBA46 /* IdentifiedArray.swift in Sources */,
+				4176B30724A8E1AA003D6097 /* TestScheduler.swift in Sources */,
 				41364CC8248C6028007EBA46 /* TestStore.swift in Sources */,
 				41364CDB248C6028007EBA46 /* Store.swift in Sources */,
 				41364CE3248C6028007EBA46 /* IfLetStore.swift in Sources */,
 				41364CD6248C6028007EBA46 /* Locking.swift in Sources */,
 				41364CE4248C6028007EBA46 /* TCAIdentifiable.swift in Sources */,
 				4162604F248D31E3003FCAA8 /* CasePaths.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4176B32424A901D8003D6097 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4176B34224A90266003D6097 /* GyroData.swift in Sources */,
+				4176B34924A90266003D6097 /* MotionManagerInterface.swift in Sources */,
+				4176B34824A90266003D6097 /* MotionManagerLive.swift in Sources */,
+				4176B34724A90266003D6097 /* MotionManagerMock.swift in Sources */,
+				4176B34624A90266003D6097 /* Attitude.swift in Sources */,
+				4176B34324A90266003D6097 /* AccelerometerData.swift in Sources */,
+				4176B34424A90266003D6097 /* MagnetometerData.swift in Sources */,
+				4176B34524A90266003D6097 /* DeviceMotion.swift in Sources */,
+				4176B34B24A90272003D6097 /* Exports.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4176B33324A90209003D6097 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4176B34C24A9027D003D6097 /* ComposableCoreMotionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -796,6 +1057,16 @@
 			isa = PBXTargetDependency;
 			target = 4168FAFB248C5D4700CD8FB5 /* ComposableArchitecture */;
 			targetProxy = 4162609C248D4C4A003FCAA8 /* PBXContainerItemProxy */;
+		};
+		4176B33E24A90209003D6097 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4176B32724A901D8003D6097 /* ComposableCoreMotion */;
+			targetProxy = 4176B33D24A90209003D6097 /* PBXContainerItemProxy */;
+		};
+		4176B35024A90324003D6097 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4168FAFB248C5D4700CD8FB5 /* ComposableArchitecture */;
+			targetProxy = 4176B34F24A90324003D6097 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1130,6 +1401,100 @@
 			};
 			name = Release;
 		};
+		4176B32E24A901D8003D6097 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = MLDJM8453C;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = Sources/ComposableCoreMotion/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableCoreMotion;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4176B32F24A901D8003D6097 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = MLDJM8453C;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = Sources/ComposableCoreMotion/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableCoreMotion;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		4176B34024A90209003D6097 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = MLDJM8453C;
+				INFOPLIST_FILE = Tests/ComposableCoreMotionTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableCoreMotionTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4176B34124A90209003D6097 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = MLDJM8453C;
+				INFOPLIST_FILE = Tests/ComposableCoreMotionTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableCoreMotionTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1174,6 +1539,24 @@
 			buildConfigurations = (
 				4168FB05248C5D4700CD8FB5 /* Debug */,
 				4168FB06248C5D4700CD8FB5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4176B32D24A901D8003D6097 /* Build configuration list for PBXNativeTarget "ComposableCoreMotion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4176B32E24A901D8003D6097 /* Debug */,
+				4176B32F24A901D8003D6097 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4176B33F24A90209003D6097 /* Build configuration list for PBXNativeTarget "ComposableCoreMotionTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4176B34024A90209003D6097 /* Debug */,
+				4176B34124A90209003D6097 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

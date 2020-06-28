@@ -29,45 +29,37 @@ extension Effect {
   ///     canceled before starting this new one.
   /// - Returns: A new effect that is capable of being canceled by an identifier.
   public func cancellable(id: AnyHashable, cancelInFlight: Bool = false) -> Effect {
-    return Deferred { () -> Publishers.HandleEvents<PassthroughSubject<Output, Failure>> in
+    let effect = Deferred { () -> Publishers.HandleEvents<PassthroughSubject<Output, Failure>> in
+      cancellablesLock.lock()
+      defer { cancellablesLock.unlock() }
+
       let subject = PassthroughSubject<Output, Failure>()
-      let uuid = UUID()
+      let cancellable = self.subscribe(subject)
 
-      var isCleaningUp = Atomic<Bool>(false)
-
-      cancellablesLock.sync {
-        if cancelInFlight {
-          cancellationCancellables[id]?.forEach { _, cancellable in cancellable.cancel() }
-          cancellationCancellables[id] = nil
-        }
-
-        let cancellable = self.subscribe(subject)
-
-        cancellationCancellables[id] = cancellationCancellables[id] ?? [:]
-        cancellationCancellables[id]?[uuid] = AnyCancellable {
-          if !isCleaningUp.value {
-            subject.send(completion: .finished)
-          }
-          cancellable.cancel()
-        }
-      }
-
-      func cleanup() {
-        isCleaningUp.mutate { $0 = true }
+      var cancellationCancellable: AnyCancellable!
+      cancellationCancellable = AnyCancellable {
         cancellablesLock.sync {
-          cancellationCancellables[id]?[uuid] = nil
-          if cancellationCancellables[id]?.isEmpty == true {
+          subject.send(completion: .finished)
+          cancellable.cancel()
+          cancellationCancellables[id]?.remove(cancellationCancellable)
+          if cancellationCancellables[id]?.isEmpty == .some(true) {
             cancellationCancellables[id] = nil
           }
         }
       }
 
+      cancellationCancellables[id, default: []].insert(
+        cancellationCancellable
+      )
+
       return subject.handleEvents(
-        receiveCompletion: { _ in cleanup() },
-        receiveCancel: cleanup
+        receiveCompletion: { _ in cancellationCancellable.cancel() },
+        receiveCancel: cancellationCancellable.cancel
       )
     }
     .eraseToEffect()
+
+    return cancelInFlight ? .concatenate(.cancel(id: id), effect) : effect
   }
 
   /// An effect that will cancel any currently in-flight effect with the given identifier.
@@ -76,17 +68,16 @@ extension Effect {
   /// - Returns: A new effect that will cancel any currently in-flight effect with the given
   ///   identifier.
   public static func cancel(id: AnyHashable) -> Effect {
-    .fireAndForget {
+    return .fireAndForget {
       cancellablesLock.sync {
-        cancellationCancellables[id]?.forEach { _, cancellable in cancellable.cancel() }
-        cancellationCancellables[id] = nil
+        cancellationCancellables[id]?.forEach { $0.cancel() }
       }
     }
   }
 }
 
 @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-var cancellationCancellables: [AnyHashable: [UUID: AnyCancellable]] = [:]
+var cancellationCancellables: [AnyHashable: Set<AnyCancellable>] = [:]
 let cancellablesLock = NSRecursiveLock()
 
 final class Atomic<A> {

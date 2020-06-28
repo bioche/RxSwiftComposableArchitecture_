@@ -29,6 +29,7 @@ The Composable Architecture is a library for building applications in a consiste
 * [Basic usage](#basic-usage)
 * [Supplemental libraries](#supplementary-libraries)
 * [FAQ](#faq)
+* [Requirements](#requirements)
 * [Installation](#installation)
 * [Help](#help)
 * [Credits and thanks](#credits-and-thanks)
@@ -57,7 +58,7 @@ This library provides a few core tools that can be used to build applications of
 
 The Composable Architecture was designed over the course of many episodes on [Point-Free](https://www.pointfree.co), a video series exploring functional programming and the Swift language, hosted by [Brandon Williams](https://twitter.com/mbrandonw) and [Stephen Celis](https://twitter.com/stephencelis).
 
-You can watch all of the episodes [here](https://www.pointfree.co/collections/composable-architecture), as well as a dedicated, multipart tour of the architecture from scratch: [part 1](https://www.pointfree.co/episodes/ep100-a-tour-of-the-composable-architecture-part-1), [part 2](https://www.pointfree.co/episodes/ep101-a-tour-of-the-composable-architecture-part-2) and [part 3](https://www.pointfree.co/episodes/ep102-a-tour-of-the-composable-architecture-part-3).
+You can watch all of the episodes [here](https://www.pointfree.co/collections/composable-architecture), as well as a dedicated, multipart tour of the architecture from scratch: [part 1](https://www.pointfree.co/collections/composable-architecture/a-tour-of-the-composable-architecture/ep100-a-tour-of-the-composable-architecture-part-1), [part 2](https://www.pointfree.co/collections/composable-architecture/a-tour-of-the-composable-architecture/ep101-a-tour-of-the-composable-architecture-part-2), [part 3](https://www.pointfree.co/collections/composable-architecture/a-tour-of-the-composable-architecture/ep102-a-tour-of-the-composable-architecture-part-3) and [part 4](https://www.pointfree.co/collections/composable-architecture/a-tour-of-the-composable-architecture/ep103-a-tour-of-the-composable-architecture-part-4).
 
 <a href="https://www.pointfree.co/collections/composable-architecture">
   <img alt="video poster image" src="https://i.vimeocdn.com/video/850265054.jpg" width="600">
@@ -90,7 +91,7 @@ To build a feature using the Composable Architecture you define some types and v
 * **State**: A type that describes the data your feature needs to perform its logic and render its UI.
 * **Action**: A type that represents all of the actions that can happen in your feature, such as user actions, notifications, event sources and more.
 * **Environment**: A type that holds any dependencies the feature needs, such as API clients, analytics clients, etc.
-* **Reducer**: A function that describes how to evolve the current state of the app to the next state given an action. The reducer is also responsible for returning any effects that should be run, such as API requests.
+* **Reducer**: A function that describes how to evolve the current state of the app to the next state given an action. The reducer is also responsible for returning any effects that should be run, such as API requests, which can be done by returning an `Effect` value.
 * **Store**: The runtime that actually drives your feature. You send all user actions to the store so that the store can run the reducer and effects, and you can observe state changes in the store so that you can update UI.
 
 The benefits of doing this is that you will instantly unlock testability of your feature, and you will be able to break large, complex features into smaller domains that can be glued together.
@@ -109,7 +110,7 @@ struct AppState: Equatable {
 Next we have the actions in the feature. There are the obvious actions, such as tapping the decrement button, increment button, or fact button. But there are also some slightly non-obvious ones, such as the action of the user dismissing the alert, and the action that occurs when we receive a response from the fact API request:
 
 ```swift
-enum AppAction {
+enum AppAction: Equatable {
   case factAlertDismissed
   case decrementButtonTapped
   case incrementButtonTapped
@@ -117,7 +118,7 @@ enum AppAction {
   case numberFactResponse(Result<String, ApiError>)
 }
 
-struct ApiError: Error {}
+struct ApiError: Error, Equatable {}
 ```
 
 Next we model the environment of dependencies this feature needs to do its job. In particular, to fetch a number fact we need to construct an `Effect` value that encapsulates the network request. So that dependency is a function from `Int` to `Effect<String, ApiError>`, where `String` represents the response from the request. Further, the effect will typically do its work on a background thread (as is the case with `URLSession`), and so we need a way to receive the effect's values on the main queue. We do this via a main queue scheduler, which is a dependency that is important to control so that we can write tests. We must use an `AnyScheduler` so that we can use a live `DispatchQueue` in production and a test scheduler in tests.
@@ -280,6 +281,8 @@ let appView = AppView(
 
 And that is enough to get something on the screen to play around with. It's definitely a few more steps than if you were to do this in a vanilla SwiftUI way, but there are a few benefits. It gives us a consistent manner to apply state mutations, instead of scattering logic in some observable objects and in various action closures of UI components. It also gives us a concise way of expressing side effects. And we can immediately test this logic, including the effects, without doing much additional work.
 
+### Testing
+
 To test, you first create a `TestStore` with the same information that you would to create a regular `Store`, except this time we can supply test-friendly dependencies. In particular, we use a test scheduler instead of the live `DispatchQueue.main` scheduler because that allows us to control when work is executed, and we don't have to artificially wait for queues to catch up.
 
 ```swift
@@ -326,13 +329,51 @@ store.assert(
 
 That is the basics of building and testing a feature in the Composable Architecture. There are _a lot_ more things to be explored, such as composition, modularity, adaptability, and complex effects. The [Examples](./Examples) directory has a bunch of projects to explore to see more advanced usages.
 
+### Debugging
+
+The Composable Architecture comes with a number of tools to aid in debugging.
+
+* `reducer.debug()` enhances a reducer with debug-printing that describes every action the reducer receives and every mutation it makes to state.
+
+    ``` diff
+    received action:
+      AppAction.todoCheckboxTapped(
+        index: 0
+      )
+      AppState(
+        todos: [
+          Todo(
+    -       isComplete: false,
+    +       isComplete: true,
+            description: "Milk",
+            id: 5834811A-83B4-4E5E-BCD3-8A38F6BDCA90
+          ),
+          Todo(
+            isComplete: false,
+            description: "Eggs",
+            id: AB3C7921-8262-4412-AA93-9DC5575C1107
+          ),
+          Todo(
+            isComplete: true,
+            description: "Hand Soap",
+            id: 06E94D88-D726-42EF-BA8B-7B4478179D19
+          ),
+        ]
+      )
+    ```
+
+* `reducer.signpost()` instruments a reducer with signposts so that you can gain insight into how long actions take to execute, and when effects are running.
+
+    <img src="https://s3.amazonaws.com/pointfreeco-production/point-free-pointers/0044-signposts-cover.jpg" width="600">
+
 ## Supplementary libraries
 
 One of the most important principles of the Composable Architecture is that side effects are never performed directly, but instead are wrapped in the `Effect` type, returned from reducers, and then the `Store` later performs the effect. This is crucial for simplifying how data flows through an application, and for gaining testability on the full end-to-end cycle of user action to effect execution.
 
 However, this also means that many libraries and SDKs you interact with on a daily basis need to be retrofitted to be a little more friendly to the Composable Architecture style. That's why we'd like to ease the pain of using some of Apple's most popular frameworks by providing wrapper libraries that expose their functionality in a way that plays nicely with our library. So far we support:
 
-* [`ComposableCoreLocation`](./Sources/ComposableCoreLocation/): A wrapper around `CLLocationManager` that makes it easy to use from a reducer, and easy to write tests on how your logic interacts with `CLLocationManager`'s functionality.
+* [`ComposableCoreLocation`](./Sources/ComposableCoreLocation/): A wrapper around `CLLocationManager` that makes it easy to use from a reducer, and easy to write tests for how your logic interacts with `CLLocationManager`'s functionality.
+* [`ComposableCoreMotion`](./Sources/ComposableCoreMotion/): A wrapper around `CMMotionManager` that makes it easy to use from a reducer, and easy to write tests for how your logic interacts with `CMMotionaMansger`'s functionality.
 * More to come soon. Keep an eye out 😉
 
 If you are interested in contributing a wrapper library for a framework that we have not yet covered, feel free to open an issue expressing your interest so that we can discuss a path forward.
@@ -382,6 +423,10 @@ If you are interested in contributing a wrapper library for a framework that we 
     You would probably still want something like a `UIScheduler` so that you don't needlessly perform thread hops.
   </details>
 
+## Requirements
+
+The Composable Architecture depends on the Combine framework, so it requires minimum deployment targets of iOS 13, macOS 10.15, Mac Catalyst 13, tvOS 13, and watchOS 6. If your application must support older OSes, there are forks for [ReactiveSwift](https://github.com/trading-point/reactiveswift-composable-architecture) and [RxSwift](https://github.com/dannyhertz/rxswift-composable-architecture) that you can adopt!
+
 ## Installation
 
 You can add ComposableArchitecture to an Xcode project by adding it as a package dependency.
@@ -419,6 +464,11 @@ There are also many architecture libraries in the Swift and iOS community. Each 
 * [ReactorKit](https://github.com/ReactorKit/ReactorKit)
 * [RxFeedback](https://github.com/NoTests/RxFeedback.swift)
 * [Mobius.swift](https://github.com/spotify/mobius.swift)
+* <details>
+  <summary>And more</summary>
+
+  * [PromisedArchitectureKit](https://github.com/RPallas92/PromisedArchitectureKit)
+  </details>
 
 ## License
 

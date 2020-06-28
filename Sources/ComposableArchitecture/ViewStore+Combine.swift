@@ -1,7 +1,6 @@
 import Foundation
 #if canImport(Combine)
 import Combine
-#if canImport(Combine)
 import SwiftUI
 
 @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
@@ -134,5 +133,4 @@ extension ViewStore: ObservableObject {
     self.binding(send: { _ in action })
   }
 }
-#endif
 #endif

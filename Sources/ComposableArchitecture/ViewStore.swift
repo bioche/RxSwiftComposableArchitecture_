@@ -1,8 +1,5 @@
-#if canImport(Combine)
-import Combine
-#if canImport(Combine)
+import Foundation
 import SwiftUI
-
 import RxSwift
 
 /// A `ViewStore` is an object that can observe state changes and send actions. They are most
@@ -88,6 +85,10 @@ public final class ViewStore<State, Action> {
   /// Sends an action to the store.
   ///
   /// `ViewStore` is not thread safe and you should only send actions to it from the main thread.
+  /// If you are wanting to send actions on background threads due to the fact that the reducer
+  /// is performing computationally expensive work, then a better way to handle this is to wrap
+  /// that work in an `Effect` that is performed on a background thread so that the result can
+  /// be fed back into the store.
   ///
   /// - Parameter action: An action.
   public func send(_ action: Action) {
@@ -100,5 +101,3 @@ extension ViewStore where State: Equatable {
     self.init(store, removeDuplicates: ==)
   }
 }
-#endif
-#endif
