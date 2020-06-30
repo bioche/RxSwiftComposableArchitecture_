@@ -71,9 +71,8 @@ extension MotionManager {
     },
     set: { id, properties in
       .fireAndForget {
-        guard let manager = managers[id]
+        guard let manager = requireMotionManager(id: id)
         else {
-          couldNotFindMotionManager(id: id)
           return
         }
 
@@ -96,9 +95,8 @@ extension MotionManager {
     },
     startAccelerometerUpdates: { id, queue in
       return Effect.run { subscriber -> Cancellable in
-        guard let manager = managers[id]
+        guard let manager = requireMotionManager(id: id)
         else {
-          couldNotFindMotionManager(id: id)
           return AnyCancellable {}
         }
         guard accelerometerUpdatesSubscribers[id] == nil
@@ -119,9 +117,8 @@ extension MotionManager {
     },
     startDeviceMotionUpdates: { id, frame, queue in
       return Effect.run { subscriber -> Cancellable in
-        guard let manager = managers[id]
+        guard let manager = requireMotionManager(id: id)
         else {
-          couldNotFindMotionManager(id: id)
           return AnyCancellable {}
         }
         guard deviceMotionUpdatesSubscribers[id] == nil
@@ -142,9 +139,8 @@ extension MotionManager {
     },
     startGyroUpdates: { id, queue in
       return Effect.run { subscriber -> Cancellable in
-        guard let manager = managers[id]
+        guard let manager = requireMotionManager(id: id)
         else {
-          couldNotFindMotionManager(id: id)
           return AnyCancellable {}
         }
         guard deviceGyroUpdatesSubscribers[id] == nil
@@ -234,6 +230,21 @@ extension MotionManager {
         deviceMagnetometerUpdatesSubscribers[id] = nil
       }
     })
+
+  @available(macOS, unavailable)
+  @available(tvOS, unavailable)
+  @available(iOS 13, watchOS 6.0, *)
+  private static var managers: [AnyHashable: CMMotionManager] = [:]
+
+  @available(macOS, unavailable)
+  @available(tvOS, unavailable)
+  @available(iOS 13, watchOS 6.0, *)
+  private static func requireMotionManager(id: AnyHashable) -> CMMotionManager? {
+    if managers[id] == nil {
+      couldNotFindMotionManager(id: id)
+    }
+    return managers[id]
+  }
 }
 
 @available(iOS 13, watchOS 6.0, *)
@@ -247,22 +258,6 @@ private var deviceGyroUpdatesSubscribers: [AnyHashable: Effect<GyroData, Error>.
 @available(iOS 13, watchOS 6.0, *)
 private var deviceMagnetometerUpdatesSubscribers:
   [AnyHashable: Effect<MagnetometerData, Error>.Subscriber] = [:]
-
-
-@available(macOS, unavailable)
-@available(tvOS, unavailable)
-@available(iOS 13, watchOS 6.0, *)
-private var managers: [AnyHashable: CMMotionManager] = [:]
-
-@available(macOS, unavailable)
-@available(tvOS, unavailable)
-@available(iOS 13, watchOS 6.0, *)
-private func requireMotionManager(id: AnyHashable) -> CMMotionManager? {
-  if managers[id] == nil {
-    couldNotFindMotionManager(id: id)
-  }
-  return managers[id]
-}
 
 private func couldNotFindMotionManager(id: Any) {
   assertionFailure(

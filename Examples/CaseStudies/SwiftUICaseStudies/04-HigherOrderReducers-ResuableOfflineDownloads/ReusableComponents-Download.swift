@@ -22,8 +22,8 @@ struct CityMap: Equatable, TCAIdentifiable {
   var title: String
 }
 
-struct CityMapState: Equatable, TCAIdentifiable {
-  var downloadAlert: DownloadAlert?
+struct CityMapState: Equatable, Identifiable, TCAIdentifiable {
+  var downloadAlert: AlertState<DownloadComponentAction.AlertAction>?
   var downloadMode: Mode
   var cityMap: CityMap
 
