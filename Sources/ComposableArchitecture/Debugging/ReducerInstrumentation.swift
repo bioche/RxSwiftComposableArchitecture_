@@ -1,3 +1,4 @@
+#if canImport(Combine)
 import Combine
 import os.signpost
 
@@ -87,6 +88,7 @@ extension Publisher where Failure == Never {
         })
   }
 }
+#endif
 
 func debugCaseOutput(_ value: Any) -> String {
   func debugCaseOutputHelp(_ value: Any) -> String {

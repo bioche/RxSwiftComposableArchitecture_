@@ -132,5 +132,17 @@ extension ViewStore: ObservableObject {
   public func binding(send action: Action) -> Binding<State> {
     self.binding(send: { _ in action })
   }
+  
+  /// The call to objectWillChange can only be done in combine
+  func objectWillChange() {
+    objectWillChange.send()
+  }
 }
+#else
+
+extension ViewStore {
+  /// The call to objectWillChange can only be done in combine
+  func objectWillChange() {}
+}
+
 #endif
