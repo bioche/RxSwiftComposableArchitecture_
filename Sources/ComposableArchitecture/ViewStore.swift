@@ -45,7 +45,7 @@ import RxSwift
 @dynamicMemberLookup
 public final class ViewStore<State, Action> {
   /// An observable on state.
-  public let observable: StoreObservable<State>
+  public let driver: StoreDriver<State>
 
   private var viewCancellable: Disposable?
 
@@ -60,7 +60,7 @@ public final class ViewStore<State, Action> {
     removeDuplicates isDuplicate: @escaping (State, State) -> Bool
   ) {
     let observable = store.stateRelay.distinctUntilChanged(isDuplicate)
-    self.observable = StoreObservable(observable)
+    self.driver = StoreDriver(observable)
     self.state = store.state
     self._send = store.send
     self.viewCancellable = observable.subscribe(onNext: { [weak self] in self?.state = $0 })

@@ -1,6 +1,7 @@
 import Foundation
 import RxSwift
 import RxRelay
+import RxCocoa
 
 /// A store represents the runtime that powers the application. It is the object that you will pass
 /// around to views that need to interact with the application.
@@ -221,13 +222,13 @@ public final class Store<State, Action> {
   }
 }
 
-/// An observable of store state.
+/// The goal of this structure is to be able to perform a subscript as a quick way of mapping & avoid duplicates. As it comes from the ViewStore, the Driver trait is the more appropriate
 @dynamicMemberLookup
-public struct StoreObservable<State>: ObservableType {
+public struct StoreDriver<State>: SharedSequenceConvertibleType {
   
   public typealias Element = State
   
-  public let upstream: Observable<State>
+  private let upstream: Observable<State>
 
   public func subscribe<Observer: ObserverType>(_ observer: Observer) -> Disposable where Observer.Element == State {
     upstream.subscribe(observer)
@@ -236,12 +237,19 @@ public struct StoreObservable<State>: ObservableType {
   public init<O: ObservableType>(_ observable: O) where O.Element == State {
     self.upstream = observable.asObservable()
   }
+  
+  public func asSharedSequence() -> Driver<State> {
+    upstream
+      .do(onError: { error in assertionFailure("An error occurred in the stream handled by a store driver : \(error)") })
+      .asDriver(onErrorDriveWith: .empty())
+  }
 
-  /// Returns the resulting publisher of a given key path.
+  /// Returns the resulting driver of a given key path.
   public subscript<LocalState>(
     dynamicMember keyPath: KeyPath<State, LocalState>
-  ) -> StoreObservable<LocalState>
+  ) -> StoreDriver<LocalState>
   where LocalState: Equatable {
-    .init(self.upstream.map { $0[keyPath: keyPath] }.distinctUntilChanged())
+    .init(upstream.map { $0[keyPath: keyPath] }
+      .distinctUntilChanged())
   }
 }

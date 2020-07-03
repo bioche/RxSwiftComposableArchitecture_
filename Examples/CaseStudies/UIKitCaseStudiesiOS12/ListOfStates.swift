@@ -57,8 +57,8 @@ final class CountersTableViewController: UITableViewController {
     
     self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
     
-    viewStore.observable.counters
-      .subscribe(onNext: { [weak self] in
+    viewStore.driver.counters
+      .drive(onNext: { [weak self] in
         self?.dataSource = $0
       })
       .disposed(by: disposeBag)

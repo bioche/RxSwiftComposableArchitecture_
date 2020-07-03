@@ -7,7 +7,7 @@ import SwiftUI
 extension ViewStore: ObservableObject {
   /// A publisher of state.
   public var publisher: StorePublisher<State> {
-    .init(observable.unfailablePublisher)
+    .init(driver.unfailablePublisher)
   }
   
   /// Derives a binding from the store that prevents direct writes to state and instead sends

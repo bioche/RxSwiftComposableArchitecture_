@@ -68,7 +68,7 @@ class CounterViewController: UIViewController {
       rootStackView.centerYAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerYAnchor),
     ])
     
-    viewStore.observable.subscribe(onNext: { state in
+    viewStore.driver.drive(onNext: { state in
       countLabel.text = "\(state.count)"
     }).disposed(by: disposeBag)
   }
