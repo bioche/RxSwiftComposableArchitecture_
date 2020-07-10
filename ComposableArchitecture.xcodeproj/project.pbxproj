@@ -11,7 +11,7 @@
 		41364CC9248C6028007EBA46 /* Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364C9A248C6028007EBA46 /* Reducer.swift */; };
 		41364CCA248C6028007EBA46 /* Publisher+asObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364C9C248C6028007EBA46 /* Publisher+asObservable.swift */; };
 		41364CCB248C6028007EBA46 /* Observable+asPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364C9D248C6028007EBA46 /* Observable+asPublisher.swift */; };
-		41364CCE248C6028007EBA46 /* IfLetUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CA2248C6028007EBA46 /* IfLetUIKit.swift */; };
+		41364CCE248C6028007EBA46 /* IfLetUIKit+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CA2248C6028007EBA46 /* IfLetUIKit+Combine.swift */; };
 		41364CCF248C6028007EBA46 /* ReducerDebugging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CA4248C6028007EBA46 /* ReducerDebugging.swift */; };
 		41364CD0248C6028007EBA46 /* Diff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CA6248C6028007EBA46 /* Diff.swift */; };
 		41364CD1248C6028007EBA46 /* Deprecations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CA7248C6028007EBA46 /* Deprecations.swift */; };
@@ -112,6 +112,7 @@
 		4176B35524A9033B003D6097 /* RxRelay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4162603F248D2E14003FCAA8 /* RxRelay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4176B35624A9033B003D6097 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; };
 		4176B35724A9033B003D6097 /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BEC93A4424B8EE0B00D8082D /* IfLetUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -222,7 +223,7 @@
 		41364C9A248C6028007EBA46 /* Reducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reducer.swift; sourceTree = "<group>"; };
 		41364C9C248C6028007EBA46 /* Publisher+asObservable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Publisher+asObservable.swift"; sourceTree = "<group>"; };
 		41364C9D248C6028007EBA46 /* Observable+asPublisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+asPublisher.swift"; sourceTree = "<group>"; };
-		41364CA2248C6028007EBA46 /* IfLetUIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IfLetUIKit.swift; sourceTree = "<group>"; };
+		41364CA2248C6028007EBA46 /* IfLetUIKit+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IfLetUIKit+Combine.swift"; sourceTree = "<group>"; };
 		41364CA4248C6028007EBA46 /* ReducerDebugging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReducerDebugging.swift; sourceTree = "<group>"; };
 		41364CA6248C6028007EBA46 /* Diff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Diff.swift; sourceTree = "<group>"; };
 		41364CA7248C6028007EBA46 /* Deprecations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deprecations.swift; sourceTree = "<group>"; };
@@ -302,6 +303,7 @@
 		4176B33124A901ED003D6097 /* ComposableCoreMotionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposableCoreMotionTests.swift; sourceTree = "<group>"; };
 		4176B33724A90209003D6097 /* ComposableCoreMotionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ComposableCoreMotionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4176B33B24A90209003D6097 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IfLetUIKit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -456,7 +458,8 @@
 		41364CA1248C6028007EBA46 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				41364CA2248C6028007EBA46 /* IfLetUIKit.swift */,
+				BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */,
+				41364CA2248C6028007EBA46 /* IfLetUIKit+Combine.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -984,10 +987,11 @@
 				4176B30824A8E1AA003D6097 /* UIScheduler.swift in Sources */,
 				41364CE0248C6028007EBA46 /* ViewStore.swift in Sources */,
 				41364CD0248C6028007EBA46 /* Diff.swift in Sources */,
-				41364CCE248C6028007EBA46 /* IfLetUIKit.swift in Sources */,
+				41364CCE248C6028007EBA46 /* IfLetUIKit+Combine.swift in Sources */,
 				41364CDC248C6028007EBA46 /* Store+Combine.swift in Sources */,
 				41364CD4248C6028007EBA46 /* Debug.swift in Sources */,
 				41364CCB248C6028007EBA46 /* Observable+asPublisher.swift in Sources */,
+				BEC93A4424B8EE0B00D8082D /* IfLetUIKit.swift in Sources */,
 				4176B30924A8E1AA003D6097 /* ImmediateScheduler.swift in Sources */,
 				41364CDD248C6028007EBA46 /* Effect+Timer.swift in Sources */,
 				4176B2FC24A8D18E003D6097 /* Observable+onCompletion.swift in Sources */,
@@ -1360,7 +1364,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.1;
+				MARKETING_VERSION = 0.3.2;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					Combine,
@@ -1394,7 +1398,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.1;
+				MARKETING_VERSION = 0.3.2;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					Combine,
