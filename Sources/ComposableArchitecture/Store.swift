@@ -225,17 +225,17 @@ public final class Store<State, Action> {
 extension Store {
   public func forEachScope<EachState>() -> Driver<[Store<EachState, Never>]>
     where State == [EachState], EachState: TCAIdentifiable, Action == Never {
-      stateRelay.asDriver()
+      stateRelay
         .distinctUntilChanged {
-          guard $0.count == $1.count else { return }
+          guard $0.count == $1.count else { return false}
           return zip($0, $1).allSatisfy { $0.id == $1.id }
         }
-        .map { [weak self] state in
-          guard let strongSelf = self else { return }
-          state.enumerated().map { index, subState in
+        .compactMap { [weak self] state in
+          guard let strongSelf = self else { return nil }
+          return state.enumerated().map { index, subState in
             strongSelf.scope(state: { $0[index] })
           }
-        }
+      }.asDriver(onErrorDriveWith: .never())
   }
 }
 
