@@ -222,6 +222,23 @@ public final class Store<State, Action> {
   }
 }
 
+extension Store {
+  public func forEachScope<EachState>() -> Driver<[Store<EachState, Never>]>
+    where State == [EachState], EachState: TCAIdentifiable, Action == Never {
+      stateRelay.asDriver()
+        .distinctUntilChanged {
+          guard $0.count == $1.count else { return }
+          return zip($0, $1).allSatisfy { $0.id == $1.id }
+        }
+        .map { [weak self] state in
+          guard let strongSelf = self else { return }
+          state.enumerated().map { index, subState in
+            strongSelf.scope(state: { $0[index] })
+          }
+        }
+  }
+}
+
 /// The goal of this structure is to be able to perform a subscript as a quick way of mapping & avoid duplicates. As it comes from the ViewStore, the Driver trait is the more appropriate
 @dynamicMemberLookup
 public struct StoreDriver<State>: SharedSequenceConvertibleType {
