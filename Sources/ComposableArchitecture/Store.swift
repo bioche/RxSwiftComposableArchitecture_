@@ -223,19 +223,28 @@ public final class Store<State, Action> {
 }
 
 extension Store {
-  public func forEachScope<EachState>() -> Driver<[Store<EachState, Never>]>
+  /// Gives the evolution of a  list of stores scoped down to each element of this store.
+  /// This avoids reloading entire collections / tables when only a property of an element is updated.
+  /// The elements must be Identifiable so that we can publish a new array when an identity has changed at a specific index.
+  /// For SwiftUI, prefer the ForEachStore
+  public func scopeForEach<EachState>() -> Driver<[Store<EachState, Never>]>
     where State == [EachState], EachState: TCAIdentifiable, Action == Never {
       stateRelay
+        // with this we avoid sending a new array each time a modification occurs on an element.
+        // Instead we publish a new array when the count changes or an object has changed identity (ID has changed)
         .distinctUntilChanged {
           guard $0.count == $1.count else { return false}
           return zip($0, $1).allSatisfy { $0.id == $1.id }
         }
+        // Scope an new substore for each element
         .compactMap { [weak self] state in
           guard let strongSelf = self else { return nil }
           return state.enumerated().map { index, subState in
             strongSelf.scope(state: { $0[index] })
           }
-      }.asDriver(onErrorDriveWith: .never())
+        }
+        // no error possible as we come from a relay
+        .asDriver(onErrorDriveWith: .never())
   }
 }
 
