@@ -237,10 +237,9 @@ extension Store {
           return zip($0, $1).allSatisfy { shouldAvoidReload($0, $1) }
         }
         // Scope an new substore for each element
-        .compactMap { [weak self] state in
-          guard let strongSelf = self else { return nil }
-          return state.enumerated().map { index, subState in
-            strongSelf.scope(state: { $0[index] })
+        .map { state in
+          state.enumerated().map { index, subState in
+            self.scope(state: { $0[index] })
           }
         }
         // no error possible as we come from a relay
