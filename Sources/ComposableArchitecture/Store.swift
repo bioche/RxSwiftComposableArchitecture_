@@ -229,6 +229,15 @@ extension Store {
   /// For SwiftUI, prefer the ForEachStore
   public func scopeForEach<EachState>(shouldAvoidReload: @escaping (EachState, EachState) -> Bool = { $0.id == $1.id }) -> Driver<[Store<EachState, Never>]>
     where State == [EachState], EachState: TCAIdentifiable, Action == Never {
+      
+      func absurd<A>(a: A, n: Never) -> Never { }
+      
+      return scope(state: { $0 }, action: absurd)
+        .scopeForEach(shouldAvoidReload: shouldAvoidReload)
+  }
+  
+  public func scopeForEach<EachState, EachAction>(shouldAvoidReload: @escaping (EachState, EachState) -> Bool = { $0.id == $1.id }) -> Driver<[Store<EachState, EachAction>]>
+    where State == [EachState], EachState: TCAIdentifiable, Action == (EachState.ID, EachAction) {
       stateRelay
         // with this we avoid sending a new array each time a modification occurs on an element.
         // Instead we publish a new array when the count changes or an object has changed identity (ID has changed)
@@ -239,12 +248,13 @@ extension Store {
         // Scope an new substore for each element
         .map { state in
           state.enumerated().map { index, subState in
-            self.scope(state: { $0[index] })
+            self.scope(state: { $0[index] }, action: { (subState.id, $0) })
           }
         }
         // no error possible as we come from a relay
         .asDriver(onErrorDriveWith: .never())
   }
+  
 }
 
 /// The goal of this structure is to be able to perform a subscript as a quick way of mapping & avoid duplicates. As it comes from the ViewStore, the Driver trait is the more appropriate
