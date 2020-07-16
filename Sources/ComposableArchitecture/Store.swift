@@ -248,7 +248,9 @@ extension Store {
         // Scope an new substore for each element
         .map { state in
           state.enumerated().map { index, subState in
-            self.scope(state: { $0[index] }, action: { (subState.id, $0) })
+            // When the list of stores is updated, the scoping occurs before the new list of stores is given to driver
+            // Because of this the index may be out of range --> give the original value if it occurs
+            self.scope(state: { $0[safe: index] ?? subState }, action: { (subState.id, $0) })
           }
         }
         // no error possible as we come from a relay
