@@ -1096,10 +1096,12 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.1;
+				MARKETING_VERSION = 0.3.2;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					Combine,
+					"-weak_framework",
+					SwiftUI,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableCoreLocation;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -1130,10 +1132,12 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.1;
+				MARKETING_VERSION = 0.3.2;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					Combine,
+					"-weak_framework",
+					SwiftUI,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableCoreLocation;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -1367,6 +1371,8 @@
 				MARKETING_VERSION = 0.3.2;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
+					SwiftUI,
+					"-weak_framework",
 					Combine,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableArchitecture;
@@ -1401,6 +1407,8 @@
 				MARKETING_VERSION = 0.3.2;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
+					SwiftUI,
+					"-weak_framework",
 					Combine,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableArchitecture;
@@ -1432,7 +1440,13 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.1;
+				MARKETING_VERSION = 0.3.2;
+				OTHER_LDFLAGS = (
+					"-weak_framework",
+					Combine,
+					"-weak_framework",
+					SwiftUI,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableCoreMotion;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1462,7 +1476,13 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.1;
+				MARKETING_VERSION = 0.3.2;
+				OTHER_LDFLAGS = (
+					"-weak_framework",
+					Combine,
+					"-weak_framework",
+					SwiftUI,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableCoreMotion;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
