@@ -73,25 +73,3 @@ extension Store {
     ifLet(then: unwrap, else: {})
   }
 }
-
-extension Store where State: Equatable {
-  
-  /// Subscribes to updates when condition on state is toggled.
-  /// - Parameters:
-  ///   - condition: the condition that you want to observe
-  ///   - then: closure that is executed when the condition is true
-  ///   - else: closure that is executed when the condition is false
-  /// - Returns: A Disposable associated with the underlying subscription.
-  public func `if`(
-    condition: @escaping (State) -> Bool,
-    then: @escaping (Store<State, Action>) -> Void,
-    else: @escaping () -> Void = {}
-  ) -> Disposable{
-    scope { (observableState: Observable<State>) in
-      observableState
-        .distinctUntilChanged()
-        .do(onNext: { if !condition($0) { `else`() } })
-        .filter(condition)
-    }.subscribe(onNext: then)
-  }
-}
