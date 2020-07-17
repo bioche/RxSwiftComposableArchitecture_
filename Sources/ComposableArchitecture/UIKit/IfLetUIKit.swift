@@ -3,7 +3,7 @@
 //  pureairconnect
 //
 //  Created by sebastien on 09/07/2020.
-//  Copyright © 2020 Groupe SEB. All rights reserved.
+//  Copyright © 2020 Dragna. All rights reserved.
 //
 
 import Foundation
