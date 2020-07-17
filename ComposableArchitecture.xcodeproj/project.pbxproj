@@ -112,8 +112,11 @@
 		4176B35524A9033B003D6097 /* RxRelay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4162603F248D2E14003FCAA8 /* RxRelay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4176B35624A9033B003D6097 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; };
 		4176B35724A9033B003D6097 /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BE5B861524C2263300461DAD /* RxTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 416260AD249968A0003FCAA8 /* RxTest.framework */; };
+		BE5B861624C2269600461DAD /* RxTest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 416260AD249968A0003FCAA8 /* RxTest.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BEC93A4424B8EE0B00D8082D /* IfLetUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */; };
 		BED7DF6224C2068B007EDABE /* TestStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED7DF6124C2068B007EDABE /* TestStore.swift */; };
+		BED7DF6524C21EA7007EDABE /* RxTestScheduler+utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED7DF6424C21EA7007EDABE /* RxTestScheduler+utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -188,6 +191,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				BE5B861624C2269600461DAD /* RxTest.framework in CopyFiles */,
 				416260B324996ABC003FCAA8 /* RxSwift.framework in CopyFiles */,
 				416260B424996ABC003FCAA8 /* RxCocoa.framework in CopyFiles */,
 				416260B524996ABC003FCAA8 /* RxRelay.framework in CopyFiles */,
@@ -306,6 +310,7 @@
 		4176B33B24A90209003D6097 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IfLetUIKit.swift; sourceTree = "<group>"; };
 		BED7DF6124C2068B007EDABE /* TestStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStore.swift; sourceTree = "<group>"; };
+		BED7DF6424C21EA7007EDABE /* RxTestScheduler+utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RxTestScheduler+utils.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -328,6 +333,7 @@
 				416260AA2499667D003FCAA8 /* RxRelay.framework in Frameworks */,
 				416260AB2499667D003FCAA8 /* RxSwift.framework in Frameworks */,
 				41626079248D49CA003FCAA8 /* ComposableArchitecture.framework in Frameworks */,
+				BE5B861524C2263300461DAD /* RxTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -548,6 +554,7 @@
 		41626053248D4983003FCAA8 /* ComposableArchitectureTests */ = {
 			isa = PBXGroup;
 			children = (
+				BED7DF6324C21A6D007EDABE /* RxTestSchedulerExtension */,
 				41626078248D49CA003FCAA8 /* Info.plist */,
 				41626054248D4983003FCAA8 /* ComposableArchitectureTests.swift */,
 				41626055248D4983003FCAA8 /* MemoryManagementTests.swift */,
@@ -687,6 +694,14 @@
 				4176B33124A901ED003D6097 /* ComposableCoreMotionTests.swift */,
 			);
 			path = ComposableCoreMotionTests;
+			sourceTree = "<group>";
+		};
+		BED7DF6324C21A6D007EDABE /* RxTestSchedulerExtension */ = {
+			isa = PBXGroup;
+			children = (
+				BED7DF6424C21EA7007EDABE /* RxTestScheduler+utils.swift */,
+			);
+			path = RxTestSchedulerExtension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -980,6 +995,7 @@
 				41364CD7248C6028007EBA46 /* Effect.swift in Sources */,
 				41364CE6248C6028007EBA46 /* WithViewStore.swift in Sources */,
 				4176B30C24A8F515003D6097 /* ReducerInstrumentation.swift in Sources */,
+				BED7DF6524C21EA7007EDABE /* RxTestScheduler+utils.swift in Sources */,
 				4176B30624A8E1AA003D6097 /* Lock.swift in Sources */,
 				41626050248D31E3003FCAA8 /* CasePath.swift in Sources */,
 				41364CCF248C6028007EBA46 /* ReducerDebugging.swift in Sources */,
