@@ -227,12 +227,10 @@ extension Store {
   /// This avoids reloading entire collections / tables when only a property of an element is updated.
   /// The elements must be Identifiable so that we can publish a new array when an identity has changed at a specific index.
   /// For SwiftUI, prefer the ForEachStore
-  public func scopeForEach<EachState>(shouldAvoidReload: @escaping (EachState, EachState) -> Bool = { $0.id == $1.id }) -> Driver<[Store<EachState, Never>]>
-    where State == [EachState], EachState: TCAIdentifiable, Action == Never {
+  public func scopeForEach<EachState>(shouldAvoidReload: @escaping (EachState, EachState) -> Bool = { $0.id == $1.id }) -> Driver<[Store<EachState, Action>]>
+    where State == [EachState], EachState: TCAIdentifiable {
       
-      func absurd<A>(a: A, n: Never) -> Never { }
-      
-      return scope(state: { $0 }, action: absurd)
+      return scope(state: { $0 }, action: { $1 })
         .scopeForEach(shouldAvoidReload: shouldAvoidReload)
   }
   
