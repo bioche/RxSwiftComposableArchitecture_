@@ -71,17 +71,9 @@ public final class Store<State, Action> {
     state toLocalState: @escaping (State) -> LocalState,
     action fromLocalAction: @escaping (LocalAction) -> Action
   ) -> Store<LocalState, LocalAction> {
-    let localStore = Store<LocalState, LocalAction>(
-      initialState: toLocalState(self.state),
-      reducer: { localState, localAction in
-        self.send(fromLocalAction(localAction))
-        localState = toLocalState(self.state)
-        return .none
-      }
-    )
-    localStore.parentCancellable = self.stateRelay
-      .subscribe(onNext: { [weak localStore] newValue in localStore?.state = toLocalState(newValue) })
-    return localStore
+    scope(initialLocalState: toLocalState(state),
+          state: toLocalState,
+          action: fromLocalAction)
   }
 
   /// Scopes the store to one that exposes local state.
@@ -91,7 +83,7 @@ public final class Store<State, Action> {
   public func scope<LocalState>(
     state toLocalState: @escaping (State) -> LocalState
   ) -> Store<LocalState, Action> {
-    self.scope(state: toLocalState, action: { $0 })
+    scope(state: toLocalState, action: { $0 })
   }
   
   /// Scopes the store to a publisher of stores of more local state and local actions.
@@ -236,6 +228,7 @@ extension Store {
   
   public func scopeForEach<EachState, EachAction>(shouldAvoidReload: @escaping (EachState, EachState) -> Bool = { $0.id == $1.id }) -> Driver<[Store<EachState, EachAction>]>
     where State == [EachState], EachState: TCAIdentifiable, Action == (EachState.ID, EachAction) {
+      
       stateRelay
         // with this we avoid sending a new array each time a modification occurs on an element.
         // Instead we publish a new array when the count changes or an object has changed identity (ID has changed)
@@ -246,15 +239,47 @@ extension Store {
         // Scope an new substore for each element
         .map { state in
           state.enumerated().map { index, subState in
-            // When the list of stores is updated, the scoping occurs before the new list of stores is given to driver
-            // Because of this the index may be out of range --> give the original value if it occurs
-            self.scope(state: { $0[safe: index] ?? subState }, action: { (subState.id, $0) })
+            self.scope(initialLocalState: subState,
+                       state: { $0[safe: index] },
+                       action: { (subState.id, $0) })
           }
         }
         // no error possible as we come from a relay
         .asDriver(onErrorDriveWith: .never())
   }
   
+}
+
+extension Store {
+  /// A version of scoping where the state may not be transformable into local state.
+  /// Meant to be private for now. Could be set public if need be.
+  /// (ifLet should be enough in most cases)
+  fileprivate func scope<LocalState, LocalAction>(
+    initialLocalState: LocalState,
+    state toLocalState: @escaping (State) -> LocalState?,
+    action fromLocalAction: @escaping (LocalAction) -> Action
+  ) -> Store<LocalState, LocalAction> {
+    
+    let localStore = Store<LocalState, LocalAction>(
+      initialState: initialLocalState,
+      reducer: { localState, localAction in
+        self.send(fromLocalAction(localAction))
+        if let newState = toLocalState(self.state) {
+          localState = newState
+        }
+        return .none
+      }
+    )
+    
+    localStore.parentCancellable = self.stateRelay
+      .subscribe(onNext: { [weak localStore] newValue in
+        if let newState = toLocalState(newValue) {
+          localStore?.state = newState
+        }
+      })
+    return localStore
+    
+  }
 }
 
 /// The goal of this structure is to be able to perform a subscript as a quick way of mapping & avoid duplicates. As it comes from the ViewStore, the Driver trait is the more appropriate
