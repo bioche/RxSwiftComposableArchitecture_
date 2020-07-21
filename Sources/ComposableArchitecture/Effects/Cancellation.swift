@@ -50,10 +50,18 @@ extension Effect where Failure == Swift.Error {
     let effect: Effect<Output, Error> = Observable<Output>.deferred {
       cancellablesLock.lock()
       defer { cancellablesLock.unlock() }
-
+      
       let subject = PublishSubject<Output>()
-      let disposable = self.subscribe(subject)
-
+      var values: [Output] = []
+      var isCaching = true
+      let disposable =
+        self
+          .do(onNext: { val in
+            guard isCaching else { return }
+            values.append(val)
+          })
+          .subscribe(subject)
+      
       var cancellationDisposable: AnyDisposable!
       cancellationDisposable = AnyDisposable(
         Disposables.create {
@@ -65,14 +73,20 @@ extension Effect where Failure == Swift.Error {
               cancellationCancellables[id] = nil
             }
           }
-        })
-
+      })
+      
       cancellationCancellables[id, default: []].insert(
         cancellationDisposable
       )
-
-      return subject.do(onCompleted: cancellationDisposable.dispose,
-                        onDispose: cancellationDisposable.dispose)
+      
+      return Observable.from(values)
+        .concat(subject)
+        .do(
+          onError: { _ in cancellationDisposable.dispose() },
+          onCompleted: cancellationDisposable.dispose,
+          onSubscribed: { isCaching = false },
+          onDispose: cancellationDisposable.dispose
+      )
     }
     .eraseToEffect()
     return cancelInFlight
@@ -124,10 +138,18 @@ extension Effect where Failure == Never {
     let effect: Effect<Output, Never> = Observable<Output>.deferred {
       cancellablesLock.lock()
       defer { cancellablesLock.unlock() }
-
+      
       let subject = PublishSubject<Output>()
-      let disposable = self.subscribe(subject)
-
+      var values: [Output] = []
+      var isCaching = true
+      let disposable =
+        self
+          .do(onNext: { val in
+            guard isCaching else { return }
+            values.append(val)
+          })
+          .subscribe(subject)
+      
       var cancellationDisposable: AnyDisposable!
       cancellationDisposable = AnyDisposable(
         Disposables.create {
@@ -139,14 +161,20 @@ extension Effect where Failure == Never {
               cancellationCancellables[id] = nil
             }
           }
-        })
-
+      })
+      
       cancellationCancellables[id, default: []].insert(
         cancellationDisposable
       )
-
-      return subject.do(onCompleted: cancellationDisposable.dispose,
-                        onDispose: cancellationDisposable.dispose)
+      
+      return Observable.from(values)
+        .concat(subject)
+        .do(
+          onError: { _ in cancellationDisposable.dispose() },
+          onCompleted: cancellationDisposable.dispose,
+          onSubscribed: { isCaching = false },
+          onDispose: cancellationDisposable.dispose
+      )
     }
     .eraseToEffect()
     return cancelInFlight

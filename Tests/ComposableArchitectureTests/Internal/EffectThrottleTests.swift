@@ -6,9 +6,9 @@ import XCTest
 
 final class EffectThrottleTests: XCTestCase {
   var disposeBag = DisposeBag()
+  let scheduler = RxTest.TestScheduler.defaultTestScheduler()
 
   func testThrottleLatest() {
-    let scheduler = RxTest.TestScheduler.defaultTestScheduler()
     var values: [Int] = []
     var effectRuns = 0
 
@@ -58,7 +58,6 @@ final class EffectThrottleTests: XCTestCase {
   }
 
   func testThrottleFirst() {
-    let scheduler = RxTest.TestScheduler.defaultTestScheduler()
     var values: [Int] = []
     var effectRuns = 0
 
@@ -109,7 +108,6 @@ final class EffectThrottleTests: XCTestCase {
   }
 
   func testThrottleAfterInterval() {
-    let scheduler = RxTest.TestScheduler.defaultTestScheduler()
     var values: [Int] = []
     var effectRuns = 0
 
