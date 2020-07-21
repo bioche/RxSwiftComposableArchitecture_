@@ -1,8 +1,6 @@
-#if canImport(Combine)
-import Combine
+import RxSwift
 
-@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-extension Effect {
+extension Effect where Failure == Swift.Error {
   /// Turns an effect into one that can be debounced.
   ///
   /// To turn an effect into a debounce-able one you must provide an identifier, which is used to
@@ -24,18 +22,15 @@ extension Effect {
   ///   - scheduler: The scheduler you want to deliver the debounced output to.
   ///   - options: Scheduler options that customize the effect's delivery of elements.
   /// - Returns: An effect that publishes events only after a specified time elapses.
-  public func debounce<S: Scheduler>(
+  public func debounce<S: SchedulerType>(
     id: AnyHashable,
-    for dueTime: S.SchedulerTimeType.Stride,
-    scheduler: S,
-    options: S.SchedulerOptions? = nil
-  ) -> Effect {
-    Just(())
-      .setFailureType(to: Failure.self)
-      .delay(for: dueTime, scheduler: scheduler, options: options)
+    for dueTime: RxTimeInterval,
+    scheduler: S
+    ) -> Effect {
+    Observable.just(())
+      .delay(dueTime, scheduler: scheduler)
       .flatMap { self }
       .eraseToEffect()
       .cancellable(id: id, cancelInFlight: true)
   }
 }
-#endif

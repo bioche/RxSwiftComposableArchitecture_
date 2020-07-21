@@ -37,6 +37,10 @@ extension Observable {
     Effect(self)
   }
   
+  public func eraseToEffect<Failure: Error>(failureType: Failure.Type) -> Effect<Element, Failure> {
+    Effect(self)
+  }
+  
   /// Turns any publisher into an `Effect`.
   ///
   /// This can be useful for when you perform a chain of publisher transformations in a reducer, and

@@ -1,8 +1,7 @@
-#if canImport(Combine)
-import Combine
+import Foundation
+import RxSwift
 
-@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-extension Effect where Failure == Never {
+extension Effect where Failure == Swift.Error {
   /// Returns an effect that repeatedly emits the current time of the given
   /// scheduler on the given interval.
   ///
@@ -28,19 +27,13 @@ extension Effect where Failure == Never {
   ///   - tolerance: The allowed timing variance when emitting events. Defaults to `nil`, which
   ///     allows any variance.
   ///   - options: Scheduler options passed to the timer. Defaults to `nil`.
-  public static func timer<S>(
+  public static func timer<S: SchedulerType>(
     id: AnyHashable,
-    every interval: S.SchedulerTimeType.Stride,
-    tolerance: S.SchedulerTimeType.Stride? = nil,
-    on scheduler: S,
-    options: S.SchedulerOptions? = nil
-  ) -> Effect where S: Scheduler, S.SchedulerTimeType == Output {
-
-    Publishers.Timer(every: interval, tolerance: tolerance, scheduler: scheduler, options: options)
-      .autoconnect()
-      .setFailureType(to: Failure.self)
-      .eraseToEffect()
-      .cancellable(id: id)
+    every interval: RxTimeInterval,
+    on scheduler: S
+  ) -> Effect where Output: RxAbstractInteger {
+    Observable.timer(interval, scheduler: scheduler)
+              .eraseToEffect()
+              .cancellable(id: id)
   }
 }
-#endif

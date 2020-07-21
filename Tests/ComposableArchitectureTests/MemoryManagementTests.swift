@@ -1,10 +1,10 @@
-import Combine
+import RxSwift
+import RxTest
 import ComposableArchitecture
 import XCTest
 
-@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 final class MemoryManagementTests: XCTestCase {
-  var cancellables: Set<AnyCancellable> = []
+  var disposeBag = DisposeBag()
 
   func testOwnership_ScopeHoldsOntoParent() {
     let counterReducer = Reducer<Int, Void, Void> { state, _, _ in
@@ -17,7 +17,9 @@ final class MemoryManagementTests: XCTestCase {
     let viewStore = ViewStore(store)
 
     var count = 0
-    viewStore.publisher.sink { count = $0 }.store(in: &self.cancellables)
+    viewStore.driver
+      .drive(onNext: { count = $0 })
+      .disposed(by: disposeBag)
 
     XCTAssertEqual(count, 0)
     viewStore.send(())
@@ -32,7 +34,9 @@ final class MemoryManagementTests: XCTestCase {
     let viewStore = ViewStore(Store(initialState: 0, reducer: counterReducer, environment: ()))
 
     var count = 0
-    viewStore.publisher.sink { count = $0 }.store(in: &self.cancellables)
+     viewStore.driver
+         .drive(onNext: { count = $0 })
+         .disposed(by: disposeBag)
 
     XCTAssertEqual(count, 0)
     viewStore.send(())

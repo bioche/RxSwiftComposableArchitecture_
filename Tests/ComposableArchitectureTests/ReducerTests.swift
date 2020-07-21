@@ -1,11 +1,11 @@
-import Combine
+import RxSwift
+import RxTest
 import ComposableArchitecture
 import XCTest
 import os.signpost
 
-@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 final class ReducerTests: XCTestCase {
-  var cancellables: Set<AnyCancellable> = []
+  var disposeBag = DisposeBag()
 
   func testCallableAsFunction() {
     let reducer = Reducer<Int, Void, Void> { state, _, _ in
@@ -213,8 +213,8 @@ final class ReducerTests: XCTestCase {
     let effect = reducer.run(&n, (), ())
     let expectation = self.expectation(description: "effect")
     effect
-      .sink(receiveCompletion: { _ in expectation.fulfill() }, receiveValue: { _ in })
-      .store(in: &self.cancellables)
+      .subscribe(onCompleted: { expectation.fulfill() })
+      .disposed(by: disposeBag)
     self.wait(for: [expectation], timeout: 0.1)
   }
 
@@ -224,8 +224,8 @@ final class ReducerTests: XCTestCase {
     let effect = reducer.run(&n, (), ())
     let expectation = self.expectation(description: "effect")
     effect
-      .sink(receiveCompletion: { _ in expectation.fulfill() }, receiveValue: { _ in })
-      .store(in: &self.cancellables)
+      .subscribe(onCompleted: { expectation.fulfill() })
+      .disposed(by: disposeBag)
     self.wait(for: [expectation], timeout: 0.1)
   }
 }
