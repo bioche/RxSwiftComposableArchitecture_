@@ -125,6 +125,7 @@ final class EffectTests: XCTestCase {
       }.disposed(by: self.disposeBag)
       self.scheduler.scheduleRelative((), dueTime: .seconds(2)) { (_) in
         observer.onNext(4)
+        observer.onCompleted()
         return Disposables.create()
       }.disposed(by: self.disposeBag)
       

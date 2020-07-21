@@ -3,7 +3,6 @@ import RxTest
 import ComposableArchitecture
 import XCTest
 
-@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 final class TimerTests: XCTestCase {
   var disposeBag = DisposeBag()
 

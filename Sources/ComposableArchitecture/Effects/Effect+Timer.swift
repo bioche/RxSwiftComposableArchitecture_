@@ -32,7 +32,7 @@ extension Effect where Failure == Swift.Error {
     every interval: RxTimeInterval,
     on scheduler: S
   ) -> Effect where Output: RxAbstractInteger {
-    Observable.timer(interval, scheduler: scheduler)
+    Observable.interval(interval, scheduler: scheduler)
               .eraseToEffect()
               .cancellable(id: id)
   }
