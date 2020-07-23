@@ -219,14 +219,14 @@ extension Store {
   /// This avoids reloading entire collections / tables when only a property of an element is updated.
   /// The elements must be Identifiable so that we can publish a new array when an identity has changed at a specific index.
   /// For SwiftUI, prefer the ForEachStore
-  public func scopeForEach<EachState>(shouldAvoidReload: @escaping (EachState, EachState) -> Bool = { $0.id == $1.id }) -> Driver<[Store<EachState, Action>]>
+  public func scopeForEach<EachState>(reloadCondition: @escaping (EachState, EachState) -> Bool = { _, _ in false }) -> Driver<[Store<EachState, Action>]>
     where State == [EachState], EachState: TCAIdentifiable {
       
       return scope(state: { $0 }, action: { $1 })
-        .scopeForEach(shouldAvoidReload: shouldAvoidReload)
+        .scopeForEach(reloadCondition: reloadCondition)
   }
   
-  public func scopeForEach<EachState, EachAction>(shouldAvoidReload: @escaping (EachState, EachState) -> Bool = { $0.id == $1.id }) -> Driver<[Store<EachState, EachAction>]>
+  public func scopeForEach<EachState, EachAction>(reloadCondition: @escaping (EachState, EachState) -> Bool = { _, _ in false }) -> Driver<[Store<EachState, EachAction>]>
     where State == [EachState], EachState: TCAIdentifiable, Action == (EachState.ID, EachAction) {
       
       stateRelay
@@ -234,7 +234,7 @@ extension Store {
         // Instead we publish a new array when the count changes or an object has changed identity (ID has changed)
         .distinctUntilChanged {
           guard $0.count == $1.count else { return false }
-          return zip($0, $1).allSatisfy { shouldAvoidReload($0, $1) }
+          return zip($0, $1).allSatisfy { $0.id == $1.id && !reloadCondition($0, $1) }
         }
         // Scope an new substore for each element
         .map { state in
