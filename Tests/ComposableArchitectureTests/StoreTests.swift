@@ -12,11 +12,11 @@ final class StoreTests: XCTestCase {
     let reducer = Reducer<Void, Void, Void> { _, _, _ in .none }
     let store = Store(initialState: (), reducer: reducer, environment: ())
 
-    XCTAssertEqual(store.effectDisposables.count, 0)
+    XCTAssertEqual(store.effectDisposeBags.count, 0)
 
     store.send(())
 
-    XCTAssertEqual(store.effectDisposables.count, 0)
+    XCTAssertEqual(store.effectDisposeBags.count, 0)
   }
 
   func testCancellableIsRemovedWhenEffectCompletes() {
@@ -37,15 +37,15 @@ final class StoreTests: XCTestCase {
     }
     let store = Store(initialState: (), reducer: reducer, environment: ())
 
-    XCTAssertEqual(store.effectDisposables.count, 0)
+    XCTAssertEqual(store.effectDisposeBags.count, 0)
 
     store.send(.start)
 
-    XCTAssertEqual(store.effectDisposables.count, 1)
+    XCTAssertEqual(store.effectDisposeBags.count, 1)
 
     scheduler.advance(by: 2)
 
-    XCTAssertEqual(store.effectDisposables.count, 0)
+    XCTAssertEqual(store.effectDisposeBags.count, 0)
   }
 
   func testScopedStoreReceivesUpdatesFromParent() {
