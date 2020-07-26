@@ -18,11 +18,11 @@ public final class Store<State, Action> {
       stateRelay.accept(newValue)
     }
   }
-    
-  var effectDisposables: [UUID: Disposable] = [:]
-    
+
+  var effectDisposeBags: [UUID: DisposeBag] = [:]
+
   private var isSending = false
-  private var parentCancellable: Disposable?
+  private let disposeBag = DisposeBag()
   private let reducer: (inout State, Action) -> Effect<Action, Never>
   private var synchronousActionsToSend: [Action] = []
 
@@ -85,7 +85,7 @@ public final class Store<State, Action> {
   ) -> Store<LocalState, Action> {
     scope(state: toLocalState, action: { $0 })
   }
-  
+
   /// Scopes the store to a publisher of stores of more local state and local actions.
   ///
   /// - Parameters:
@@ -116,15 +116,16 @@ public final class Store<State, Action> {
             return .none
           })
 
-        localStore.parentCancellable = self.stateRelay
+        self.stateRelay
           .subscribe(onNext: { [weak localStore] state in
             guard let localStore = localStore else { return }
             localStore.state = extractLocalState(state) ?? localStore.state
           })
+          .disposed(by: localStore.disposeBag)
         return localStore
       }.asObservable()
   }
-    
+
   /// Scopes the store to a publisher of stores of more local state and local actions.
   ///
   /// - Parameter toLocalState: A function that transforms a publisher of `State` into a publisher
@@ -147,7 +148,7 @@ public final class Store<State, Action> {
       if self.isSending {
         assertionFailure(
           """
-          The store was sent the action \(debugCaseOutput(action)) while it was already 
+          The store was sent the action \(debugCaseOutput(action)) while it was already
           processing another action.
 
           This can happen for a few reasons:
@@ -173,7 +174,8 @@ public final class Store<State, Action> {
       let uuid = UUID()
 
       var isProcessingEffects = true
-      let effectDisposable = effect.subscribe(
+      let effectDisposeBag = DisposeBag()
+      effect.subscribe(
         onNext: { [weak self] action in
           if isProcessingEffects {
             self?.synchronousActionsToSend.append(action)
@@ -183,13 +185,13 @@ public final class Store<State, Action> {
         },
         onCompletion: { [weak self] _ in
           didComplete = true
-          self?.effectDisposables[uuid] = nil
+          self?.effectDisposeBags[uuid] = nil
         }
-      )
+      ).disposed(by: effectDisposeBag)
       isProcessingEffects = false
 
       if !didComplete {
-        self.effectDisposables[uuid] = effectDisposable
+        self.effectDisposeBags[uuid] = effectDisposeBag
       }
     }
   }
@@ -221,14 +223,14 @@ extension Store {
   /// For SwiftUI, prefer the ForEachStore
   public func scopeForEach<EachState>(reloadCondition: @escaping (EachState, EachState) -> Bool = { _, _ in false }) -> Driver<[Store<EachState, Action>]>
     where State == [EachState], EachState: TCAIdentifiable {
-      
+
       return scope(state: { $0 }, action: { $1 })
         .scopeForEach(reloadCondition: reloadCondition)
   }
-  
+
   public func scopeForEach<EachState, EachAction>(reloadCondition: @escaping (EachState, EachState) -> Bool = { _, _ in false }) -> Driver<[Store<EachState, EachAction>]>
     where State == [EachState], EachState: TCAIdentifiable, Action == (EachState.ID, EachAction) {
-      
+
       stateRelay
         // with this we avoid sending a new array each time a modification occurs on an element.
         // Instead we publish a new array when the count changes or an object has changed identity (ID has changed)
@@ -247,7 +249,7 @@ extension Store {
         // no error possible as we come from a relay
         .asDriver(onErrorDriveWith: .never())
   }
-  
+
 }
 
 extension Store {
@@ -259,7 +261,7 @@ extension Store {
     state toLocalState: @escaping (State) -> LocalState?,
     action fromLocalAction: @escaping (LocalAction) -> Action
   ) -> Store<LocalState, LocalAction> {
-    
+
     let localStore = Store<LocalState, LocalAction>(
       initialState: initialLocalState,
       reducer: { localState, localAction in
@@ -270,24 +272,24 @@ extension Store {
         return .none
       }
     )
-    
-    localStore.parentCancellable = self.stateRelay
+
+    self.stateRelay
       .subscribe(onNext: { [weak localStore] newValue in
         if let newState = toLocalState(newValue) {
           localStore?.state = newState
         }
-      })
+      }).disposed(by: localStore.disposeBag)
     return localStore
-    
+
   }
 }
 
 /// The goal of this structure is to be able to perform a subscript as a quick way of mapping & avoid duplicates. As it comes from the ViewStore, the Driver trait is the more appropriate
 @dynamicMemberLookup
 public struct StoreDriver<State>: SharedSequenceConvertibleType {
-  
+
   public typealias Element = State
-  
+
   private let upstream: Observable<State>
 
   public func subscribe<Observer: ObserverType>(_ observer: Observer) -> Disposable where Observer.Element == State {
@@ -297,7 +299,7 @@ public struct StoreDriver<State>: SharedSequenceConvertibleType {
   public init<O: ObservableType>(_ observable: O) where O.Element == State {
     self.upstream = observable.asObservable()
   }
-  
+
   public func asSharedSequence() -> Driver<State> {
     upstream
       .do(onError: { error in assertionFailure("An error occurred in the stream handled by a store driver : \(error)") })
