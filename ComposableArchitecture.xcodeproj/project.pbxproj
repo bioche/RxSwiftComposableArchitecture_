@@ -112,6 +112,15 @@
 		4176B35524A9033B003D6097 /* RxRelay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4162603F248D2E14003FCAA8 /* RxRelay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4176B35624A9033B003D6097 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; };
 		4176B35724A9033B003D6097 /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A5A7FE3024CF245E00608A39 /* ComposableArchitectureTestSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5A7FE2724CF245E00608A39 /* ComposableArchitectureTestSupport.framework */; };
+		A5A7FE3524CF245E00608A39 /* ComposableArchitectureTestSupportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5A7FE3424CF245E00608A39 /* ComposableArchitectureTestSupportTests.swift */; };
+		A5A7FE3724CF245E00608A39 /* ComposableArchitectureTestSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = A5A7FE2924CF245E00608A39 /* ComposableArchitectureTestSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A5A7FE3F24CF24AE00608A39 /* TestStore+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364C99248C6028007EBA46 /* TestStore+Combine.swift */; };
+		A5A7FE4024CF24B200608A39 /* TestStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED7DF6124C2068B007EDABE /* TestStore.swift */; };
+		A5A7FE4124CF25EA00608A39 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; };
+		A5A7FE4224CF25EA00608A39 /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A5A7FE4424CF271200608A39 /* ComposableArchitecture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4168FAFC248C5D4700CD8FB5 /* ComposableArchitecture.framework */; };
+		A5A7FE4524CF271200608A39 /* ComposableArchitecture.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4168FAFC248C5D4700CD8FB5 /* ComposableArchitecture.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BE556C7424C9CCAC00C716B7 /* RxTestScheduler+utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED7DF6424C21EA7007EDABE /* RxTestScheduler+utils.swift */; };
 		BE5B861524C2263300461DAD /* RxTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 416260AD249968A0003FCAA8 /* RxTest.framework */; };
 		BE5B861624C2269600461DAD /* RxTest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 416260AD249968A0003FCAA8 /* RxTest.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -149,6 +158,20 @@
 			remoteInfo = ComposableCoreMotion;
 		};
 		4176B34F24A90324003D6097 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4168FAF3248C5D4700CD8FB5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4168FAFB248C5D4700CD8FB5;
+			remoteInfo = ComposableArchitecture;
+		};
+		A5A7FE3124CF245E00608A39 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4168FAF3248C5D4700CD8FB5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A5A7FE2624CF245E00608A39;
+			remoteInfo = ComposableArchitectureTestSupport;
+		};
+		A5A7FE4624CF271200608A39 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4168FAF3248C5D4700CD8FB5 /* Project object */;
 			proxyType = 1;
@@ -208,6 +231,18 @@
 				4176B35324A9033B003D6097 /* RxCocoa.framework in Embed Frameworks */,
 				4176B34E24A90324003D6097 /* ComposableArchitecture.framework in Embed Frameworks */,
 				4176B35524A9033B003D6097 /* RxRelay.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5A7FE4324CF25EA00608A39 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A5A7FE4524CF271200608A39 /* ComposableArchitecture.framework in Embed Frameworks */,
+				A5A7FE4224CF25EA00608A39 /* RxSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -308,6 +343,12 @@
 		4176B33124A901ED003D6097 /* ComposableCoreMotionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposableCoreMotionTests.swift; sourceTree = "<group>"; };
 		4176B33724A90209003D6097 /* ComposableCoreMotionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ComposableCoreMotionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4176B33B24A90209003D6097 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A5A7FE2724CF245E00608A39 /* ComposableArchitectureTestSupport.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ComposableArchitectureTestSupport.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5A7FE2924CF245E00608A39 /* ComposableArchitectureTestSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComposableArchitectureTestSupport.h; sourceTree = "<group>"; };
+		A5A7FE2A24CF245E00608A39 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A5A7FE2F24CF245E00608A39 /* ComposableArchitectureTestSupportTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ComposableArchitectureTestSupportTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5A7FE3424CF245E00608A39 /* ComposableArchitectureTestSupportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposableArchitectureTestSupportTests.swift; sourceTree = "<group>"; };
+		A5A7FE3624CF245E00608A39 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IfLetUIKit.swift; sourceTree = "<group>"; };
 		BED7DF6124C2068B007EDABE /* TestStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStore.swift; sourceTree = "<group>"; };
 		BED7DF6424C21EA7007EDABE /* RxTestScheduler+utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RxTestScheduler+utils.swift"; sourceTree = "<group>"; };
@@ -374,6 +415,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A5A7FE2424CF245E00608A39 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5A7FE4424CF271200608A39 /* ComposableArchitecture.framework in Frameworks */,
+				A5A7FE4124CF25EA00608A39 /* RxSwift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5A7FE2C24CF245E00608A39 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5A7FE3024CF245E00608A39 /* ComposableArchitectureTestSupport.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -427,7 +485,6 @@
 				4176B2FA24A8CEE2003D6097 /* RxUtils */,
 				41626049248D31E3003FCAA8 /* CasePaths */,
 				4168FB07248C5D9900CD8FB5 /* Info.plist */,
-				41364C98248C6028007EBA46 /* TestSupport */,
 				41364C9A248C6028007EBA46 /* Reducer.swift */,
 				41364C9B248C6028007EBA46 /* RxCombine */,
 				41364CA1248C6028007EBA46 /* UIKit */,
@@ -598,6 +655,8 @@
 				4162603B248D2DD1003FCAA8 /* Cartfile.resolved */,
 				41364C8A248C6028007EBA46 /* Sources */,
 				41626052248D4983003FCAA8 /* Tests */,
+				A5A7FE2824CF245E00608A39 /* ComposableArchitectureTestSupport */,
+				A5A7FE3324CF245E00608A39 /* ComposableArchitectureTestSupportTests */,
 				4168FAFD248C5D4700CD8FB5 /* Products */,
 				4162603E248D2E14003FCAA8 /* Frameworks */,
 			);
@@ -613,6 +672,8 @@
 				4162608F248D4B98003FCAA8 /* ComposableCoreLocationTests.xctest */,
 				4176B32824A901D8003D6097 /* ComposableCoreMotion.framework */,
 				4176B33724A90209003D6097 /* ComposableCoreMotionTests.xctest */,
+				A5A7FE2724CF245E00608A39 /* ComposableArchitectureTestSupport.framework */,
+				A5A7FE2F24CF245E00608A39 /* ComposableArchitectureTestSupportTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -696,6 +757,25 @@
 			path = ComposableCoreMotionTests;
 			sourceTree = "<group>";
 		};
+		A5A7FE2824CF245E00608A39 /* ComposableArchitectureTestSupport */ = {
+			isa = PBXGroup;
+			children = (
+				41364C98248C6028007EBA46 /* TestSupport */,
+				A5A7FE2924CF245E00608A39 /* ComposableArchitectureTestSupport.h */,
+				A5A7FE2A24CF245E00608A39 /* Info.plist */,
+			);
+			path = ComposableArchitectureTestSupport;
+			sourceTree = "<group>";
+		};
+		A5A7FE3324CF245E00608A39 /* ComposableArchitectureTestSupportTests */ = {
+			isa = PBXGroup;
+			children = (
+				A5A7FE3424CF245E00608A39 /* ComposableArchitectureTestSupportTests.swift */,
+				A5A7FE3624CF245E00608A39 /* Info.plist */,
+			);
+			path = ComposableArchitectureTestSupportTests;
+			sourceTree = "<group>";
+		};
 		BED7DF6324C21A6D007EDABE /* RxTestSchedulerExtension */ = {
 			isa = PBXGroup;
 			children = (
@@ -725,6 +805,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5A7FE2224CF245E00608A39 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5A7FE3724CF245E00608A39 /* ComposableArchitectureTestSupport.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -845,13 +933,51 @@
 			productReference = 4176B33724A90209003D6097 /* ComposableCoreMotionTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		A5A7FE2624CF245E00608A39 /* ComposableArchitectureTestSupport */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A5A7FE3C24CF245E00608A39 /* Build configuration list for PBXNativeTarget "ComposableArchitectureTestSupport" */;
+			buildPhases = (
+				A5A7FE2224CF245E00608A39 /* Headers */,
+				A5A7FE2324CF245E00608A39 /* Sources */,
+				A5A7FE2424CF245E00608A39 /* Frameworks */,
+				A5A7FE2524CF245E00608A39 /* Resources */,
+				A5A7FE4324CF25EA00608A39 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A5A7FE4724CF271200608A39 /* PBXTargetDependency */,
+			);
+			name = ComposableArchitectureTestSupport;
+			productName = ComposableArchitectureTestSupport;
+			productReference = A5A7FE2724CF245E00608A39 /* ComposableArchitectureTestSupport.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		A5A7FE2E24CF245E00608A39 /* ComposableArchitectureTestSupportTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A5A7FE3D24CF245E00608A39 /* Build configuration list for PBXNativeTarget "ComposableArchitectureTestSupportTests" */;
+			buildPhases = (
+				A5A7FE2B24CF245E00608A39 /* Sources */,
+				A5A7FE2C24CF245E00608A39 /* Frameworks */,
+				A5A7FE2D24CF245E00608A39 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A5A7FE3224CF245E00608A39 /* PBXTargetDependency */,
+			);
+			name = ComposableArchitectureTestSupportTests;
+			productName = ComposableArchitectureTestSupportTests;
+			productReference = A5A7FE2F24CF245E00608A39 /* ComposableArchitectureTestSupportTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		4168FAF3248C5D4700CD8FB5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1140;
+				LastSwiftUpdateCheck = 1160;
 				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = Bioche;
 				TargetAttributes = {
@@ -873,6 +999,12 @@
 					4176B33624A90209003D6097 = {
 						CreatedOnToolsVersion = 11.4.1;
 					};
+					A5A7FE2624CF245E00608A39 = {
+						CreatedOnToolsVersion = 11.6;
+					};
+					A5A7FE2E24CF245E00608A39 = {
+						CreatedOnToolsVersion = 11.6;
+					};
 				};
 			};
 			buildConfigurationList = 4168FAF6248C5D4700CD8FB5 /* Build configuration list for PBXProject "ComposableArchitecture" */;
@@ -891,9 +1023,11 @@
 				4168FAFB248C5D4700CD8FB5 /* ComposableArchitecture */,
 				41626028248D2CBA003FCAA8 /* ComposableCoreLocation */,
 				4176B32724A901D8003D6097 /* ComposableCoreMotion */,
+				A5A7FE2624CF245E00608A39 /* ComposableArchitectureTestSupport */,
 				41626073248D49CA003FCAA8 /* ComposableArchitectureTests */,
 				4162608E248D4B98003FCAA8 /* ComposableCoreLocationTests */,
 				4176B33624A90209003D6097 /* ComposableCoreMotionTests */,
+				A5A7FE2E24CF245E00608A39 /* ComposableArchitectureTestSupportTests */,
 			);
 		};
 /* End PBXProject section */
@@ -937,6 +1071,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		4176B33524A90209003D6097 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5A7FE2524CF245E00608A39 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5A7FE2D24CF245E00608A39 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1063,6 +1211,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A5A7FE2324CF245E00608A39 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5A7FE3F24CF24AE00608A39 /* TestStore+Combine.swift in Sources */,
+				A5A7FE4024CF24B200608A39 /* TestStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5A7FE2B24CF245E00608A39 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5A7FE3524CF245E00608A39 /* ComposableArchitectureTestSupportTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1091,6 +1256,16 @@
 			isa = PBXTargetDependency;
 			target = 4168FAFB248C5D4700CD8FB5 /* ComposableArchitecture */;
 			targetProxy = 4176B34F24A90324003D6097 /* PBXContainerItemProxy */;
+		};
+		A5A7FE3224CF245E00608A39 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A5A7FE2624CF245E00608A39 /* ComposableArchitectureTestSupport */;
+			targetProxy = A5A7FE3124CF245E00608A39 /* PBXContainerItemProxy */;
+		};
+		A5A7FE4724CF271200608A39 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4168FAFB248C5D4700CD8FB5 /* ComposableArchitecture */;
+			targetProxy = A5A7FE4624CF271200608A39 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1549,6 +1724,104 @@
 			};
 			name = Release;
 		};
+		A5A7FE3824CF245E00608A39 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = WWDWCB8A98;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = ComposableArchitectureTestSupport/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableArchitectureTestSupport;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A5A7FE3924CF245E00608A39 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = WWDWCB8A98;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = ComposableArchitectureTestSupport/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableArchitectureTestSupport;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A5A7FE3A24CF245E00608A39 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = WWDWCB8A98;
+				INFOPLIST_FILE = ComposableArchitectureTestSupportTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableArchitectureTestSupportTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A5A7FE3B24CF245E00608A39 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = WWDWCB8A98;
+				INFOPLIST_FILE = ComposableArchitectureTestSupportTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableArchitectureTestSupportTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1611,6 +1884,24 @@
 			buildConfigurations = (
 				4176B34024A90209003D6097 /* Debug */,
 				4176B34124A90209003D6097 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A5A7FE3C24CF245E00608A39 /* Build configuration list for PBXNativeTarget "ComposableArchitectureTestSupport" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5A7FE3824CF245E00608A39 /* Debug */,
+				A5A7FE3924CF245E00608A39 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A5A7FE3D24CF245E00608A39 /* Build configuration list for PBXNativeTarget "ComposableArchitectureTestSupportTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5A7FE3A24CF245E00608A39 /* Debug */,
+				A5A7FE3B24CF245E00608A39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

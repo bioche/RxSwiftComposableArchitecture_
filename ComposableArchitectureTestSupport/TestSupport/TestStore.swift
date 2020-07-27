@@ -6,9 +6,9 @@
 //  Copyright © 2020 Dragna. All rights reserved.
 //
 
-#if DEBUG
 import RxSwift
 import Foundation
+import ComposableArchitecture
 
 /// A testable runtime for a reducer.
 ///
@@ -470,5 +470,3 @@ private let _XCTCurrentTestCase =
   _XCTest
     .flatMap { dlsym($0, "_XCTCurrentTestCase") }
     .map({ unsafeBitCast($0, to: XCTCurrentTestCase.self) })
-
-#endif
