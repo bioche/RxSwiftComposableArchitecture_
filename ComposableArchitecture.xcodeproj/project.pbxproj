@@ -112,6 +112,15 @@
 		4176B35524A9033B003D6097 /* RxRelay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4162603F248D2E14003FCAA8 /* RxRelay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4176B35624A9033B003D6097 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; };
 		4176B35724A9033B003D6097 /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4180334524CF7D7600EA11AB /* RxSectionedCollectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180333B24CF7D7600EA11AB /* RxSectionedCollectionDataSource.swift */; };
+		4180334624CF7D7600EA11AB /* RxFlatCollectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180333C24CF7D7600EA11AB /* RxFlatCollectionDataSource.swift */; };
+		4180334724CF7D7600EA11AB /* RxSectionedTableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180333E24CF7D7600EA11AB /* RxSectionedTableDataSource.swift */; };
+		4180334824CF7D7600EA11AB /* RxFlatTableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180333F24CF7D7600EA11AB /* RxFlatTableDataSource.swift */; };
+		4180334A24CF7D7600EA11AB /* TCASection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180334124CF7D7600EA11AB /* TCASection.swift */; };
+		4180334B24CF7D7600EA11AB /* Store+CollectionBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180334224CF7D7600EA11AB /* Store+CollectionBinding.swift */; };
+		4180334C24CF7D7600EA11AB /* TCAItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180334324CF7D7600EA11AB /* TCAItem.swift */; };
+		4180334D24CF7D7600EA11AB /* Store+ReloadCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180334424CF7D7600EA11AB /* Store+ReloadCondition.swift */; };
+		4180334F24CF84E300EA11AB /* Store+ForEachScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180334E24CF84E300EA11AB /* Store+ForEachScope.swift */; };
 		41EA4B3E24C0F85C0060D591 /* Array+safesubscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41EA4B3D24C0F85C0060D591 /* Array+safesubscript.swift */; };
 		BEC93A4424B8EE0B00D8082D /* IfLetUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */; };
 /* End PBXBuildFile section */
@@ -304,6 +313,15 @@
 		4176B33124A901ED003D6097 /* ComposableCoreMotionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposableCoreMotionTests.swift; sourceTree = "<group>"; };
 		4176B33724A90209003D6097 /* ComposableCoreMotionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ComposableCoreMotionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4176B33B24A90209003D6097 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4180333B24CF7D7600EA11AB /* RxSectionedCollectionDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxSectionedCollectionDataSource.swift; sourceTree = "<group>"; };
+		4180333C24CF7D7600EA11AB /* RxFlatCollectionDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxFlatCollectionDataSource.swift; sourceTree = "<group>"; };
+		4180333E24CF7D7600EA11AB /* RxSectionedTableDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxSectionedTableDataSource.swift; sourceTree = "<group>"; };
+		4180333F24CF7D7600EA11AB /* RxFlatTableDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxFlatTableDataSource.swift; sourceTree = "<group>"; };
+		4180334124CF7D7600EA11AB /* TCASection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCASection.swift; sourceTree = "<group>"; };
+		4180334224CF7D7600EA11AB /* Store+CollectionBinding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Store+CollectionBinding.swift"; sourceTree = "<group>"; };
+		4180334324CF7D7600EA11AB /* TCAItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCAItem.swift; sourceTree = "<group>"; };
+		4180334424CF7D7600EA11AB /* Store+ReloadCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Store+ReloadCondition.swift"; sourceTree = "<group>"; };
+		4180334E24CF84E300EA11AB /* Store+ForEachScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Store+ForEachScope.swift"; sourceTree = "<group>"; };
 		41EA4B3D24C0F85C0060D591 /* Array+safesubscript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+safesubscript.swift"; sourceTree = "<group>"; };
 		BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IfLetUIKit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -460,6 +478,7 @@
 		41364CA1248C6028007EBA46 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				4180333824CF7D7600EA11AB /* ForEach */,
 				BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */,
 				41364CA2248C6028007EBA46 /* IfLetUIKit+Combine.swift */,
 			);
@@ -686,6 +705,46 @@
 				4176B33124A901ED003D6097 /* ComposableCoreMotionTests.swift */,
 			);
 			path = ComposableCoreMotionTests;
+			sourceTree = "<group>";
+		};
+		4180333824CF7D7600EA11AB /* ForEach */ = {
+			isa = PBXGroup;
+			children = (
+				4180333924CF7D7600EA11AB /* Datasources */,
+				4180334124CF7D7600EA11AB /* TCASection.swift */,
+				4180334324CF7D7600EA11AB /* TCAItem.swift */,
+				4180334224CF7D7600EA11AB /* Store+CollectionBinding.swift */,
+				4180334424CF7D7600EA11AB /* Store+ReloadCondition.swift */,
+				4180334E24CF84E300EA11AB /* Store+ForEachScope.swift */,
+			);
+			path = ForEach;
+			sourceTree = "<group>";
+		};
+		4180333924CF7D7600EA11AB /* Datasources */ = {
+			isa = PBXGroup;
+			children = (
+				4180333A24CF7D7600EA11AB /* UICollectionView */,
+				4180333D24CF7D7600EA11AB /* UITableView */,
+			);
+			path = Datasources;
+			sourceTree = "<group>";
+		};
+		4180333A24CF7D7600EA11AB /* UICollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				4180333B24CF7D7600EA11AB /* RxSectionedCollectionDataSource.swift */,
+				4180333C24CF7D7600EA11AB /* RxFlatCollectionDataSource.swift */,
+			);
+			path = UICollectionView;
+			sourceTree = "<group>";
+		};
+		4180333D24CF7D7600EA11AB /* UITableView */ = {
+			isa = PBXGroup;
+			children = (
+				4180333E24CF7D7600EA11AB /* RxSectionedTableDataSource.swift */,
+				4180333F24CF7D7600EA11AB /* RxFlatTableDataSource.swift */,
+			);
+			path = UITableView;
 			sourceTree = "<group>";
 		};
 		41EA4B3C24C0F83B0060D591 /* Utils */ = {
@@ -986,6 +1045,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				41364CD7248C6028007EBA46 /* Effect.swift in Sources */,
+				4180334B24CF7D7600EA11AB /* Store+CollectionBinding.swift in Sources */,
 				41364CE6248C6028007EBA46 /* WithViewStore.swift in Sources */,
 				4176B30C24A8F515003D6097 /* ReducerInstrumentation.swift in Sources */,
 				4176B30624A8E1AA003D6097 /* Lock.swift in Sources */,
@@ -1008,22 +1068,30 @@
 				4176B2FC24A8D18E003D6097 /* Observable+onCompletion.swift in Sources */,
 				4176B30524A8E1AA003D6097 /* Timer.swift in Sources */,
 				41364CD8248C6028007EBA46 /* Effect+Combine.swift in Sources */,
+				4180334624CF7D7600EA11AB /* RxFlatCollectionDataSource.swift in Sources */,
+				4180334824CF7D7600EA11AB /* RxFlatTableDataSource.swift in Sources */,
 				41626051248D31E3003FCAA8 /* Operators.swift in Sources */,
 				4162604E248D31E3003FCAA8 /* EnumReflection.swift in Sources */,
 				41EA4B3E24C0F85C0060D591 /* Array+safesubscript.swift in Sources */,
 				41364CD5248C6028007EBA46 /* Create.swift in Sources */,
 				4176B30A24A8E1AA003D6097 /* AnyScheduler.swift in Sources */,
+				4180334C24CF7D7600EA11AB /* TCAItem.swift in Sources */,
 				41364CDA248C6028007EBA46 /* ViewStore+Combine.swift in Sources */,
+				4180334F24CF84E300EA11AB /* Store+ForEachScope.swift in Sources */,
 				41364CD3248C6028007EBA46 /* Exports.swift in Sources */,
 				41364CD9248C6028007EBA46 /* Effect+failure.swift in Sources */,
 				41364CCA248C6028007EBA46 /* Publisher+asObservable.swift in Sources */,
 				41364CE2248C6028007EBA46 /* Identified.swift in Sources */,
 				41364CDE248C6028007EBA46 /* Cancellation.swift in Sources */,
 				41364CE5248C6028007EBA46 /* ForEachStore.swift in Sources */,
+				4180334D24CF7D7600EA11AB /* Store+ReloadCondition.swift in Sources */,
 				41364CE1248C6028007EBA46 /* IdentifiedArray.swift in Sources */,
 				4176B30724A8E1AA003D6097 /* TestScheduler.swift in Sources */,
 				41364CC8248C6028007EBA46 /* TestStore.swift in Sources */,
 				41364CDB248C6028007EBA46 /* Store.swift in Sources */,
+				4180334724CF7D7600EA11AB /* RxSectionedTableDataSource.swift in Sources */,
+				4180334A24CF7D7600EA11AB /* TCASection.swift in Sources */,
+				4180334524CF7D7600EA11AB /* RxSectionedCollectionDataSource.swift in Sources */,
 				41364CE3248C6028007EBA46 /* IfLetStore.swift in Sources */,
 				41364CD6248C6028007EBA46 /* Locking.swift in Sources */,
 				41364CE4248C6028007EBA46 /* TCAIdentifiable.swift in Sources */,
