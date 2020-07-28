@@ -10,9 +10,6 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-//
-//public func noReload<State>(_ ls: State, _ rs: State) -> Bool { false }
-
 public struct ReloadCondition<State> {
   
   private let condition: (State, State) -> Bool

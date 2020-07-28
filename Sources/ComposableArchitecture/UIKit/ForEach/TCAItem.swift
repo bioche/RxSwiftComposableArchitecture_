@@ -9,11 +9,11 @@
 import Foundation
 
 public struct TCAItem<Model> {
-    let model: Model
-    let modelReloadCondition: ReloadCondition<Model>
-    
-    init(model: Model, modelReloadCondition: ReloadCondition<Model>) {
-        self.model = model
-        self.modelReloadCondition = modelReloadCondition
-    }
+  public let model: Model
+  public let modelReloadCondition: ReloadCondition<Model>
+  
+  public init(model: Model, modelReloadCondition: ReloadCondition<Model>) {
+    self.model = model
+    self.modelReloadCondition = modelReloadCondition
+  }
 }
