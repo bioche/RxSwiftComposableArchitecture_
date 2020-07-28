@@ -10,27 +10,41 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-public typealias ReloadCondition<State> = (State, State) -> Bool
 //
 //public func noReload<State>(_ ls: State, _ rs: State) -> Bool { false }
 
-//struct ReloadTest {
-//  func callAsFunction(_ lState: )
-//}
+public struct ReloadCondition<State> {
+  
+  private let condition: (State, State) -> Bool
+  
+  private init(_ condition: @escaping (State, State) -> Bool) {
+    self.condition = condition
+  }
+  
+  public func callAsFunction(_ lState: State, _ rState: State) -> Bool {
+    condition(lState, rState)
+  }
+  
+  public static var neverReload: Self { ReloadCondition { _, _ in false } }
+  public static func reloadWhen(_ condition: @escaping (State, State) -> Bool) -> Self {
+    .init(condition)
+  }
+  public static var alwaysReload: Self { ReloadCondition { _, _ in true } }
+}
 
 extension Store {
   /// Gives the evolution of a  list of stores scoped down to each element of this store.
   /// This avoids reloading entire collections / tables when only a property of an element is updated.
   /// The elements must be Identifiable so that we can publish a new array when an identity has changed at a specific index.
   /// For SwiftUI, prefer the ForEachStore
-  public func scopeForEach<EachState>(reloadCondition: @escaping ReloadCondition<EachState> = { _, _ in false }) -> Driver<[Store<EachState, Action>]>
+  public func scopeForEach<EachState>(reloadCondition: ReloadCondition<EachState> = .neverReload) -> Driver<[Store<EachState, Action>]>
     where State == [EachState], EachState: TCAIdentifiable {
 
-      return scope(state: { $0 }, action: { $1 })
+      scope(state: { $0 }, action: { $1 })
         .scopeForEach(reloadCondition: reloadCondition)
   }
 
-  public func scopeForEach<EachState, EachAction>(reloadCondition: @escaping (EachState, EachState) -> Bool = { _, _ in false }) -> Driver<[Store<EachState, EachAction>]>
+  public func scopeForEach<EachState, EachAction>(reloadCondition: ReloadCondition<EachState> = .neverReload) -> Driver<[Store<EachState, EachAction>]>
     where State == [EachState], EachState: TCAIdentifiable, Action == (EachState.ID, EachAction) {
 
       stateRelay

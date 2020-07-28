@@ -19,7 +19,7 @@ extension Store {
     // flat. By default no reload of the cell : all goes through the store
     public func bind<EachState, EachAction>(collectionView: UICollectionView,
                                      to datasource: RxFlatCollectionDataSource<Store<EachState, EachAction>>,
-                                       reloadCondition: @escaping ReloadCondition<EachState> = { _, _ in false }) -> Disposable
+                                     reloadCondition: ReloadCondition<EachState> = .neverReload) -> Disposable
         where State == [EachState],
         EachState: TCAIdentifiable,
         Action == (EachState.ID, EachAction) {
@@ -32,7 +32,7 @@ extension Store {
     
     public func bind<EachState>(collectionView: UICollectionView,
                          to datasource: RxFlatCollectionDataSource<Store<EachState, Action>>,
-                         reloadCondition: @escaping (EachState, EachState) -> Bool = { _, _ in false }) -> Disposable
+                         reloadCondition: ReloadCondition<EachState> = .neverReload) -> Disposable
         where State == [EachState],
         EachState: TCAIdentifiable {
             scope(state: { $0 }, action: { $1 })
@@ -52,7 +52,7 @@ extension Store {
         /// When the content of the header itself changes
         /// or elements below have a change that calls for update of cells, we return true.
         /// Then the stores will be given to differenceKit so that it updates the cells / header that need to.
-        let sectionReloadCondition: (SectionState, SectionState) -> Bool = {
+      let sectionReloadCondition: ReloadCondition<SectionState> = .reloadWhen {
             itemsBuilder.headerReloadCondition($0, $1)
                 || itemsBuilder.items($0).count != itemsBuilder.items($1).count
                 || !zip(itemsBuilder.items($0), itemsBuilder.items($1))
@@ -85,15 +85,15 @@ public struct SectionItemsBuilder<SectionState: TCAIdentifiable, SectionAction, 
     /// Return true when the difference can't be handled by stores
     /// thus requiring a reload of the cell (typically a change of cell size)
     /// Doesn't need to take id change into consideration as it's not a reload but a move
-    let itemsReloadCondition: (ItemState, ItemState) -> Bool
+    let itemsReloadCondition: ReloadCondition<ItemState>
     /// Condition to reload the header. This will reload the full section as well.
     /// Doesn't need to take id change into consideration as it's not a reload but a move
-    let headerReloadCondition: (SectionState, SectionState) -> Bool
+    let headerReloadCondition: ReloadCondition<SectionState>
     let actionScoping: (ItemState.ID, ItemAction) -> SectionAction
   
   public init(items: @escaping (SectionState) -> [ItemState],
-              itemsReloadCondition: @escaping (ItemState, ItemState) -> Bool,
-              headerReloadCondition: @escaping (SectionState, SectionState) -> Bool,
+              itemsReloadCondition: ReloadCondition<ItemState>,
+              headerReloadCondition: ReloadCondition<SectionState>,
               actionScoping: @escaping (ItemState.ID, ItemAction) -> SectionAction) {
     self.items = items
     self.itemsReloadCondition = itemsReloadCondition
@@ -104,8 +104,8 @@ public struct SectionItemsBuilder<SectionState: TCAIdentifiable, SectionAction, 
 
 extension SectionItemsBuilder where ItemAction == SectionAction {
   init(items: @escaping (SectionState) -> [ItemState],
-       itemsReloadCondition: @escaping (ItemState, ItemState) -> Bool,
-       headerReloadCondition: @escaping (SectionState, SectionState) -> Bool) {
+       itemsReloadCondition: ReloadCondition<ItemState>,
+       headerReloadCondition: ReloadCondition<SectionState>) {
     self.init(items: items,
               itemsReloadCondition: itemsReloadCondition,
               headerReloadCondition: headerReloadCondition,

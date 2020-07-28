@@ -13,7 +13,7 @@ public struct TCASection<Model, ItemModel> {
      let items: [TCAItem<ItemModel>]
      let modelReloadCondition: ReloadCondition<Model>
 
-     init(model: Model, items: [TCAItem<ItemModel>], modelReloadCondition: @escaping ReloadCondition<Model>) {
+     init(model: Model, items: [TCAItem<ItemModel>], modelReloadCondition: ReloadCondition<Model>) {
         self.model = model
         self.items = items
         self.modelReloadCondition = modelReloadCondition

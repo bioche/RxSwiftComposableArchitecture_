@@ -9,9 +9,7 @@
 import Foundation
 
 extension Store {
-    static func reloadCondition(_ stateCondition: @escaping ReloadCondition<State>) -> ReloadCondition<Store<State, Action>> {
-        { lStore, rStore in
-          stateCondition(lStore.state, rStore.state)
-        }
-    }
+  static func reloadCondition(_ stateCondition: ReloadCondition<State>) -> ReloadCondition<Store<State, Action>> {
+    .reloadWhen { stateCondition($0.state, $1.state) }
+  }
 }
