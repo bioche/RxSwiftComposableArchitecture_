@@ -13,11 +13,11 @@ import RxCocoa
 public class RxSectionedCollectionDataSource<SectionModel, CellModel>: NSObject, RxCollectionViewDataSourceType, UICollectionViewDataSource, SectionedViewDataSourceType {
   
   public typealias Section = TCASection<SectionModel, CellModel>
-  public typealias ReloadingClosure = (UICollectionView, RxSectionedCollectionDataSource, Event<[Section]>) -> ()
+  public typealias ChangesApplication = (UICollectionView, RxSectionedCollectionDataSource, Event<[Section]>) -> ()
   
   let cellCreation: (UICollectionView, IndexPath, CellModel) -> UICollectionViewCell
   let headerCreation: ((UICollectionView, Int, SectionModel) -> UICollectionReusableView?)?
-  let reloading: ReloadingClosure
+  let changesApplication: ChangesApplication
   
   public var values: [Section] = []
   
@@ -28,14 +28,14 @@ public class RxSectionedCollectionDataSource<SectionModel, CellModel>: NSObject,
   ///    For the sections where no header is returned, referenceSizeForHeaderInSection should return CGSize.zero
   public init(cellCreation: @escaping (UICollectionView, IndexPath, CellModel) -> UICollectionViewCell,
               headerCreation: ((UICollectionView, Int, SectionModel) -> UICollectionReusableView?)? = nil,
-              reloading: @escaping ReloadingClosure = fullReloading) {
+              reloading: @escaping ChangesApplication = fullReloading) {
     self.cellCreation = cellCreation
     self.headerCreation = headerCreation
-    self.reloading = reloading
+    self.changesApplication = reloading
   }
   
   public func collectionView(_ collectionView: UICollectionView, observedEvent: Event<[Section]>) {
-    reloading(collectionView, self, observedEvent)
+    changesApplication(collectionView, self, observedEvent)
   }
   
   public func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -69,7 +69,7 @@ public class RxSectionedCollectionDataSource<SectionModel, CellModel>: NSObject,
     cellModel(at: indexPath)
   }
   
-  public static var fullReloading: ReloadingClosure {
+  public static var fullReloading: ChangesApplication {
     return { collectionView, datasource, observedEvent in
       datasource.values = observedEvent.element ?? []
       collectionView.reloadData()

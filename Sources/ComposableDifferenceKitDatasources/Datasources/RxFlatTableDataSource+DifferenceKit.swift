@@ -12,7 +12,7 @@ import DifferenceKit
 import ComposableArchitecture
 
 extension RxFlatTableDataSource where ItemModel: TCAIdentifiable {
-  public static func differenceKitReloading(animation: UITableView.RowAnimation) -> ReloadingClosure {
+  public static func differenceKitReloading(animation: UITableView.RowAnimation) -> ChangesApplication {
     return { tableView, datasource, observedEvent in
       let source = datasource.values
       let target = observedEvent.element ?? []

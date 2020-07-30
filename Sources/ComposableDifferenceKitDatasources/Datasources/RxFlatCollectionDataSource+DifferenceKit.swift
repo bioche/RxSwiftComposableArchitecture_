@@ -11,7 +11,7 @@ import DifferenceKit
 import ComposableArchitecture
 
 extension RxFlatCollectionDataSource where ItemModel: TCAIdentifiable {
-  public static var differenceKitReloading: ReloadingClosure {
+  public static var differenceKitReloading: ChangesApplication {
     return { collectionView, datasource, observedEvent in
       let source = datasource.values
       let target = observedEvent.element ?? []

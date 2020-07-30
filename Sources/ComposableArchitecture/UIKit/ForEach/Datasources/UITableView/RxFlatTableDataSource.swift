@@ -13,20 +13,20 @@ import RxCocoa
 public class RxFlatTableDataSource<ItemModel>: NSObject, RxTableViewDataSourceType, UITableViewDataSource {
   
   let cellCreation: (UITableView, IndexPath, ItemModel) -> UITableViewCell
-  let reloading: ReloadingClosure
+  let changesApplication: ChangesApplication
   public var values = [Item]()
   
   public typealias Item = TCAItem<ItemModel>
-  public typealias ReloadingClosure = (UITableView, RxFlatTableDataSource, Event<[Item]>) -> ()
+  public typealias ChangesApplication = (UITableView, RxFlatTableDataSource, Event<[Item]>) -> ()
   
   init(cellCreation: @escaping (UITableView, IndexPath, ItemModel) -> UITableViewCell,
-       reloadingClosure: @escaping ReloadingClosure = fullReloading) {
+       changesApplication: @escaping ChangesApplication = fullReloading) {
     self.cellCreation = cellCreation
-    self.reloading = reloadingClosure
+    self.changesApplication = changesApplication
   }
   
   public func tableView(_ tableView: UITableView, observedEvent: Event<[Item]>) {
-    reloading(tableView, self, observedEvent)
+    changesApplication(tableView, self, observedEvent)
   }
   
   public func numberOfSections(in tableView: UITableView) -> Int {
@@ -41,7 +41,7 @@ public class RxFlatTableDataSource<ItemModel>: NSObject, RxTableViewDataSourceTy
     cellCreation(tableView, indexPath, values[indexPath.row].model)
   }
   
-  static var fullReloading: ReloadingClosure {
+  static var fullReloading: ChangesApplication {
     return { collectionView, datasource, observedEvent in
       datasource.values = observedEvent.element ?? []
       collectionView.reloadData()

@@ -9,14 +9,15 @@
 import UIKit
 import RxSwift
 
-public typealias CellCreation<EachState, EachAction>
-  = (UICollectionView, IndexPath, Store<EachState, EachAction>) -> UICollectionViewCell
-public typealias HeaderCreation<HeaderState, HeaderAction>
-  = (UICollectionView, Int, Store<HeaderState, HeaderAction>) -> UICollectionReusableView?
-
 extension Store {
   
-  // flat. By default no reload of the cell : all goes through the store
+  /// Binds datasource of stores to a collection view. No sections, only a flat list of items.
+  ///
+  /// - Parameters:
+  ///   - collectionView: The collection to be populated
+  ///   - datasource: The datasource that will fill the collection
+  ///   - reloadCondition: The condition under which cells are gonna need a reload. By default c
+  /// - Returns: Disposable to be disposed whenever the collection view doesn't need filling anymore
   public func bind<EachState, EachAction>(collectionView: UICollectionView,
                                           to datasource: RxFlatCollectionDataSource<Store<EachState, EachAction>>,
                                           reloadCondition: ReloadCondition<EachState> = .neverReload) -> Disposable
@@ -24,10 +25,7 @@ extension Store {
     EachState: TCAIdentifiable,
     Action == (EachState.ID, EachAction) {
       
-      return scopeForEach(reloadCondition: reloadCondition)
-        .map { $0.map { TCAItem(model: $0, modelReloadCondition: Store<EachState, EachAction>.reloadCondition(reloadCondition)) } }
-        .debug("scopeForEach")
-        .drive(collectionView.rx.items(dataSource: datasource))
+      return bind(transformation: collectionView.rx.items(dataSource: datasource), reloadCondition: reloadCondition)
   }
   
   public func bind<EachState>(collectionView: UICollectionView,
@@ -35,80 +33,29 @@ extension Store {
                               reloadCondition: ReloadCondition<EachState> = .neverReload) -> Disposable
     where State == [EachState],
     EachState: TCAIdentifiable {
-      scope(state: { $0 }, action: { $1 })
-        .bind(collectionView: collectionView,
-              to: datasource,
-              reloadCondition: reloadCondition)
+      
+      return bind(transformation: collectionView.rx.items(dataSource: datasource), reloadCondition: reloadCondition)
   }
   
   public func bind<SectionState, SectionAction, ItemState, ItemAction>
     (collectionView: UICollectionView,
      to datasource: RxSectionedCollectionDataSource<Store<SectionState, SectionAction>, Store<ItemState, ItemAction>>,
-     itemsBuilder: SectionItemsBuilder<SectionState, SectionAction, ItemState, ItemAction>) -> Disposable
+     bindingConfiguration: SectionBindingConfiguration<SectionState, SectionAction, ItemState, ItemAction>) -> Disposable
     where State == [SectionState],
     ItemState: TCAIdentifiable, SectionState: TCAIdentifiable,
     Action == (SectionState.ID, SectionAction)
   {
-    /// When the content of the header itself changes
-    /// or elements below have a change that calls for update of cells, we return true.
-    /// Then the stores will be given to differenceKit so that it updates the cells / header that need to.
-    let sectionReloadCondition: ReloadCondition<SectionState> = .reloadWhen {
-      itemsBuilder.headerReloadCondition($0, $1)
-        || itemsBuilder.items($0).count != itemsBuilder.items($1).count
-        || !zip(itemsBuilder.items($0), itemsBuilder.items($1))
-          .allSatisfy {
-            !itemsBuilder.itemsReloadCondition($0, $1)
-              && $0.id == $1.id
-      }
-    }
-    
-    return scopeForEach(reloadCondition: sectionReloadCondition) // --> Only reload when a difference that can't be handled by the stores themselves is detected.
-      .debug("scopeForEach")
-      .map { $0.map { store in
-        var elements = [Store<ItemState, ItemAction>]()
-        let disposable = store.scope(state: { itemsBuilder.items($0) }, action: itemsBuilder.actionScoping)
-          .scopeForEach()
-          .drive(onNext: { elements = $0 })
-        disposable.dispose()
-        let items = elements
-          .map { TCAItem(model: $0, modelReloadCondition: Store<ItemState, ItemAction>.reloadCondition(itemsBuilder.itemsReloadCondition)) }
-        return TCASection(model: store, items: items, modelReloadCondition: Store<SectionState, SectionAction>.reloadCondition(itemsBuilder.headerReloadCondition))
-        }
-    }
-    .drive(collectionView.rx.items(dataSource: datasource))
+    return bind(transformation: collectionView.rx.items(dataSource: datasource), bindingConfiguration: bindingConfiguration)
   }
-}
-
-public struct SectionItemsBuilder<SectionState: TCAIdentifiable, SectionAction, ItemState: TCAIdentifiable, ItemAction> {
-  /// Gives the items for each section
-  let items: (SectionState) -> [ItemState]
-  /// Return true when the difference can't be handled by stores
-  /// thus requiring a reload of the cell (typically a change of cell size)
-  /// Doesn't need to take id change into consideration as it's not a reload but a move
-  let itemsReloadCondition: ReloadCondition<ItemState>
-  /// Condition to reload the header. This will reload the full section as well.
-  /// Doesn't need to take id change into consideration as it's not a reload but a move
-  let headerReloadCondition: ReloadCondition<SectionState>
-  let actionScoping: (ItemState.ID, ItemAction) -> SectionAction
   
-  public init(items: @escaping (SectionState) -> [ItemState],
-              itemsReloadCondition: ReloadCondition<ItemState>,
-              headerReloadCondition: ReloadCondition<SectionState>,
-              actionScoping: @escaping (ItemState.ID, ItemAction) -> SectionAction) {
-    self.items = items
-    self.itemsReloadCondition = itemsReloadCondition
-    self.headerReloadCondition = headerReloadCondition
-    self.actionScoping = actionScoping
-  }
-}
-
-extension SectionItemsBuilder where ItemAction == SectionAction {
-  init(items: @escaping (SectionState) -> [ItemState],
-       itemsReloadCondition: ReloadCondition<ItemState>,
-       headerReloadCondition: ReloadCondition<SectionState>) {
-    self.init(items: items,
-              itemsReloadCondition: itemsReloadCondition,
-              headerReloadCondition: headerReloadCondition,
-              actionScoping: { $1 })
+  public func bind<SectionState, ItemState, ItemAction>
+  (collectionView: UICollectionView,
+   to datasource: RxSectionedCollectionDataSource<Store<SectionState, Action>, Store<ItemState, ItemAction>>,
+   bindingConfiguration: SectionBindingConfiguration<SectionState, Action, ItemState, ItemAction>) -> Disposable
+    where State == [SectionState],
+    ItemState: TCAIdentifiable, SectionState: TCAIdentifiable {
+      
+      return bind(transformation: collectionView.rx.items(dataSource: datasource), bindingConfiguration: bindingConfiguration)
+      
   }
 }
