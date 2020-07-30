@@ -396,4 +396,26 @@ public struct Reducer<State, Action, Environment> {
   ) -> Effect<Action, Never> {
     self.reducer(&state, action, environment)
   }
+  
+  /// Resend an action on actual reducer to another reducer
+  ///
+  /// - Parameters:
+  ///   - action: An action on actual reducer.
+  ///   - to: The destination action
+  /// - Returns: Self.
+  public func resending<Value>(
+    _ case: @escaping (Value) -> Action,
+    to embed: @escaping (Value) -> Action
+  ) -> Self {
+    .combine(
+      self,
+      .init { state, action, _ in
+        if let value = CasePath.case(`case`).extract(from: action) {
+          return Effect(value: embed(value))
+        } else {
+          return .none
+        }
+      }
+    )
+  }
 }
