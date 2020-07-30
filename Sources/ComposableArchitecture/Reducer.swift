@@ -400,7 +400,7 @@ public struct Reducer<State, Action, Environment> {
   /// Resend an action on actual reducer to another reducer
   ///
   /// - Parameters:
-  ///   - action: An action on actual reducer.
+  ///   - case: An action on actual reducer.
   ///   - to: The destination action
   /// - Returns: Self.
   public func resending<Value>(
