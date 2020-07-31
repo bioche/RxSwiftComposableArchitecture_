@@ -227,7 +227,7 @@ final class EffectCancellationTests: XCTestCase {
   }
   
     func testConcurrentCancelsRepeated() {
-      (1...100).forEach { idx in
+      (1...10).forEach { idx in
         print("loop \(idx)")
         testConcurrentCancels()
       }

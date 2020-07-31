@@ -19,10 +19,10 @@ public final class Store<State, Action> {
     }
   }
     
-  var effectDisposables: [UUID: Disposable] = [:]
+  var effectDisposeBags: [UUID: DisposeBag] = [:]
     
   private var isSending = false
-  private var parentCancellable: Disposable?
+  private let disposeBag = DisposeBag()
   private let reducer: (inout State, Action) -> Effect<Action, Never>
   private var synchronousActionsToSend: [Action] = []
 
@@ -79,8 +79,9 @@ public final class Store<State, Action> {
         return .none
       }
     )
-    localStore.parentCancellable = self.stateRelay
+    self.stateRelay
       .subscribe(onNext: { [weak localStore] newValue in localStore?.state = toLocalState(newValue) })
+      .disposed(by: localStore.disposeBag)
     return localStore
   }
 
@@ -124,11 +125,12 @@ public final class Store<State, Action> {
             return .none
           })
 
-        localStore.parentCancellable = self.stateRelay
+        self.stateRelay
           .subscribe(onNext: { [weak localStore] state in
             guard let localStore = localStore else { return }
             localStore.state = extractLocalState(state) ?? localStore.state
           })
+          .disposed(by: localStore.disposeBag)
         return localStore
       }.asObservable()
   }
@@ -181,7 +183,8 @@ public final class Store<State, Action> {
       let uuid = UUID()
 
       var isProcessingEffects = true
-      let effectDisposable = effect.subscribe(
+      let effectDisposeBag = DisposeBag()
+      effect.subscribe(
         onNext: { [weak self] action in
           if isProcessingEffects {
             self?.synchronousActionsToSend.append(action)
@@ -191,13 +194,13 @@ public final class Store<State, Action> {
         },
         onCompletion: { [weak self] _ in
           didComplete = true
-          self?.effectDisposables[uuid] = nil
+          self?.effectDisposeBags[uuid] = nil
         }
-      )
+      ).disposed(by: effectDisposeBag)
       isProcessingEffects = false
 
       if !didComplete {
-        self.effectDisposables[uuid] = effectDisposable
+        self.effectDisposeBags[uuid] = effectDisposeBag
       }
     }
   }
