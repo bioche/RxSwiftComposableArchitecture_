@@ -74,6 +74,11 @@ extension Store {
       scope(state: { $0 }, action: { $1 })
         .bind(transformation: transformation,
               bindingConfiguration: bindingConfiguration)
+  }  
+}
+
+extension Store {
+  fileprivate static func reloadCondition(_ stateCondition: ReloadCondition<State>) -> ReloadCondition<Store<State, Action>> {
+    .reloadWhen { stateCondition($0.state, $1.state) }
   }
-  
 }

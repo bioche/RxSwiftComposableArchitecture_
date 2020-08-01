@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+
 public class RxFlatTableDataSource<ItemModel>: NSObject, RxTableViewDataSourceType, UITableViewDataSource {
   
   let cellCreation: (UITableView, IndexPath, ItemModel) -> UITableViewCell
@@ -19,7 +20,7 @@ public class RxFlatTableDataSource<ItemModel>: NSObject, RxTableViewDataSourceTy
   public typealias Item = TCAItem<ItemModel>
   public typealias ApplyingChanges = (UITableView, RxFlatTableDataSource, Event<[Item]>) -> ()
   
-  init(cellCreation: @escaping (UITableView, IndexPath, ItemModel) -> UITableViewCell,
+  public init(cellCreation: @escaping (UITableView, IndexPath, ItemModel) -> UITableViewCell,
        applyingChanges: @escaping ApplyingChanges = fullReloading) {
     self.cellCreation = cellCreation
     self.applyingChanges = applyingChanges
@@ -41,7 +42,7 @@ public class RxFlatTableDataSource<ItemModel>: NSObject, RxTableViewDataSourceTy
     cellCreation(tableView, indexPath, values[indexPath.row].model)
   }
   
-  static var fullReloading: ApplyingChanges {
+  public static var fullReloading: ApplyingChanges {
     return { collectionView, datasource, observedEvent in
       datasource.values = observedEvent.element ?? []
       collectionView.reloadData()
