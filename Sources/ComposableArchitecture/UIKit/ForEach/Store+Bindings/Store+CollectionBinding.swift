@@ -9,6 +9,9 @@
 import UIKit
 import RxSwift
 
+public typealias RxFlatStoreCollectionDataSource<EachState, EachAction> = RxFlatCollectionDataSource<Store<EachState, EachAction>>
+public typealias RxSectionedStoreCollectionDataSource<SectionState, SectionAction, ItemState, ItemAction> = RxSectionedCollectionDataSource<Store<SectionState, SectionAction>, Store<ItemState, ItemAction>>
+
 extension Store {
   
   /// Binds datasource of stores to a collection view. No sections, only a flat list of items.
@@ -19,7 +22,7 @@ extension Store {
   ///   - reloadCondition: The condition under which cells are gonna need a reload. By default c
   /// - Returns: Disposable to be disposed whenever the collection view doesn't need filling anymore
   public func bind<EachState, EachAction>(collectionView: UICollectionView,
-                                          to datasource: RxFlatCollectionDataSource<Store<EachState, EachAction>>,
+                                          to datasource: RxFlatStoreCollectionDataSource<EachState, EachAction>,
                                           reloadCondition: ReloadCondition<EachState> = .neverReload) -> Disposable
     where State == [EachState],
     EachState: TCAIdentifiable,
@@ -29,7 +32,7 @@ extension Store {
   }
   
   public func bind<EachState>(collectionView: UICollectionView,
-                              to datasource: RxFlatCollectionDataSource<Store<EachState, Action>>,
+                              to datasource: RxFlatStoreCollectionDataSource<EachState, Action>,
                               reloadCondition: ReloadCondition<EachState> = .neverReload) -> Disposable
     where State == [EachState],
     EachState: TCAIdentifiable {
@@ -39,7 +42,7 @@ extension Store {
   
   public func bind<SectionState, SectionAction, ItemState, ItemAction>
     (collectionView: UICollectionView,
-     to datasource: RxSectionedCollectionDataSource<Store<SectionState, SectionAction>, Store<ItemState, ItemAction>>,
+     to datasource: RxSectionedStoreCollectionDataSource<SectionState, SectionAction, ItemState, ItemAction>,
      bindingConfiguration: SectionBindingConfiguration<SectionState, SectionAction, ItemState, ItemAction>) -> Disposable
     where State == [SectionState],
     ItemState: TCAIdentifiable, SectionState: TCAIdentifiable,
@@ -50,7 +53,7 @@ extension Store {
   
   public func bind<SectionState, ItemState, ItemAction>
   (collectionView: UICollectionView,
-   to datasource: RxSectionedCollectionDataSource<Store<SectionState, Action>, Store<ItemState, ItemAction>>,
+   to datasource: RxSectionedStoreCollectionDataSource<SectionState, Action, ItemState, ItemAction>,
    bindingConfiguration: SectionBindingConfiguration<SectionState, Action, ItemState, ItemAction>) -> Disposable
     where State == [SectionState],
     ItemState: TCAIdentifiable, SectionState: TCAIdentifiable {

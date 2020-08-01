@@ -9,10 +9,13 @@
 import UIKit
 import RxSwift
 
+public typealias RxFlatStoreTableDataSource<EachState, EachAction> = RxFlatTableDataSource<Store<EachState, EachAction>>
+public typealias RxSectionedStoreTableDataSource<SectionState, SectionAction, ItemState, ItemAction> = RxSectionedTableDataSource<Store<SectionState, SectionAction>, Store<ItemState, ItemAction>>
+ 
 extension Store {
   // flat. By default no reload of the cell : all goes through the store
   public func bind<EachState, EachAction>(tableView: UITableView,
-                                          to datasource: RxFlatTableDataSource<Store<EachState, EachAction>>,
+                                          to datasource: RxFlatStoreTableDataSource<EachState, EachAction>,
                                           reloadCondition: ReloadCondition<EachState> = .neverReload) -> Disposable
     where State == [EachState],
     EachState: TCAIdentifiable,
@@ -22,7 +25,7 @@ extension Store {
   }
   
   public func bind<EachState>(tableView: UITableView,
-                              to datasource: RxFlatTableDataSource<Store<EachState, Action>>,
+                              to datasource: RxFlatStoreTableDataSource<EachState, Action>,
                               reloadCondition: ReloadCondition<EachState> = .neverReload) -> Disposable
     where State == [EachState],
     EachState: TCAIdentifiable {
@@ -32,7 +35,7 @@ extension Store {
   
   public func bind<SectionState, SectionAction, ItemState, ItemAction>
     (tableView: UITableView,
-     to datasource: RxSectionedTableDataSource<Store<SectionState, SectionAction>, Store<ItemState, ItemAction>>,
+     to datasource: RxSectionedStoreTableDataSource<SectionState, SectionAction, ItemState, ItemAction>,
      bindingConfiguration: SectionBindingConfiguration<SectionState, SectionAction, ItemState, ItemAction>) -> Disposable
     where State == [SectionState],
     ItemState: TCAIdentifiable, SectionState: TCAIdentifiable,
@@ -43,7 +46,7 @@ extension Store {
   
   public func bind<SectionState, ItemState, ItemAction>
   (tableView: UITableView,
-   to datasource: RxSectionedTableDataSource<Store<SectionState, Action>, Store<ItemState, ItemAction>>,
+   to datasource: RxSectionedStoreTableDataSource<SectionState, Action, ItemState, ItemAction>,
    bindingConfiguration: SectionBindingConfiguration<SectionState, Action, ItemState, ItemAction>) -> Disposable
     where State == [SectionState],
     ItemState: TCAIdentifiable, SectionState: TCAIdentifiable {
