@@ -14,35 +14,35 @@ import RxCocoa
 public class RxSectionedTableDataSource<SectionModel, CellModel>: NSObject, RxTableViewDataSourceType, UITableViewDataSource, SectionedViewDataSourceType {
   
   public typealias Section = TCASection<SectionModel, CellModel>
-  public typealias ChangesApplication = (UITableView, RxSectionedTableDataSource, Event<[Section]>) -> ()
+  public typealias ApplyingChanges = (UITableView, RxSectionedTableDataSource, Event<[Section]>) -> ()
   
   let cellCreation: (UITableView, IndexPath, CellModel) -> UITableViewCell
   let headerCreation: ((UITableView, Int, Section) -> UIView?)?
   let headerTitlesSource: ((UITableView, Int, Section) -> String?)?
-  let changesApplication: ChangesApplication
+  let applyingChanges: ApplyingChanges
   
   public var values: Element = []
   
   public init(cellCreation: @escaping (UITableView, IndexPath, CellModel) -> UITableViewCell,
               headerCreation: ((UITableView, Int, Section) -> UIView?)? = nil,
-              changesApplication: @escaping ChangesApplication = fullReloading) {
+              applyingChanges: @escaping ApplyingChanges = fullReloading) {
     self.cellCreation = cellCreation
     self.headerCreation = headerCreation
     self.headerTitlesSource = nil
-    self.changesApplication = changesApplication
+    self.applyingChanges = applyingChanges
   }
   
   public init(cellCreation: @escaping (UITableView, IndexPath, CellModel) -> UITableViewCell,
               headerTitlesSource: ((UITableView, Int, Section) -> String?)? = nil,
-              changesApplication: @escaping ChangesApplication = fullReloading) {
+              applyingChanges: @escaping ApplyingChanges = fullReloading) {
     self.cellCreation = cellCreation
     self.headerTitlesSource = headerTitlesSource
     self.headerCreation = nil
-    self.changesApplication = changesApplication
+    self.applyingChanges = applyingChanges
   }
   
   public func tableView(_ tableView: UITableView, observedEvent: RxSwift.Event<[Section]>) {
-    changesApplication(tableView, self, observedEvent)
+    applyingChanges(tableView, self, observedEvent)
   }
   
   public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -83,7 +83,7 @@ public class RxSectionedTableDataSource<SectionModel, CellModel>: NSObject, RxTa
     cellModel(at: indexPath)
   }
   
-  public static var fullReloading: ChangesApplication {
+  public static var fullReloading: ApplyingChanges {
     return { tableView, datasource, observedEvent in
       datasource.values = observedEvent.element ?? []
       tableView.reloadData()

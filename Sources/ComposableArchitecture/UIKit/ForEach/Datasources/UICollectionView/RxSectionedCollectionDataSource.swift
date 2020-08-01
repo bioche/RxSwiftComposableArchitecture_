@@ -13,11 +13,11 @@ import RxCocoa
 public class RxSectionedCollectionDataSource<SectionModel, CellModel>: NSObject, RxCollectionViewDataSourceType, UICollectionViewDataSource, SectionedViewDataSourceType {
   
   public typealias Section = TCASection<SectionModel, CellModel>
-  public typealias ChangesApplication = (UICollectionView, RxSectionedCollectionDataSource, Event<[Section]>) -> ()
+  public typealias ApplyingChanges = (UICollectionView, RxSectionedCollectionDataSource, Event<[Section]>) -> ()
   
   let cellCreation: (UICollectionView, IndexPath, CellModel) -> UICollectionViewCell
   let headerCreation: ((UICollectionView, Int, SectionModel) -> UICollectionReusableView?)?
-  let changesApplication: ChangesApplication
+  let applyingChanges: ApplyingChanges
   
   public var values: [Section] = []
   
@@ -28,14 +28,14 @@ public class RxSectionedCollectionDataSource<SectionModel, CellModel>: NSObject,
   ///    For the sections where no header is returned, referenceSizeForHeaderInSection should return CGSize.zero
   public init(cellCreation: @escaping (UICollectionView, IndexPath, CellModel) -> UICollectionViewCell,
               headerCreation: ((UICollectionView, Int, SectionModel) -> UICollectionReusableView?)? = nil,
-              reloading: @escaping ChangesApplication = fullReloading) {
+              reloading: @escaping ApplyingChanges = fullReloading) {
     self.cellCreation = cellCreation
     self.headerCreation = headerCreation
-    self.changesApplication = reloading
+    self.applyingChanges = reloading
   }
   
   public func collectionView(_ collectionView: UICollectionView, observedEvent: Event<[Section]>) {
-    changesApplication(collectionView, self, observedEvent)
+    applyingChanges(collectionView, self, observedEvent)
   }
   
   public func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -69,7 +69,7 @@ public class RxSectionedCollectionDataSource<SectionModel, CellModel>: NSObject,
     cellModel(at: indexPath)
   }
   
-  public static var fullReloading: ChangesApplication {
+  public static var fullReloading: ApplyingChanges {
     return { collectionView, datasource, observedEvent in
       datasource.values = observedEvent.element ?? []
       collectionView.reloadData()

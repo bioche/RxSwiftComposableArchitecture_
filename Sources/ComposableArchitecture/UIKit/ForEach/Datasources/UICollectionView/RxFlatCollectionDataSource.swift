@@ -13,21 +13,21 @@ import RxSwift
 public class RxFlatCollectionDataSource<ItemModel>: NSObject, RxCollectionViewDataSourceType, UICollectionViewDataSource {
   
   let cellCreation: (UICollectionView, IndexPath, ItemModel) -> UICollectionViewCell
-  let changesApplication: ChangesApplication
+  let applyingChanges: ApplyingChanges
   
   public var values = [Item]()
   
   public typealias Item = TCAItem<ItemModel>
-  public typealias ChangesApplication = (UICollectionView, RxFlatCollectionDataSource, Event<[Item]>) -> ()
+  public typealias ApplyingChanges = (UICollectionView, RxFlatCollectionDataSource, Event<[Item]>) -> ()
   
   public init(cellCreation: @escaping (UICollectionView, IndexPath, ItemModel) -> UICollectionViewCell,
-              changesApplication: @escaping ChangesApplication = fullReloading) {
+              applyingChanges: @escaping ApplyingChanges = fullReloading) {
     self.cellCreation = cellCreation
-    self.changesApplication = changesApplication
+    self.applyingChanges = applyingChanges
   }
   
   public func collectionView(_ collectionView: UICollectionView, observedEvent: Event<[Item]>) {
-    changesApplication(collectionView, self, observedEvent)
+    applyingChanges(collectionView, self, observedEvent)
   }
   
   public func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -42,7 +42,7 @@ public class RxFlatCollectionDataSource<ItemModel>: NSObject, RxCollectionViewDa
     cellCreation(collectionView, indexPath, values[indexPath.row].model)
   }
   
-  public static var fullReloading: ChangesApplication {
+  public static var fullReloading: ApplyingChanges {
     return { collectionView, datasource, observedEvent in
       datasource.values = observedEvent.element ?? []
       collectionView.reloadData()
