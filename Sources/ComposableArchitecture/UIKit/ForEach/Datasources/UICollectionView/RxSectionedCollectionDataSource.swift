@@ -10,14 +10,15 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+/// The datasource for sectioned collection views.
 public class RxSectionedCollectionDataSource<SectionModel, CellModel>: NSObject, RxCollectionViewDataSourceType, UICollectionViewDataSource, SectionedViewDataSourceType {
   
   public typealias Section = TCASection<SectionModel, CellModel>
   public typealias ApplyingChanges = (UICollectionView, RxSectionedCollectionDataSource, Event<[Section]>) -> ()
   
-  let cellCreation: (UICollectionView, IndexPath, CellModel) -> UICollectionViewCell
-  let headerCreation: ((UICollectionView, Int, SectionModel) -> UICollectionReusableView?)?
-  let applyingChanges: ApplyingChanges
+  public let cellCreation: (UICollectionView, IndexPath, CellModel) -> UICollectionViewCell
+  public let headerCreation: ((UICollectionView, Int, SectionModel) -> UICollectionReusableView?)?
+  public let applyingChanges: ApplyingChanges
   
   public var values: [Section] = []
   
@@ -26,12 +27,13 @@ public class RxSectionedCollectionDataSource<SectionModel, CellModel>: NSObject,
   ///   - cellCreation: Creation of the cell at the specified index
   ///   - headerCreation: Creation of the header for a specific section. For the headers to show, the headerReferenceSize must be set and/or implement the referenceSizeForHeaderInSection method of the collection delegate (apparently it doesn't support autolayout https://stackoverflow.com/questions/39825290/uicollectionview-header-dynamic-height-using-auto-layout ...).
   ///    For the sections where no header is returned, referenceSizeForHeaderInSection should return CGSize.zero
+  ///   - applyingChanges: The closure that applies the changes in the section list. By default a full reload of the table is performed (reloadData). Import the `ComposableDifferenceKitDatasources` framework & use `differenceKitReloading` for a clever diff reload using DifferenceKit
   public init(cellCreation: @escaping (UICollectionView, IndexPath, CellModel) -> UICollectionViewCell,
               headerCreation: ((UICollectionView, Int, SectionModel) -> UICollectionReusableView?)? = nil,
-              reloading: @escaping ApplyingChanges = fullReloading) {
+              applyingChanges: @escaping ApplyingChanges = fullReloading) {
     self.cellCreation = cellCreation
     self.headerCreation = headerCreation
-    self.applyingChanges = reloading
+    self.applyingChanges = applyingChanges
   }
   
   public func collectionView(_ collectionView: UICollectionView, observedEvent: Event<[Section]>) {
@@ -57,11 +59,11 @@ public class RxSectionedCollectionDataSource<SectionModel, CellModel>: NSObject,
     return headerCreation?(collectionView, indexPath.section, section.model) ?? UICollectionReusableView()
   }
   
-  func section(at index: Int) -> Section {
+  public func section(at index: Int) -> Section {
     values[index]
   }
   
-  func cellModel(at indexPath: IndexPath) -> CellModel {
+  public func cellModel(at indexPath: IndexPath) -> CellModel {
     section(at: indexPath.section).items[indexPath.row].model
   }
   
@@ -69,6 +71,7 @@ public class RxSectionedCollectionDataSource<SectionModel, CellModel>: NSObject,
     cellModel(at: indexPath)
   }
   
+  /// The closure that applies the changes in the item list : A full reload of the table is performed (reloadData). Import the `ComposableDifferenceKitDatasources` framework & use `differenceKitReloading` for a clever diff reload using DifferenceKit.
   public static var fullReloading: ApplyingChanges {
     return { collectionView, datasource, observedEvent in
       datasource.values = observedEvent.element ?? []

@@ -10,19 +10,24 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-/// Allows for simple table view animations on changes based on DifferenceKit. (Avoids the heaviness of RxDatasource)
+/// The datasource for sectioned table views.
 public class RxSectionedTableDataSource<SectionModel, CellModel>: NSObject, RxTableViewDataSourceType, UITableViewDataSource, SectionedViewDataSourceType {
   
   public typealias Section = TCASection<SectionModel, CellModel>
   public typealias ApplyingChanges = (UITableView, RxSectionedTableDataSource, Event<[Section]>) -> ()
   
-  let cellCreation: (UITableView, IndexPath, CellModel) -> UITableViewCell
-  let headerCreation: ((UITableView, Int, Section) -> UIView?)?
-  let headerTitlesSource: ((UITableView, Int, Section) -> String?)?
-  let applyingChanges: ApplyingChanges
+  public let cellCreation: (UITableView, IndexPath, CellModel) -> UITableViewCell
+  public let headerCreation: ((UITableView, Int, Section) -> UIView?)?
+  public let headerTitlesSource: ((UITableView, Int, Section) -> String?)?
+  public let applyingChanges: ApplyingChanges
   
   public var values: Element = []
   
+  /// Inits the datasource with custom header views. For the header to appear, make sure to implement delegate method `tableView:viewForHeaderInSection:` and just call this datasource's `tableView:viewForHeaderInSection:` method.
+  /// - Parameters:
+  ///   - cellCreation: The closure called each time a cell needs to be created
+  ///   - headerCreation: The closure called each time a header needs to be created
+  ///   - applyingChanges: The closure that applies the changes in the section list. By default a full reload of the table is performed (reloadData). Import the `ComposableDifferenceKitDatasources` framework & use `differenceKitReloading` for a clever diff reload using DifferenceKit.
   public init(cellCreation: @escaping (UITableView, IndexPath, CellModel) -> UITableViewCell,
               headerCreation: ((UITableView, Int, Section) -> UIView?)? = nil,
               applyingChanges: @escaping ApplyingChanges = fullReloading) {
@@ -32,6 +37,11 @@ public class RxSectionedTableDataSource<SectionModel, CellModel>: NSObject, RxTa
     self.applyingChanges = applyingChanges
   }
   
+  /// Inits the datasource with standard header views.
+  /// - Parameters:
+  ///   - cellCreation: The closure called each time a cell needs to be created
+  ///   - headerTitlesSource: The closure called each time a header needs to be created
+  ///   - applyingChanges: The closure that applies the changes in the item list. By default a full reload of the table is performed (reloadData). Import the `ComposableDifferenceKitDatasources` framework & use `differenceKitReloading` for a clever diff reload using DifferenceKit.
   public init(cellCreation: @escaping (UITableView, IndexPath, CellModel) -> UITableViewCell,
               headerTitlesSource: ((UITableView, Int, Section) -> String?)? = nil,
               applyingChanges: @escaping ApplyingChanges = fullReloading) {
@@ -60,7 +70,7 @@ public class RxSectionedTableDataSource<SectionModel, CellModel>: NSObject, RxTa
     return headerTitlesSource?(tableView, sectionIndex, section)
   }
   
-  func tableView(_ tableView: UITableView, viewForHeaderInSection sectionIndex: Int) -> UIView? {
+  public func tableView(_ tableView: UITableView, viewForHeaderInSection sectionIndex: Int) -> UIView? {
     guard let section = values[safe: sectionIndex] else {
       return nil
     }
@@ -71,11 +81,11 @@ public class RxSectionedTableDataSource<SectionModel, CellModel>: NSObject, RxTa
     cellCreation(tableView, indexPath, values[indexPath.section].items[indexPath.row].model)
   }
   
-  func section(at index: Int) -> Section {
+  public func section(at index: Int) -> Section {
     values[index]
   }
   
-  func cellModel(at indexPath: IndexPath) -> CellModel {
+  public func cellModel(at indexPath: IndexPath) -> CellModel {
     section(at: indexPath.section).items[indexPath.row].model
   }
   
@@ -83,6 +93,7 @@ public class RxSectionedTableDataSource<SectionModel, CellModel>: NSObject, RxTa
     cellModel(at: indexPath)
   }
   
+  /// The closure that applies the changes in the item list : A full reload of the table is performed (reloadData). Import the `ComposableDifferenceKitDatasources` framework & use `differenceKitReloading` for a clever diff reload using DifferenceKit.
   public static var fullReloading: ApplyingChanges {
     return { tableView, datasource, observedEvent in
       datasource.values = observedEvent.element ?? []
