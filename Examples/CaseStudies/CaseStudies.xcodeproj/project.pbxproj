@@ -15,6 +15,7 @@
 		414254352469CA160037D818 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 414254332469CA160037D818 /* Main.storyboard */; };
 		414254372469CA180037D818 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 414254362469CA180037D818 /* Assets.xcassets */; };
 		4142543A2469CA180037D818 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 414254382469CA180037D818 /* LaunchScreen.storyboard */; };
+		4180338C24D5B20700EA11AB /* TimerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180338B24D5B20700EA11AB /* TimerListViewController.swift */; };
 		CA0C51FB245389CC00A04EAB /* 04-HigherOrderReducers-ReusableOfflineDownloadsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0C51FA245389CC00A04EAB /* 04-HigherOrderReducers-ReusableOfflineDownloadsTests.swift */; };
 		CA25E5D224463AD700DA666A /* 01-GettingStarted-Bindings-Basics.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA25E5D124463AD700DA666A /* 01-GettingStarted-Bindings-Basics.swift */; };
 		CA27C0B7245780CE00CB1E59 /* 03-Effects-SystemEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA27C0B6245780CE00CB1E59 /* 03-Effects-SystemEnvironment.swift */; };
@@ -154,6 +155,7 @@
 		414254362469CA180037D818 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		414254392469CA180037D818 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4142543B2469CA180037D818 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4180338B24D5B20700EA11AB /* TimerListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerListViewController.swift; sourceTree = "<group>"; };
 		CA0C51FA245389CC00A04EAB /* 04-HigherOrderReducers-ReusableOfflineDownloadsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "04-HigherOrderReducers-ReusableOfflineDownloadsTests.swift"; sourceTree = "<group>"; };
 		CA25E5D124463AD700DA666A /* 01-GettingStarted-Bindings-Basics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "01-GettingStarted-Bindings-Basics.swift"; sourceTree = "<group>"; };
 		CA27C0B6245780CE00CB1E59 /* 03-Effects-SystemEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "03-Effects-SystemEnvironment.swift"; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 				4142543B2469CA180037D818 /* Info.plist */,
 				410F88EC247C618B002FED62 /* CounterViewController.swift */,
 				41147DFA24854770002906F5 /* ListOfStates.swift */,
+				4180338B24D5B20700EA11AB /* TimerListViewController.swift */,
 			);
 			path = UIKitCaseStudiesiOS12;
 			sourceTree = "<group>";
@@ -641,6 +644,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4180338C24D5B20700EA11AB /* TimerListViewController.swift in Sources */,
 				410F88ED247C618B002FED62 /* CounterViewController.swift in Sources */,
 				41147DFB24854770002906F5 /* ListOfStates.swift in Sources */,
 				41412FD124855B0300363E37 /* RootViewController.swift in Sources */,

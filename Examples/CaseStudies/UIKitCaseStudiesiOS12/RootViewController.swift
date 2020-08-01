@@ -38,6 +38,15 @@ let dataSource: [CaseStudy] = [
         environment: CounterListEnvironment()
       )
     )
+  ),
+  CaseStudy(title: "TimerList",
+            viewController:
+    TimerListViewController.create(store:
+      .init(initialState: .initial,
+            reducer: timerListReducer,
+            environment: ()
+      )
+    )
   )
 ]
 
