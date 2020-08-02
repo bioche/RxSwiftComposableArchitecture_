@@ -21,9 +21,3 @@ extension Store: Differentiable where State: Differentiable {
     ViewStore(self, removeDuplicates: { _, _ in false }).differenceIdentifier
   }
 }
-
-extension Store: TCAIdentifiable where State: TCAIdentifiable {
-  public var id: State.ID {
-    ViewStore(self, removeDuplicates: {_, _ in false }).id
-  }
-}

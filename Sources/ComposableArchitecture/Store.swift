@@ -248,6 +248,13 @@ extension Store {
   }
 }
 
+extension Store: TCAIdentifiable where State: TCAIdentifiable {
+  public var id: State.ID {
+    ViewStore(self, removeDuplicates: {_, _ in false }).id
+  }
+}
+
+
 /// The goal of this structure is to be able to perform a subscript as a quick way of mapping & avoid duplicates. As it comes from the ViewStore, the Driver trait is the more appropriate
 @dynamicMemberLookup
 public struct StoreDriver<State>: SharedSequenceConvertibleType {
