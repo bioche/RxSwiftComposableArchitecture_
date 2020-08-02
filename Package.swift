@@ -21,9 +21,14 @@ let package = Package(
       name: "ComposableCoreMotion",
       targets: ["ComposableCoreMotion"]
     ),
+    .library(
+      name: "ComposableDifferenceKitDatasources",
+      targets: ["ComposableDifferenceKitDatasources"]
+    )
   ],
   dependencies: [
-  .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "5.0.0")
+  .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "5.0.0"),
+  .package(url: "https://github.com/ra1028/DifferenceKit.git", from: "1.1.5")
   ],
   targets: [
     .target(
@@ -60,5 +65,10 @@ let package = Package(
         "ComposableCoreMotion"
       ]
     ),
+    .target(name: "ComposableDifferenceKitDatasources",
+    dependencies: [
+      "ComposableArchitecture",
+      "DifferenceKit"
+    ])
   ]
 )

@@ -18,9 +18,9 @@ public final class Store<State, Action> {
       stateRelay.accept(newValue)
     }
   }
-    
+
   var effectDisposeBags: [UUID: DisposeBag] = [:]
-    
+
   private var isSending = false
   private let disposeBag = DisposeBag()
   private let reducer: (inout State, Action) -> Effect<Action, Never>
@@ -71,18 +71,9 @@ public final class Store<State, Action> {
     state toLocalState: @escaping (State) -> LocalState,
     action fromLocalAction: @escaping (LocalAction) -> Action
   ) -> Store<LocalState, LocalAction> {
-    let localStore = Store<LocalState, LocalAction>(
-      initialState: toLocalState(self.state),
-      reducer: { localState, localAction in
-        self.send(fromLocalAction(localAction))
-        localState = toLocalState(self.state)
-        return .none
-      }
-    )
-    self.stateRelay
-      .subscribe(onNext: { [weak localStore] newValue in localStore?.state = toLocalState(newValue) })
-      .disposed(by: localStore.disposeBag)
-    return localStore
+    scope(initialLocalState: toLocalState(state),
+          state: toLocalState,
+          action: fromLocalAction)
   }
 
   /// Scopes the store to one that exposes local state.
@@ -92,9 +83,9 @@ public final class Store<State, Action> {
   public func scope<LocalState>(
     state toLocalState: @escaping (State) -> LocalState
   ) -> Store<LocalState, Action> {
-    self.scope(state: toLocalState, action: { $0 })
+    scope(state: toLocalState, action: { $0 })
   }
-  
+
   /// Scopes the store to a publisher of stores of more local state and local actions.
   ///
   /// - Parameters:
@@ -134,7 +125,7 @@ public final class Store<State, Action> {
         return localStore
       }.asObservable()
   }
-    
+
   /// Scopes the store to a publisher of stores of more local state and local actions.
   ///
   /// - Parameter toLocalState: A function that transforms a publisher of `State` into a publisher
@@ -157,7 +148,7 @@ public final class Store<State, Action> {
       if self.isSending {
         assertionFailure(
           """
-          The store was sent the action \(debugCaseOutput(action)) while it was already 
+          The store was sent the action \(debugCaseOutput(action)) while it was already
           processing another action.
 
           This can happen for a few reasons:
@@ -225,12 +216,51 @@ public final class Store<State, Action> {
   }
 }
 
+extension Store {
+  /// A version of scoping where the state may not be transformable into local state.
+  /// Meant to be private for now. Could be set public if need be.
+  /// (ifLet should be enough in most cases)
+  func scope<LocalState, LocalAction>(
+    initialLocalState: LocalState,
+    state toLocalState: @escaping (State) -> LocalState?,
+    action fromLocalAction: @escaping (LocalAction) -> Action
+  ) -> Store<LocalState, LocalAction> {
+
+    let localStore = Store<LocalState, LocalAction>(
+      initialState: initialLocalState,
+      reducer: { localState, localAction in
+        self.send(fromLocalAction(localAction))
+        if let newState = toLocalState(self.state) {
+          localState = newState
+        }
+        return .none
+      }
+    )
+
+    self.stateRelay
+      .subscribe(onNext: { [weak localStore] newValue in
+        if let newState = toLocalState(newValue) {
+          localStore?.state = newState
+        }
+      }).disposed(by: localStore.disposeBag)
+    return localStore
+
+  }
+}
+
+extension Store: TCAIdentifiable where State: TCAIdentifiable {
+  public var id: State.ID {
+    ViewStore(self, removeDuplicates: {_, _ in false }).id
+  }
+}
+
+
 /// The goal of this structure is to be able to perform a subscript as a quick way of mapping & avoid duplicates. As it comes from the ViewStore, the Driver trait is the more appropriate
 @dynamicMemberLookup
 public struct StoreDriver<State>: SharedSequenceConvertibleType {
-  
+
   public typealias Element = State
-  
+
   private let upstream: Observable<State>
 
   public func subscribe<Observer: ObserverType>(_ observer: Observer) -> Disposable where Observer.Element == State {
@@ -240,7 +270,7 @@ public struct StoreDriver<State>: SharedSequenceConvertibleType {
   public init<O: ObservableType>(_ observable: O) where O.Element == State {
     self.upstream = observable.asObservable()
   }
-  
+
   public func asSharedSequence() -> Driver<State> {
     upstream
       .do(onError: { error in assertionFailure("An error occurred in the stream handled by a store driver : \(error)") })
