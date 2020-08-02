@@ -112,6 +112,7 @@
 		4176B35524A9033B003D6097 /* RxRelay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4162603F248D2E14003FCAA8 /* RxRelay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4176B35624A9033B003D6097 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; };
 		4176B35724A9033B003D6097 /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4180338F24D6EBF700EA11AB /* Reducer+utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180338E24D6EBF700EA11AB /* Reducer+utils.swift */; };
 		BEC93A4424B8EE0B00D8082D /* IfLetUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */; };
 /* End PBXBuildFile section */
 
@@ -303,6 +304,7 @@
 		4176B33124A901ED003D6097 /* ComposableCoreMotionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposableCoreMotionTests.swift; sourceTree = "<group>"; };
 		4176B33724A90209003D6097 /* ComposableCoreMotionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ComposableCoreMotionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4176B33B24A90209003D6097 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4180338E24D6EBF700EA11AB /* Reducer+utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reducer+utils.swift"; sourceTree = "<group>"; };
 		BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IfLetUIKit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -421,6 +423,7 @@
 				4168FB07248C5D9900CD8FB5 /* Info.plist */,
 				41364C98248C6028007EBA46 /* TestSupport */,
 				41364C9A248C6028007EBA46 /* Reducer.swift */,
+				4180338E24D6EBF700EA11AB /* Reducer+utils.swift */,
 				41364C9B248C6028007EBA46 /* RxCombine */,
 				41364CA1248C6028007EBA46 /* UIKit */,
 				41364CA3248C6028007EBA46 /* Debugging */,
@@ -996,6 +999,7 @@
 				41364CDD248C6028007EBA46 /* Effect+Timer.swift in Sources */,
 				4176B2FC24A8D18E003D6097 /* Observable+onCompletion.swift in Sources */,
 				4176B30524A8E1AA003D6097 /* Timer.swift in Sources */,
+				4180338F24D6EBF700EA11AB /* Reducer+utils.swift in Sources */,
 				41364CD8248C6028007EBA46 /* Effect+Combine.swift in Sources */,
 				41626051248D31E3003FCAA8 /* Operators.swift in Sources */,
 				4162604E248D31E3003FCAA8 /* EnumReflection.swift in Sources */,
