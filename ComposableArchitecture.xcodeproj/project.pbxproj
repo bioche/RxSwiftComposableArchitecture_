@@ -140,6 +140,7 @@
 		4180338624D35E9800EA11AB /* Store+TableBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180338524D35E9800EA11AB /* Store+TableBinding.swift */; };
 		4180338824D3748500EA11AB /* SectionBindingConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180338724D3748500EA11AB /* SectionBindingConfiguration.swift */; };
 		4180338A24D3754400EA11AB /* Store+GenericBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180338924D3754400EA11AB /* Store+GenericBinding.swift */; };
+		4180338F24D6EBF700EA11AB /* Reducer+utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180338E24D6EBF700EA11AB /* Reducer+utils.swift */; };
 		41EA4B3E24C0F85C0060D591 /* Array+safesubscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41EA4B3D24C0F85C0060D591 /* Array+safesubscript.swift */; };
 		BEC93A4424B8EE0B00D8082D /* IfLetUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */; };
 /* End PBXBuildFile section */
@@ -375,6 +376,7 @@
 		4180338524D35E9800EA11AB /* Store+TableBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Store+TableBinding.swift"; sourceTree = "<group>"; };
 		4180338724D3748500EA11AB /* SectionBindingConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionBindingConfiguration.swift; sourceTree = "<group>"; };
 		4180338924D3754400EA11AB /* Store+GenericBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Store+GenericBinding.swift"; sourceTree = "<group>"; };
+		4180338E24D6EBF700EA11AB /* Reducer+utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reducer+utils.swift"; sourceTree = "<group>"; };
 		41EA4B3D24C0F85C0060D591 /* Array+safesubscript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+safesubscript.swift"; sourceTree = "<group>"; };
 		BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IfLetUIKit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -507,6 +509,7 @@
 				4168FB07248C5D9900CD8FB5 /* Info.plist */,
 				41364C98248C6028007EBA46 /* TestSupport */,
 				41364C9A248C6028007EBA46 /* Reducer.swift */,
+				4180338E24D6EBF700EA11AB /* Reducer+utils.swift */,
 				41364C9B248C6028007EBA46 /* RxCombine */,
 				41364CA1248C6028007EBA46 /* UIKit */,
 				41364CA3248C6028007EBA46 /* Debugging */,
@@ -1208,6 +1211,7 @@
 				41364CDD248C6028007EBA46 /* Effect+Timer.swift in Sources */,
 				4176B2FC24A8D18E003D6097 /* Observable+onCompletion.swift in Sources */,
 				4176B30524A8E1AA003D6097 /* Timer.swift in Sources */,
+				4180338F24D6EBF700EA11AB /* Reducer+utils.swift in Sources */,
 				41364CD8248C6028007EBA46 /* Effect+Combine.swift in Sources */,
 				4180334624CF7D7600EA11AB /* RxFlatCollectionDataSource.swift in Sources */,
 				4180334824CF7D7600EA11AB /* RxFlatTableDataSource.swift in Sources */,
