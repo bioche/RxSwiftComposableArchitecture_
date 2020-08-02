@@ -119,7 +119,7 @@
 		4180334A24CF7D7600EA11AB /* TCASection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180334124CF7D7600EA11AB /* TCASection.swift */; };
 		4180334B24CF7D7600EA11AB /* Store+CollectionBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180334224CF7D7600EA11AB /* Store+CollectionBinding.swift */; };
 		4180334C24CF7D7600EA11AB /* TCAItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180334324CF7D7600EA11AB /* TCAItem.swift */; };
-		4180334F24CF84E300EA11AB /* Store+ForEachScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180334E24CF84E300EA11AB /* Store+ForEachScope.swift */; };
+		4180334F24CF84E300EA11AB /* Store+ScopeForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180334E24CF84E300EA11AB /* Store+ScopeForEach.swift */; };
 		4180336424D0D66200EA11AB /* Store+Differentiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180336024D0D5F500EA11AB /* Store+Differentiable.swift */; };
 		4180336524D0D66200EA11AB /* TCAItem+Differentiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180335E24D0D5F500EA11AB /* TCAItem+Differentiable.swift */; };
 		4180336624D0D66200EA11AB /* TCASection+DifferentiableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180335F24D0D5F500EA11AB /* TCASection+DifferentiableSection.swift */; };
@@ -140,6 +140,7 @@
 		4180338624D35E9800EA11AB /* Store+TableBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180338524D35E9800EA11AB /* Store+TableBinding.swift */; };
 		4180338824D3748500EA11AB /* SectionBindingConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180338724D3748500EA11AB /* SectionBindingConfiguration.swift */; };
 		4180338A24D3754400EA11AB /* Store+GenericBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180338924D3754400EA11AB /* Store+GenericBinding.swift */; };
+		4180338F24D6EBF700EA11AB /* Reducer+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4180338E24D6EBF700EA11AB /* Reducer+Utils.swift */; };
 		41EA4B3E24C0F85C0060D591 /* Array+safesubscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41EA4B3D24C0F85C0060D591 /* Array+safesubscript.swift */; };
 		BEC93A4424B8EE0B00D8082D /* IfLetUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */; };
 /* End PBXBuildFile section */
@@ -361,7 +362,7 @@
 		4180334124CF7D7600EA11AB /* TCASection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCASection.swift; sourceTree = "<group>"; };
 		4180334224CF7D7600EA11AB /* Store+CollectionBinding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Store+CollectionBinding.swift"; sourceTree = "<group>"; };
 		4180334324CF7D7600EA11AB /* TCAItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCAItem.swift; sourceTree = "<group>"; };
-		4180334E24CF84E300EA11AB /* Store+ForEachScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Store+ForEachScope.swift"; sourceTree = "<group>"; };
+		4180334E24CF84E300EA11AB /* Store+ScopeForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Store+ScopeForEach.swift"; sourceTree = "<group>"; };
 		4180335524D0C90900EA11AB /* ComposableDifferenceKitDatasources.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ComposableDifferenceKitDatasources.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4180335824D0C90900EA11AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4180335E24D0D5F500EA11AB /* TCAItem+Differentiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TCAItem+Differentiable.swift"; sourceTree = "<group>"; };
@@ -375,6 +376,7 @@
 		4180338524D35E9800EA11AB /* Store+TableBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Store+TableBinding.swift"; sourceTree = "<group>"; };
 		4180338724D3748500EA11AB /* SectionBindingConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionBindingConfiguration.swift; sourceTree = "<group>"; };
 		4180338924D3754400EA11AB /* Store+GenericBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Store+GenericBinding.swift"; sourceTree = "<group>"; };
+		4180338E24D6EBF700EA11AB /* Reducer+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reducer+Utils.swift"; sourceTree = "<group>"; };
 		41EA4B3D24C0F85C0060D591 /* Array+safesubscript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+safesubscript.swift"; sourceTree = "<group>"; };
 		BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IfLetUIKit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -507,6 +509,7 @@
 				4168FB07248C5D9900CD8FB5 /* Info.plist */,
 				41364C98248C6028007EBA46 /* TestSupport */,
 				41364C9A248C6028007EBA46 /* Reducer.swift */,
+				4180338E24D6EBF700EA11AB /* Reducer+Utils.swift */,
 				41364C9B248C6028007EBA46 /* RxCombine */,
 				41364CA1248C6028007EBA46 /* UIKit */,
 				41364CA3248C6028007EBA46 /* Debugging */,
@@ -780,7 +783,7 @@
 			children = (
 				4180338D24D6027600EA11AB /* Store+Bindings */,
 				4180333924CF7D7600EA11AB /* Datasources */,
-				4180334E24CF84E300EA11AB /* Store+ForEachScope.swift */,
+				4180334E24CF84E300EA11AB /* Store+ScopeForEach.swift */,
 			);
 			path = ForEach;
 			sourceTree = "<group>";
@@ -1208,6 +1211,7 @@
 				41364CDD248C6028007EBA46 /* Effect+Timer.swift in Sources */,
 				4176B2FC24A8D18E003D6097 /* Observable+onCompletion.swift in Sources */,
 				4176B30524A8E1AA003D6097 /* Timer.swift in Sources */,
+				4180338F24D6EBF700EA11AB /* Reducer+Utils.swift in Sources */,
 				41364CD8248C6028007EBA46 /* Effect+Combine.swift in Sources */,
 				4180334624CF7D7600EA11AB /* RxFlatCollectionDataSource.swift in Sources */,
 				4180334824CF7D7600EA11AB /* RxFlatTableDataSource.swift in Sources */,
@@ -1218,7 +1222,7 @@
 				4176B30A24A8E1AA003D6097 /* AnyScheduler.swift in Sources */,
 				4180334C24CF7D7600EA11AB /* TCAItem.swift in Sources */,
 				41364CDA248C6028007EBA46 /* ViewStore+Combine.swift in Sources */,
-				4180334F24CF84E300EA11AB /* Store+ForEachScope.swift in Sources */,
+				4180334F24CF84E300EA11AB /* Store+ScopeForEach.swift in Sources */,
 				4180338A24D3754400EA11AB /* Store+GenericBinding.swift in Sources */,
 				41364CD3248C6028007EBA46 /* Exports.swift in Sources */,
 				41364CD9248C6028007EBA46 /* Effect+failure.swift in Sources */,
