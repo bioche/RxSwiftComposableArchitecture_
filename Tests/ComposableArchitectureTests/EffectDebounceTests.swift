@@ -13,7 +13,7 @@ final class EffectDebounceTests: XCTestCase {
     func runDebouncedEffect(value: Int) {
       struct CancelToken: Hashable {}
       Observable.just(value)
-        .eraseToEffect()
+        .eraseToEffect(failureType: Never.self)
         .debounce(id: CancelToken(), for: .seconds(1), scheduler: scheduler)
         .subscribe(onNext: { values.append($0) })
         .disposed(by: disposeBag)
@@ -63,7 +63,7 @@ final class EffectDebounceTests: XCTestCase {
         effectRuns += 1
         return Observable.just(value)
       }
-      .eraseToEffect()
+      .eraseToEffect(failureType: Never.self)
       .debounce(id: CancelToken(), for: .seconds(1), scheduler: scheduler)
       .subscribe(onNext: { values.append($0) })
       .disposed(by: disposeBag)

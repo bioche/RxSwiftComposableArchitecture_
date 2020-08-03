@@ -17,7 +17,8 @@ final class EffectCancellationTests: XCTestCase {
     var values: [Int] = []
 
     let subject = PublishSubject<Int>()
-    let effect = Effect(subject)
+  
+    let effect = Effect<Int, Error>(subject)
       .cancellable(id: CancelToken())
 
     effect
@@ -42,7 +43,7 @@ final class EffectCancellationTests: XCTestCase {
     var values: [Int] = []
 
     let subject = PublishSubject<Int>()
-    Effect(subject)
+    Effect<Int, Never>(subject)
       .cancellable(id: CancelToken(), cancelInFlight: true)
       .subscribe(onNext: { values.append($0) })
       .disposed(by: disposeBag)
@@ -53,7 +54,7 @@ final class EffectCancellationTests: XCTestCase {
     subject.onNext(2)
     XCTAssertEqual(values, [1, 2])
 
-    Effect(subject)
+    Effect<Int, Never>(subject)
       .cancellable(id: CancelToken(), cancelInFlight: true)
       .subscribe(onNext: { values.append($0) })
       .disposed(by: disposeBag)
@@ -69,7 +70,7 @@ final class EffectCancellationTests: XCTestCase {
 
     Observable.just(1)
       .delay(.milliseconds(150), scheduler: MainScheduler.instance)
-      .eraseToEffect()
+      .eraseToEffect(failureType: Never.self)
       .cancellable(id: CancelToken())
       .subscribe(onNext: { value = $0 })
       .disposed(by: disposeBag)
@@ -93,7 +94,7 @@ final class EffectCancellationTests: XCTestCase {
 
     Observable.just(1)
       .delay(.seconds(2), scheduler: scheduler)
-      .eraseToEffect()
+      .eraseToEffect(failureType: Never.self)
       .cancellable(id: CancelToken())
       .subscribe(onNext: { value = $0 })
       .disposed(by: disposeBag)
@@ -112,7 +113,7 @@ final class EffectCancellationTests: XCTestCase {
 
   func testCancellablesCleanUp_OnComplete() {
     Observable.just(1)
-      .eraseToEffect()
+      .eraseToEffect(failureType: Never.self)
       .cancellable(id: 1)
       .subscribe(onNext: { _ in })
       .disposed(by: self.disposeBag)
@@ -124,7 +125,7 @@ final class EffectCancellationTests: XCTestCase {
     let scheduler = RxTest.TestScheduler.defaultTestScheduler()
     Observable.just(1)
       .delay(.seconds(1), scheduler: scheduler)
-      .eraseToEffect()
+      .eraseToEffect(failureType: Never.self)
       .cancellable(id: 1)
       .subscribe(onNext: { _ in })
       .disposed(by: self.disposeBag)
@@ -140,7 +141,7 @@ final class EffectCancellationTests: XCTestCase {
     var values: [Int] = []
 
     let subject = PublishSubject<Int>()
-    let effect = Effect(subject)
+    let effect = Effect<Int, Never>(subject)
       .cancellable(id: CancelToken())
       .cancellable(id: CancelToken())
 
@@ -164,7 +165,7 @@ final class EffectCancellationTests: XCTestCase {
     var values: [Int] = []
 
     let subject = PublishSubject<Int>()
-    let effect = Effect(subject)
+    let effect = Effect<Int, Never>(subject)
       .cancellable(id: CancelToken())
 
     effect
@@ -211,7 +212,7 @@ final class EffectCancellationTests: XCTestCase {
             .delay(
               .milliseconds(Int.random(in: 1...100)), scheduler: queues.randomElement()!
             )
-            .flatMap { Effect.cancel(id: id) }
+            .flatMap { Effect<Int, Never>.cancel(id: id) }
             .eraseToEffect()
         )
       }
@@ -235,7 +236,7 @@ final class EffectCancellationTests: XCTestCase {
 
   func testNestedCancels() {
     var effect = Observable<Void>.never()
-      .eraseToEffect()
+      .eraseToEffect(failureType: Never.self)
       .cancellable(id: 1)
 
     for _ in 1 ... .random(in: 1...1_000) {
@@ -256,12 +257,12 @@ final class EffectCancellationTests: XCTestCase {
 
     let effect1 = Observable.just(1)
       .delay(.seconds(1), scheduler: scheduler)
-      .eraseToEffect()
+      .eraseToEffect(failureType: Never.self)
       .cancellable(id: "id")
 
     let effect2 = Observable.just(2)
       .delay(.seconds(2), scheduler: scheduler)
-      .eraseToEffect()
+      .eraseToEffect(failureType: Never.self)
       .cancellable(id: "id")
 
     var expectedOutput: [Int] = []
@@ -286,7 +287,7 @@ final class EffectCancellationTests: XCTestCase {
     
     let disposable = Observable.deferred { .just(1) }
       .delay(.seconds(1), scheduler: scheduler)
-      .eraseToEffect()
+      .eraseToEffect(failureType: Never.self)
       .cancellable(id: "id")
       .subscribe(onNext: { expectedOutput.append($0) })
     // dispose of it immediately

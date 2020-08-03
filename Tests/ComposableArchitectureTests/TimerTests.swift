@@ -76,7 +76,7 @@ final class TimerTests: XCTestCase {
         .eraseToEffect(),
       Observable.just(())
         .delay(.seconds(31), scheduler: scheduler)
-        .flatMap { Effect.cancel(id: CancelToken()) }
+        .flatMap { Effect<Int, Error>.cancel(id: CancelToken()) }
         .eraseToEffect()
     )
       .subscribe(onNext: { _ in })
