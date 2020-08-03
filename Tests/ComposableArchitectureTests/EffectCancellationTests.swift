@@ -112,13 +112,15 @@ final class EffectCancellationTests: XCTestCase {
   }
 
   func testCancellablesCleanUp_OnComplete() {
+    var result: Int?
     Observable.just(1)
       .eraseToEffect(failureType: Never.self)
       .cancellable(id: 1)
-      .subscribe(onNext: { _ in })
+      .subscribe(onNext: { result = $0 })
       .disposed(by: self.disposeBag)
 
-    XCTAssertEqual([:], cancellationCancellables)
+    XCTAssertEqual(result, 1)
+    XCTAssertEqual([:], cancellationDisposables)
   }
 
   func testCancellablesCleanUp_OnCancel() {
@@ -134,7 +136,7 @@ final class EffectCancellationTests: XCTestCase {
       .subscribe(onNext: { _ in })
       .disposed(by: self.disposeBag)
 
-    XCTAssertEqual([:], cancellationCancellables)
+    XCTAssertEqual([:], cancellationDisposables)
   }
 
   func testDoubleCancellation() {
@@ -224,7 +226,7 @@ final class EffectCancellationTests: XCTestCase {
       .disposed(by: disposeBag)
     self.wait(for: [expectation], timeout: 999)
 
-    XCTAssertTrue(cancellationCancellables.isEmpty)
+    XCTAssertTrue(cancellationDisposables.isEmpty)
   }
   
     func testConcurrentCancelsRepeated() {
@@ -249,7 +251,7 @@ final class EffectCancellationTests: XCTestCase {
 
     disposeBag = DisposeBag()
 
-    XCTAssertEqual([:], cancellationCancellables)
+    XCTAssertEqual([:], cancellationDisposables)
   }
 
   func testSharedId() {
