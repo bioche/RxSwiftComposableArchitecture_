@@ -27,7 +27,7 @@ extension Effect where Failure == Swift.Error {
         return Observable.just(value)
       }
 
-      guard  throttleTime.timeIntervalSince1970 - scheduler.now.timeIntervalSince1970 < interval.timeInterval
+      guard scheduler.now.timeIntervalSince1970 - throttleTime.timeIntervalSince1970 < interval.timeInterval
       else {
         throttleTimes[id] = scheduler.now
         throttleValues[id] = nil

@@ -133,7 +133,6 @@ final class EffectThrottleTests: XCTestCase {
 
     runThrottledEffect(value: 2)
     
-    scheduler.advance(by: 1)
     // A second value is emitted right away.
     XCTAssertEqual(values, [1, 2])
   }
