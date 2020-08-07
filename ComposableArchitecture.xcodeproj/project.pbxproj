@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		41364CC8248C6028007EBA46 /* TestStore+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364C99248C6028007EBA46 /* TestStore+Combine.swift */; };
 		41364CC9248C6028007EBA46 /* Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364C9A248C6028007EBA46 /* Reducer.swift */; };
 		41364CCA248C6028007EBA46 /* Publisher+asObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364C9C248C6028007EBA46 /* Publisher+asObservable.swift */; };
 		41364CCB248C6028007EBA46 /* Observable+asPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364C9D248C6028007EBA46 /* Observable+asPublisher.swift */; };
@@ -149,7 +148,6 @@
 		BE5B861524C2263300461DAD /* RxTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 416260AD249968A0003FCAA8 /* RxTest.framework */; };
 		BE5B861624C2269600461DAD /* RxTest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 416260AD249968A0003FCAA8 /* RxTest.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BEC93A4424B8EE0B00D8082D /* IfLetUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */; };
-		BED7DF6224C2068B007EDABE /* TestStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED7DF6124C2068B007EDABE /* TestStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1385,12 +1383,10 @@
 				418033AA24D715B700EA11AB /* RxFlatTableDataSource.swift in Sources */,
 				41364CE1248C6028007EBA46 /* IdentifiedArray.swift in Sources */,
 				4176B30724A8E1AA003D6097 /* TestScheduler.swift in Sources */,
-				41364CC8248C6028007EBA46 /* TestStore+Combine.swift in Sources */,
 				41364CDB248C6028007EBA46 /* Store.swift in Sources */,
 				41364CE3248C6028007EBA46 /* IfLetStore.swift in Sources */,
 				41364CD6248C6028007EBA46 /* Locking.swift in Sources */,
 				418033AD24D715B700EA11AB /* Store+GenericBinding.swift in Sources */,
-				BED7DF6224C2068B007EDABE /* TestStore.swift in Sources */,
 				41364CE4248C6028007EBA46 /* TCAIdentifiable.swift in Sources */,
 				418033AE24D715B700EA11AB /* Store+CollectionBinding.swift in Sources */,
 				418033A924D715B700EA11AB /* RxSectionedTableDataSource.swift in Sources */,
