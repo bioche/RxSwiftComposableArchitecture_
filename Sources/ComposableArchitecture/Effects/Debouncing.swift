@@ -22,10 +22,10 @@ extension Effect {
   ///   - scheduler: The scheduler you want to deliver the debounced output to.
   ///   - options: Scheduler options that customize the effect's delivery of elements.
   /// - Returns: An effect that publishes events only after a specified time elapses.
-  public func debounce<S: SchedulerType>(
+  public func debounce(
     id: AnyHashable,
     for dueTime: RxTimeInterval,
-    scheduler: S
+    scheduler: SchedulerType
     ) -> Effect {
     let effect: Effect<Output, Failure> = Observable.just(())
       .delay(dueTime, scheduler: scheduler)

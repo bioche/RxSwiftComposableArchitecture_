@@ -147,6 +147,7 @@
 		BE556C7424C9CCAC00C716B7 /* RxTestScheduler+utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED7DF6424C21EA7007EDABE /* RxTestScheduler+utils.swift */; };
 		BE5B861524C2263300461DAD /* RxTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 416260AD249968A0003FCAA8 /* RxTest.framework */; };
 		BE5B861624C2269600461DAD /* RxTest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 416260AD249968A0003FCAA8 /* RxTest.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BE66156E24DDBC9C0049DAE6 /* ComposableArchitectureTestSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5A7FE2724CF245E00608A39 /* ComposableArchitectureTestSupport.framework */; platformFilter = ios; };
 		BEC93A4424B8EE0B00D8082D /* IfLetUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */; };
 /* End PBXBuildFile section */
 
@@ -434,6 +435,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE66156E24DDBC9C0049DAE6 /* ComposableArchitectureTestSupport.framework in Frameworks */,
 				416260AC249968A0003FCAA8 /* RxCocoa.framework in Frameworks */,
 				416260AA2499667D003FCAA8 /* RxRelay.framework in Frameworks */,
 				416260AB2499667D003FCAA8 /* RxSwift.framework in Frameworks */,
