@@ -6,11 +6,13 @@
 //  Copyright © 2020 Bioche. All rights reserved.
 //
 
+#if canImport(UIKit)
+#if !os(watchOS)
 import UIKit
 import RxSwift
 import RxCocoa
 
-/// The datasource for table views without sections : flat list of items. 
+/// The datasource for table views without sections : flat list of items.
 public class RxFlatTableDataSource<ItemModel>: NSObject, RxTableViewDataSourceType, UITableViewDataSource {
   
   public let cellCreation: (UITableView, IndexPath, ItemModel) -> UITableViewCell
@@ -56,3 +58,5 @@ public class RxFlatTableDataSource<ItemModel>: NSObject, RxTableViewDataSourceTy
     }
   }
 }
+#endif
+#endif

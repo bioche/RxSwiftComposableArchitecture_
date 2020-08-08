@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4180335424D0C90900EA11AB"
+               BlueprintIdentifier = "418033B524D7168700EA11AB"
                BuildableName = "ComposableDifferenceKitDatasources.framework"
                BlueprintName = "ComposableDifferenceKitDatasources"
                ReferencedContainer = "container:ComposableArchitecture.xcodeproj">
@@ -50,7 +50,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4180335424D0C90900EA11AB"
+            BlueprintIdentifier = "418033B524D7168700EA11AB"
             BuildableName = "ComposableDifferenceKitDatasources.framework"
             BlueprintName = "ComposableDifferenceKitDatasources"
             ReferencedContainer = "container:ComposableArchitecture.xcodeproj">

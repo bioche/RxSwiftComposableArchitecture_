@@ -5,7 +5,8 @@
 //  Created by Bioche on 12/07/2020.
 //  Copyright © 2020 Bioche. All rights reserved.
 //
-
+#if canImport(UIKit)
+#if !os(watchOS)
 import UIKit
 import RxSwift
 import RxCocoa
@@ -79,3 +80,5 @@ public class RxSectionedCollectionDataSource<SectionModel, CellModel>: NSObject,
     }
   }
 }
+#endif
+#endif

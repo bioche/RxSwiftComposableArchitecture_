@@ -1,3 +1,4 @@
+#if canImport(Combine)
 import SwiftUI
 
 /// A data type that describes the state of an action sheet that can be shown to the user. The
@@ -147,9 +148,10 @@ extension ActionSheetState: Identifiable where Action: Hashable {
 
 @available(iOS 13, *)
 @available(macCatalyst 13, *)
-@available(macOS, unavailable)
 @available(tvOS 13, *)
 @available(watchOS 6, *)
+@available(OSX 10.15, *)
+@available(macOS, unavailable)
 extension View {
   /// Displays an action sheet when the store's state becomes non-`nil`, and dismisses it when it
   /// becomes `nil`.
@@ -178,6 +180,7 @@ extension View {
 
 @available(iOS 13, *)
 @available(macCatalyst 13, *)
+@available(OSX 10.15, *)
 @available(macOS, unavailable)
 @available(tvOS 13, *)
 @available(watchOS 6, *)
@@ -192,3 +195,4 @@ extension ActionSheetState {
     )
   }
 }
+#endif
