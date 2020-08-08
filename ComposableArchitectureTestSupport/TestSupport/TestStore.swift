@@ -60,7 +60,7 @@ import ComposableArchitecture
 ///       case response([String])
 ///     }
 ///     struct SearchEnvironment {
-///       var mainQueue: AnySchedulerOf<DispatchQueue>
+///       var mainQueue: SchedulerType
 ///       var request: (String) -> Effect<[String], Never>
 ///     }
 ///     let searchReducer = Reducer<
@@ -84,14 +84,14 @@ import ComposableArchitecture
 /// It can be fully tested by controlling the environment's scheduler and effect:
 ///
 ///     // Create a test dispatch scheduler to control the timing of effects
-///     let scheduler = DispatchQueue.testScheduler
+///     let scheduler = TestScheduler.defaultTestScheduler()
 ///
 ///     let store = TestStore(
 ///       initialState: SearchState(),
 ///       reducer: searchReducer,
 ///       environment: SearchEnvironment(
 ///         // Wrap the test scheduler in a type-erased scheduler
-///         mainQueue: scheduler.eraseToAnyScheduler(),
+///         mainQueue: scheduler,
 ///         // Simulate a search response with one item
 ///         request: { _ in Effect(value: ["Composable Architecture"]) }
 ///       )

@@ -1,5 +1,6 @@
 import Combine
 import RxSwift
+import RxTest
 import XCTest
 
 @testable import ComposableArchitecture
@@ -20,10 +21,10 @@ final class StoreTests: XCTestCase {
   }
 
   func testCancellableIsRemovedWhenEffectCompletes() {
-    let scheduler = DispatchQueue.testScheduler
+    let scheduler = TestScheduler.defaultTestScheduler()
     let effect = Effect<Void, Never>(value: ())
-      .delay(for: 1, scheduler: scheduler)
-      .eraseToEffect()
+      .delay(.seconds(1), scheduler: scheduler)
+      .eraseToEffect(failureType: Never.self)
 
     enum Action { case start, end }
 
