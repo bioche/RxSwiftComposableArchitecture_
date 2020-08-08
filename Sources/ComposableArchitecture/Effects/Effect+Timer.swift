@@ -1,7 +1,7 @@
 import Foundation
 import RxSwift
 
-extension Effect where Failure == Swift.Error {
+extension Effect {
   /// Returns an effect that repeatedly emits the current time of the given
   /// scheduler on the given interval.
   ///
