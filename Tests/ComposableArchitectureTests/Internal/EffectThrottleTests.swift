@@ -19,7 +19,7 @@ final class EffectThrottleTests: XCTestCase {
         effectRuns += 1
         return Observable.just(value)
       }
-      .eraseToEffect()
+      .eraseToEffect(failureType: Never.self)
       .throttle(id: CancelToken(), for: .seconds(1), scheduler: scheduler, latest: true)
     .debug("test throttle")
       .subscribe(onNext: { values.append($0) })
@@ -68,7 +68,7 @@ final class EffectThrottleTests: XCTestCase {
         effectRuns += 1
         return Observable.just(value)
       }
-      .eraseToEffect()
+      .eraseToEffect(failureType: Never.self)
       .throttle(
         id: CancelToken(), for: .seconds(1), scheduler: scheduler, latest: false
       )
@@ -118,7 +118,7 @@ final class EffectThrottleTests: XCTestCase {
         effectRuns += 1
         return Observable.just(value)
       }
-      .eraseToEffect()
+      .eraseToEffect(failureType: Never.self)
       .throttle(id: CancelToken(), for: .seconds(1), scheduler: scheduler, latest: true)
       .subscribe(onNext: { values.append($0) })
       .disposed(by: disposeBag)

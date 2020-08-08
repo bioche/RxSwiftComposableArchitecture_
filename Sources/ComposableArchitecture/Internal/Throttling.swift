@@ -2,7 +2,7 @@ import RxSwift
 import Dispatch
 import Foundation
 
-extension Effect where Failure == Swift.Error {
+extension Effect {
    /// Turns an effect into one that can be throttled.
   ///
   /// - Parameters:

@@ -20,7 +20,7 @@ final class ReducerTests: XCTestCase {
   }
 
   func testCombine_EffectsAreMerged() {
-    typealias Scheduler = AnySchedulerOf<DispatchQueue>
+    typealias Scheduler = RxTest.TestScheduler
     enum Action: Equatable {
       case increment
     }
@@ -28,24 +28,24 @@ final class ReducerTests: XCTestCase {
     var fastValue: Int?
     let fastReducer = Reducer<Int, Action, Scheduler> { state, _, scheduler in
       state += 1
-      return Effect.fireAndForget { fastValue = 42 }
-        .delay(for: 1, scheduler: scheduler)
+      return Effect<Action, Never>.fireAndForget { fastValue = 42 }
+        .delay(.seconds(1), scheduler: scheduler)
         .eraseToEffect()
     }
 
     var slowValue: Int?
     let slowReducer = Reducer<Int, Action, Scheduler> { state, _, scheduler in
       state += 1
-      return Effect.fireAndForget { slowValue = 1729 }
-        .delay(for: 2, scheduler: scheduler)
+      return Effect<Action, Never>.fireAndForget { slowValue = 1729 }
+        .delay(.seconds(1), scheduler: scheduler)
         .eraseToEffect()
     }
 
-    let scheduler = DispatchQueue.testScheduler
+    let scheduler = Scheduler.defaultTestScheduler()
     let store = TestStore(
       initialState: 0,
       reducer: .combine(fastReducer, slowReducer),
-      environment: scheduler.eraseToAnyScheduler()
+      environment: scheduler
     )
 
     store.assert(
@@ -71,14 +71,12 @@ final class ReducerTests: XCTestCase {
     let childReducer = Reducer<Int, Action, Void> { state, _, _ in
       state += 1
       return Effect.fireAndForget { childEffectExecuted = true }
-        .eraseToEffect()
     }
 
     var mainEffectExecuted = false
     let mainReducer = Reducer<Int, Action, Void> { state, _, _ in
       state += 1
       return Effect.fireAndForget { mainEffectExecuted = true }
-        .eraseToEffect()
     }
     .combined(with: childReducer)
 
@@ -208,6 +206,7 @@ final class ReducerTests: XCTestCase {
     )
   }
 
+  @available(iOS 12, macOS 10.14, tvOS 12.0, watchOS 5.0, *)
   func testDefaultSignpost() {
     let reducer = Reducer<Int, Void, Void>.empty.signpost(log: .default)
     var n = 0
@@ -219,6 +218,7 @@ final class ReducerTests: XCTestCase {
     self.wait(for: [expectation], timeout: 0.1)
   }
 
+  @available(iOS 12, macOS 10.14, tvOS 12.0, watchOS 5.0, *)
   func testDisabledSignpost() {
     let reducer = Reducer<Int, Void, Void>.empty.signpost(log: .disabled)
     var n = 0
