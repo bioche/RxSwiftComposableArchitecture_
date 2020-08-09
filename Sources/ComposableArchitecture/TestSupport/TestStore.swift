@@ -9,6 +9,14 @@
 import RxSwift
 import Foundation
 
+// This file is not included in ComposableArchitecture target in pbxproj because when built for Carthage (aka in release mode), this file is not available rendering testing impossible.
+// So we created the separate framework ComposableArchitectureTestSupport for this purpose.
+// It is copied in build phase in this separate framework & renamed TestStore.generated.swift
+// To summarize :
+// - SPM users don't have ComposableArchitectureTestSupport framework and can use this file directly.
+// - Carthage users access TestStore via the TestStore.generated.swift in ComposableArchitectureTestSupport framework.
+// The #if DEBUG is mandatory for SPM users because this file cannot be shipped into production app due to the XCTest dynamic fetching ...
+
 /// A testable runtime for a reducer.
 ///
 /// For example, given a simple counter reducer:
