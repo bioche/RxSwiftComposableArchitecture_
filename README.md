@@ -11,6 +11,13 @@ In your cartfile :
 github "bioche/RxSwiftComposableArchitecture" "0.2.0"
 ```
 
+### Other libraries
+
+* [ComposableCoreMotion](#supplementary-libraries)
+* [ComposableCoreLocation](#supplementary-libraries)
+* ComposableDifferenceKitDatasources : See [UIKit support](#uikit-support) below.
+* ComposableArchitectureTestSupport : Only here for Carthage users. See [Testing](#testing) below
+
 ### CasePath
 
 The ComposableArchitecture framework includes public CasePath source files from the PointFree repository : https://github.com/pointfreeco/swift-case-paths
@@ -19,6 +26,12 @@ The ComposableArchitecture framework includes public CasePath source files from 
 
 * `IfLet` method on the store that provides the same functionality as `IfLetStore` on the SwiftUI side
 * Plug your store directly to  `UICollectionView` or `UITableView` using the binding methods added to the `Store`. The reloading of the collection/table can be done using [DifferenceKit](https://github.com/ra1028/DifferenceKit) via the included helper framework `ComposableDifferenceKitDatasources`.
+
+### Testing
+
+The TestStore has been adapted to be based on `RxTest` using `TestScheduler`. It is not meant to be used in production application.
+To use TestStore, if using Carthage, import the ComposableArchitectureTestSupport framework in your test target. It is not meant to be imported in the main application.
+If using SPM, just import ComposableArchitecture in the tests and use TestStore directly.
 
 ### Limitations 
 
