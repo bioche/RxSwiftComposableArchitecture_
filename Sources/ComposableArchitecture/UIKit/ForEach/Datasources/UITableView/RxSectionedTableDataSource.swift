@@ -5,7 +5,8 @@
 //  Created by Eric Blachère on 06/12/2019.
 //  Copyright © 2019 Eric Blachère. All rights reserved.
 //
-
+#if canImport(UIKit)
+#if !os(watchOS)
 import UIKit
 import RxSwift
 import RxCocoa
@@ -101,3 +102,5 @@ public class RxSectionedTableDataSource<SectionModel, CellModel>: NSObject, RxTa
     }
   }
 }
+#endif
+#endif

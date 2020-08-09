@@ -5,7 +5,8 @@
 //  Created by Bioche on 22/07/2020.
 //  Copyright © 2020 Bioche. All rights reserved.
 //
-
+#if canImport(UIKit)
+#if !os(watchOS)
 import UIKit
 import RxCocoa
 import RxSwift
@@ -56,3 +57,5 @@ public class RxFlatCollectionDataSource<ItemModel>: NSObject, RxCollectionViewDa
     }
   }
 }
+#endif
+#endif

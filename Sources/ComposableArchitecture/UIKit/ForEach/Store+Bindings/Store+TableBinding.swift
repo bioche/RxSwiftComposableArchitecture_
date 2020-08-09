@@ -5,7 +5,8 @@
 //  Created by Bioche on 30/07/2020.
 //  Copyright © 2020 Bioche. All rights reserved.
 //
-
+#if canImport(UIKit)
+#if !os(watchOS)
 import UIKit
 import RxSwift
 
@@ -86,3 +87,5 @@ extension Store {
       
   }
 }
+#endif
+#endif

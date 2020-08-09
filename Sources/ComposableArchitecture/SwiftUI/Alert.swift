@@ -1,3 +1,4 @@
+#if canImport(Combine)
 import SwiftUI
 
 /// A data type that describes the state of an alert that can be shown to the user. The `Action`
@@ -232,3 +233,4 @@ extension AlertState {
     }
   }
 }
+#endif
