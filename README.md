@@ -1,7 +1,9 @@
 # RxSwift compatibility
 
 The aim of this fork is to bring RxSwift support to Composable Architecture while keeping it as close as possible to the (awesome) original material.
-In order to meet this goal, almost all methods in the original package are still available here or will be soon, including those interfacing with Combine publishers.
+In order to meet this goal, almost all methods in the original package are still available here, including those interfacing with Combine publishers.
+
+### Carthage support
 
 Besides RxSwift support it also lowers the target to iOS 10 (also macOS 10_12, tvOS 10 & watchOS 3) and supports Carthage integration.
 In your cartfile :
@@ -9,7 +11,17 @@ In your cartfile :
 github "bioche/RxSwiftComposableArchitecture" "0.2.0"
 ```
 
-Limitations :
+### CasePath
+
+The ComposableArchitecture framework includes public CasePath source files from the PointFree repository : https://github.com/pointfreeco/swift-case-paths
+
+### UIKit support
+
+* `IfLet` method on the store that provides the same functionality as `IfLetStore` on the SwiftUI side
+* Plug your store directly to  `UICollectionView` or `UITableView` using the binding methods added to the `Store`. The reloading of the collection/table can be done using [DifferenceKit](https://github.com/ra1028/DifferenceKit) via the included helper framework `ComposableDifferenceKitDatasources`.
+
+### Limitations 
+
 * Identifiable being limited to iOS 13 and above, this provides its own protocol TCAIdentifiable. All structs implementing Identifiable in sample app are now implementing both with no additional effort giving TCAIdentifiable is an exact replica of Identifiable.
 * Because the signatures between Rx and Combine methods on effects & stores are very close, the compiler may require more help to identify which method to use.
 * Because of Rx Observables don't specify the type of errors they can throw, it's up to the user to specify the error type when creating effects. A wrong error type won't impact the subscription unless converting it back to Combine publishers or catching errors into a `Result` with `catchToEffect`. In those cases an assertionFailure is fired in debug and the effect will complete in production.
