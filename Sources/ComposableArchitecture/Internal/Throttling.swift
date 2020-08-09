@@ -14,7 +14,7 @@ extension Effect {
   ///     `false`, the publisher emits the first element received during the interval.
   /// - Returns: An effect that emits either the most-recent or first element received during the
   ///   specified interval.
-  func throttle(
+  public func throttle(
     id: AnyHashable,
     for interval: RxTimeInterval,
     scheduler: SchedulerType,
