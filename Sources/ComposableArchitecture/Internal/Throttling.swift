@@ -1,10 +1,9 @@
-#if canImport(Combine)
-import Combine
+import RxSwift
 import Dispatch
+import Foundation
 
-@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension Effect {
-  /// Turns an effect into one that can be throttled.
+   /// Turns an effect into one that can be throttled.
   ///
   /// - Parameters:
   ///   - id: The effect's identifier.
@@ -15,34 +14,33 @@ extension Effect {
   ///     `false`, the publisher emits the first element received during the interval.
   /// - Returns: An effect that emits either the most-recent or first element received during the
   ///   specified interval.
-  func throttle<S>(
+  func throttle(
     id: AnyHashable,
-    for interval: S.SchedulerTimeType.Stride,
-    scheduler: S,
+    for interval: RxTimeInterval,
+    scheduler: SchedulerType,
     latest: Bool
-  ) -> Effect where S: Scheduler {
-    self.flatMap { value -> AnyPublisher<Output, Failure> in
-      guard let throttleTime = throttleTimes[id] as! S.SchedulerTimeType? else {
+  ) -> Effect {
+    self.flatMap { value -> Observable<Output> in
+      guard let throttleTime = throttleTimes[id] as! RxTime? else {
         throttleTimes[id] = scheduler.now
         throttleValues[id] = nil
-        return Just(value).setFailureType(to: Failure.self).eraseToAnyPublisher()
+        return Observable.just(value)
       }
 
-      guard throttleTime.distance(to: scheduler.now) < interval else {
+      guard scheduler.now.timeIntervalSince1970 - throttleTime.timeIntervalSince1970 < interval.timeInterval
+      else {
         throttleTimes[id] = scheduler.now
         throttleValues[id] = nil
-        return Just(value).setFailureType(to: Failure.self).eraseToAnyPublisher()
+        return Observable.just(value)
       }
 
       let value = latest ? value : (throttleValues[id] as! Output? ?? value)
       throttleValues[id] = value
+      
+      let delay = throttleTime.timeIntervalSince1970 - scheduler.now.timeIntervalSince1970 + interval.timeInterval
 
-      return Just(value)
-        .delay(
-          for: scheduler.now.distance(to: throttleTime.advanced(by: interval)), scheduler: scheduler
-        )
-        .setFailureType(to: Failure.self)
-        .eraseToAnyPublisher()
+      return Observable.just(value)
+        .delay(.seconds(delay), scheduler: scheduler)
     }
     .eraseToEffect()
     .cancellable(id: id, cancelInFlight: true)
@@ -51,4 +49,27 @@ extension Effect {
 
 var throttleTimes: [AnyHashable: Any] = [:]
 var throttleValues: [AnyHashable: Any] = [:]
-#endif
+
+extension DispatchTimeInterval {
+  var timeInterval: TimeInterval {
+    switch self {
+    case let .seconds(s):
+      return TimeInterval(s)
+    case let .milliseconds(ms):
+      return TimeInterval(TimeInterval(ms) / 1000.0)
+    case let .microseconds(us):
+      return TimeInterval(Int64(us) * Int64(NSEC_PER_USEC)) / TimeInterval(NSEC_PER_SEC)
+    case let .nanoseconds(ns):
+      return TimeInterval(ns) / TimeInterval(NSEC_PER_SEC)
+    case .never:
+      return .infinity
+    @unknown default:
+      fatalError()
+    }
+  }
+
+  static func seconds(_ interval: TimeInterval) -> DispatchTimeInterval {
+    let delay = Double(NSEC_PER_SEC) * interval
+    return DispatchTimeInterval.nanoseconds(Int(delay))
+  }
+}

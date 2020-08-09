@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1200"
+   LastUpgradeVersion = "1160"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4168FAFB248C5D4700CD8FB5"
-               BuildableName = "ComposableArchitecture.framework"
-               BlueprintName = "ComposableArchitecture"
+               BlueprintIdentifier = "A5A7FE2624CF245E00608A39"
+               BuildableName = "ComposableArchitectureTestSupport.framework"
+               BlueprintName = "ComposableArchitectureTestSupport"
                ReferencedContainer = "container:ComposableArchitecture.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "41626073248D49CA003FCAA8"
-               BuildableName = "ComposableArchitectureTests.xctest"
-               BlueprintName = "ComposableArchitectureTests"
+               BlueprintIdentifier = "A5A7FE2E24CF245E00608A39"
+               BuildableName = "ComposableArchitectureTestSupportTests.xctest"
+               BlueprintName = "ComposableArchitectureTestSupportTests"
                ReferencedContainer = "container:ComposableArchitecture.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -60,9 +60,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4168FAFB248C5D4700CD8FB5"
-            BuildableName = "ComposableArchitecture.framework"
-            BlueprintName = "ComposableArchitecture"
+            BlueprintIdentifier = "A5A7FE2624CF245E00608A39"
+            BuildableName = "ComposableArchitectureTestSupport.framework"
+            BlueprintName = "ComposableArchitectureTestSupport"
             ReferencedContainer = "container:ComposableArchitecture.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

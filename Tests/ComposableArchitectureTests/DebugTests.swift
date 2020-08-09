@@ -1,4 +1,5 @@
-import Combine
+import RxTest
+import RxSwift
 import XCTest
 
 @testable import ComposableArchitecture

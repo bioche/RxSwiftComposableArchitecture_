@@ -7,8 +7,6 @@
 //
 
 import Foundation
-import RxSwift
-import RxCocoa
 import DifferenceKit
 import ComposableArchitecture
 

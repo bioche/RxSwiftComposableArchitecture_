@@ -1,8 +1,6 @@
-#if canImport(Combine)
-import Combine
+import RxSwift
 import Foundation
 
-@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension Effect {
   /// Turns an effect into one that is capable of being canceled.
   ///
@@ -29,37 +27,46 @@ extension Effect {
   ///     canceled before starting this new one.
   /// - Returns: A new effect that is capable of being canceled by an identifier.
   public func cancellable(id: AnyHashable, cancelInFlight: Bool = false) -> Effect {
-    let effect = Deferred { () -> Publishers.HandleEvents<PassthroughSubject<Output, Failure>> in
-      cancellablesLock.lock()
-      defer { cancellablesLock.unlock() }
-
-      let subject = PassthroughSubject<Output, Failure>()
-      let cancellable = self.subscribe(subject)
-
-      var cancellationCancellable: AnyCancellable!
-      cancellationCancellable = AnyCancellable {
-        cancellablesLock.sync {
-          subject.send(completion: .finished)
-          cancellable.cancel()
-          cancellationCancellables[id]?.remove(cancellationCancellable)
-          if cancellationCancellables[id]?.isEmpty == .some(true) {
-            cancellationCancellables[id] = nil
+    let effect: Effect<Output, Failure> = Observable<Output>.create { observer in
+      cancellationDisposablesLock.lock()
+      defer { cancellationDisposablesLock.unlock() }
+      
+      var disposable: Disposable?
+      
+      // create the disposable that is just a closure to be stored in the global dictionary
+      // and exectuted when the original sequence finishes or is cancelled
+      var cancellationDisposable: AnyDisposable!
+      cancellationDisposable = AnyDisposable(
+        Disposables.create {
+          cancellationDisposablesLock.sync {
+            observer.onCompleted()
+            disposable?.dispose()
+            cancellationDisposables[id]?.remove(cancellationDisposable)
+            if cancellationDisposables[id]?.isEmpty == .some(true) {
+              cancellationDisposables[id] = nil
+            }
           }
-        }
-      }
-
-      cancellationCancellables[id, default: []].insert(
-        cancellationCancellable
+      })
+      
+      // register the closure in the global dictionary
+      cancellationDisposables[id, default: []].insert(
+        cancellationDisposable
       )
-
-      return subject.handleEvents(
-        receiveCompletion: { _ in cancellationCancellable.cancel() },
-        receiveCancel: cancellationCancellable.cancel
+      
+      // bind the original sequence to the observer. We call the cancellation closure on completion or dispose to clear it from the global dictionary
+      disposable = self.do(
+        onCompletion: { _ in cancellationDisposable.dispose() },
+        onDispose: cancellationDisposable.dispose
       )
+        .bind(to: observer)
+      
+      return disposable!
     }
     .eraseToEffect()
-
-    return cancelInFlight ? .concatenate(.cancel(id: id), effect) : effect
+    
+    return cancelInFlight
+      ? .concatenate(.cancel(id: id), effect)
+      : effect
   }
 
   /// An effect that will cancel any currently in-flight effect with the given identifier.
@@ -69,35 +76,15 @@ extension Effect {
   ///   identifier.
   public static func cancel(id: AnyHashable) -> Effect {
     return .fireAndForget {
-      cancellablesLock.sync {
-        cancellationCancellables[id]?.forEach { $0.cancel() }
+      cancellationDisposablesLock.sync {
+        cancellationDisposables[id]?.forEach { $0.dispose() }
       }
     }
   }
 }
 
-@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-var cancellationCancellables: [AnyHashable: Set<AnyCancellable>] = [:]
-let cancellablesLock = NSRecursiveLock()
+/// The references to disposables of all cancellable effects
+var cancellationDisposables: [AnyHashable: Set<AnyDisposable>] = [:]
 
-final class Atomic<A> {
-    private let queue = DispatchQueue(label: "Atomic serial queue")
-    private var _value: A
-    init(_ value: A) {
-        self._value = value
-    }
-
-    var value: A {
-        get {
-            return queue.sync { self._value }
-        }
-    }
-
-    func mutate(_ transform: (inout A) -> ()) {
-        queue.sync {
-            transform(&self._value)
-        }
-    }
-}
-
-#endif
+/// Avoids concurrent access to `cancellationDisposables`
+let cancellationDisposablesLock = NSRecursiveLock()

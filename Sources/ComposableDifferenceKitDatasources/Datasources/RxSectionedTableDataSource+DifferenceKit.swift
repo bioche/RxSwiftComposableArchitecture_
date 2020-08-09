@@ -6,7 +6,6 @@
 //  Copyright © 2020 Bioche. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import DifferenceKit
 import ComposableArchitecture
