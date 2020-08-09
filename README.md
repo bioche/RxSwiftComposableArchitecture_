@@ -9,10 +9,10 @@ In your cartfile :
 github "bioche/RxSwiftComposableArchitecture" "0.2.0"
 ```
 
-Current limitations :
+Limitations :
 * Identifiable being limited to iOS 13 and above, this provides its own protocol TCAIdentifiable. All structs implementing Identifiable in sample app are now implementing both with no additional effort giving TCAIdentifiable is an exact replica of Identifiable.
-* Special effects (pun not intended :p ) like Debouncing, Timer & cancellation are Combine/iOS 13 only for now but should be rxified in near future
 * Because the signatures between Rx and Combine methods on effects & stores are very close, the compiler may require more help to identify which method to use.
+* Because of Rx Observables don't specify the type of errors they can throw, it's up to the user to specify the error type when creating effects. A wrong error type won't impact the subscription unless converting it back to Combine publishers or catching errors into a `Result` with `catchToEffect`. In those cases an assertionFailure is fired in debug and the effect will complete in production.
 
 # The Composable Architecture
 
