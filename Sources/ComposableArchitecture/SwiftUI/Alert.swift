@@ -1,6 +1,3 @@
-#if canImport(Combine)
-import SwiftUI
-
 /// A data type that describes the state of an alert that can be shown to the user. The `Action`
 /// generic is the type of actions that can be sent from tapping on a button in the alert.
 ///
@@ -158,6 +155,18 @@ public struct AlertState<Action> {
   }
 }
 
+extension AlertState: Equatable where Action: Equatable {}
+extension AlertState: Hashable where Action: Hashable {}
+extension AlertState.Button: Equatable where Action: Equatable {}
+extension AlertState.Button: Hashable where Action: Hashable {}
+
+extension AlertState: TCAIdentifiable where Action: Hashable {
+  public var id: Self { self }
+}
+
+#if canImport(Combine)
+import SwiftUI
+
 @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension View {
   /// Displays an alert when then store's state becomes non-`nil`, and dismisses it when it becomes
@@ -185,14 +194,8 @@ extension View {
   }
 }
 
-extension AlertState: Equatable where Action: Equatable {}
-extension AlertState: Hashable where Action: Hashable {}
-extension AlertState.Button: Equatable where Action: Equatable {}
-extension AlertState.Button: Hashable where Action: Hashable {}
+extension AlertState: Identifiable where Action: Hashable { }
 
-extension AlertState: Identifiable where Action: Hashable {
-  public var id: Self { self }
-}
 
 @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension AlertState.Button {

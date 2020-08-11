@@ -1,6 +1,3 @@
-#if canImport(Combine)
-import SwiftUI
-
 /// A data type that describes the state of an action sheet that can be shown to the user. The
 /// `Action` generic is the type of actions that can be sent from tapping on a button in the sheet.
 ///
@@ -100,11 +97,6 @@ import SwiftUI
 ///       }
 ///     )
 ///
-@available(iOS 13, *)
-@available(macCatalyst 13, *)
-@available(macOS, unavailable)
-@available(tvOS 13, *)
-@available(watchOS 6, *)
 public struct ActionSheetState<Action> {
   public var buttons: [Button]
   public var message: String?
@@ -123,28 +115,16 @@ public struct ActionSheetState<Action> {
   public typealias Button = AlertState<Action>.Button
 }
 
-@available(iOS 13, *)
-@available(macCatalyst 13, *)
-@available(macOS, unavailable)
-@available(tvOS 13, *)
-@available(watchOS 6, *)
 extension ActionSheetState: Equatable where Action: Equatable {}
 
-@available(iOS 13, *)
-@available(macCatalyst 13, *)
-@available(macOS, unavailable)
-@available(tvOS 13, *)
-@available(watchOS 6, *)
 extension ActionSheetState: Hashable where Action: Hashable {}
 
-@available(iOS 13, *)
-@available(macCatalyst 13, *)
-@available(macOS, unavailable)
-@available(tvOS 13, *)
-@available(watchOS 6, *)
 extension ActionSheetState: Identifiable where Action: Hashable {
   public var id: Self { self }
 }
+
+#if canImport(Combine)
+import SwiftUI
 
 @available(iOS 13, *)
 @available(macCatalyst 13, *)
