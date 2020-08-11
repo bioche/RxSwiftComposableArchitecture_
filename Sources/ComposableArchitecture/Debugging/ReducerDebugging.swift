@@ -1,6 +1,25 @@
 //import CasePaths
 import Dispatch
 
+/// Set this to true so that the debug on Reducer prints the results.
+/// By default : true if framework is built on DEBUG & false otherwise
+///
+/// For SPM users you should not need this, for Carthage users you should condition this to the DEBUG flag on the client app :
+/// ```
+///   #if DEBUG
+///   ComposableArchitecture.debuggingActivationFlag = true
+///   #else
+///   ComposableArchitecture.debuggingActivationFlag = false
+///   #endif
+/// ```
+public var debuggingActivationFlag: Bool = {
+  #if DEBUG
+  return true
+  #else
+  return false
+  #endif
+}()
+
 /// Determines how the string description of an action should be printed when using the `.debug()`
 /// higher-order reducer.
 public enum ActionFormat {
@@ -99,7 +118,7 @@ extension Reducer {
       DebugEnvironment()
     }
   ) -> Reducer {
-//    #if DEBUG
+    if debuggingActivationFlag {
       return .init { state, action, environment in
         let previousState = toLocalState(state)
         let effects = self.run(&state, action, environment)
@@ -129,9 +148,9 @@ extension Reducer {
           effects
         )
       }
-//    #else
-//      return self
-//    #endif
+    } else {
+      return self
+    }
   }
 }
 
