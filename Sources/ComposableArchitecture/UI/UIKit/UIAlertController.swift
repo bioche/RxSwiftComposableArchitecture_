@@ -12,12 +12,14 @@ import UIKit
 import RxSwift
 
 extension Store where State == AlertState<Action>? {
-  public func bind(to alertPresenter: UIViewController) -> Disposable {
-    ifLet(then: { [weak alertPresenter] store in
+  public func bindTo(alertPresenter: UIViewController) -> Disposable {
+    var alertController: UIAlertController?
+    return ifLet(then: { [weak alertPresenter] store in
       let viewStore = ViewStore(store, removeDuplicates: { _, _ in false })
-      alertPresenter?.present(UIAlertController.from(viewStore: viewStore), animated: true, completion: nil)
-      }, else: { [weak alertPresenter] in
-        alertPresenter?.dismiss(animated: true, completion: nil)
+      alertController = .from(viewStore: viewStore)
+      alertPresenter?.present(alertController!, animated: true, completion: nil)
+      }, else: { [weak alertController] in
+        alertController?.dismiss(animated: true, completion: nil)
     })
   }
 }
