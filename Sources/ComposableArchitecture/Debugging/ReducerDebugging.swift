@@ -98,7 +98,7 @@ extension Reducer {
 
   /// Prints debug messages describing all received local actions and local state mutations.
   ///
-  /// Printing is only done in debug (`#if DEBUG`) builds.
+  /// Printing is only done if ``debuggingActivationFlag` is set to true. (true by default in debug builds & false in release builds.
   ///
   /// - Parameters:
   ///   - prefix: A string with which to prefix all debug messages.

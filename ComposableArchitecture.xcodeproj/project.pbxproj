@@ -127,6 +127,7 @@
 		BE5B861624C2269600461DAD /* RxTest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 416260AD249968A0003FCAA8 /* RxTest.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BE66156E24DDBC9C0049DAE6 /* ComposableArchitectureTestSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5A7FE2724CF245E00608A39 /* ComposableArchitectureTestSupport.framework */; platformFilter = ios; };
 		BEC93A4424B8EE0B00D8082D /* IfLetUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */; };
+		D000D2A824E9787300ADE15C /* Reducer+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D000D2A724E9787300ADE15C /* Reducer+Utils.swift */; };
 		D07A4C7224E2BE9F008377C5 /* AlertState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07A4C7124E2BE9F008377C5 /* AlertState.swift */; };
 		D07A4C7424E2BEDA008377C5 /* ActionSheetState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07A4C7324E2BEDA008377C5 /* ActionSheetState.swift */; };
 		D07A4C7624E2BF1D008377C5 /* UIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07A4C7524E2BF1D008377C5 /* UIAlertController.swift */; };
@@ -397,6 +398,7 @@
 		BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IfLetUIKit.swift; sourceTree = "<group>"; };
 		BED7DF6124C2068B007EDABE /* TestStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStore.swift; sourceTree = "<group>"; };
 		BED7DF6424C21EA7007EDABE /* RxTestScheduler+utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RxTestScheduler+utils.swift"; sourceTree = "<group>"; };
+		D000D2A724E9787300ADE15C /* Reducer+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Reducer+Utils.swift"; sourceTree = "<group>"; };
 		D07A4C7124E2BE9F008377C5 /* AlertState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertState.swift; sourceTree = "<group>"; };
 		D07A4C7324E2BEDA008377C5 /* ActionSheetState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetState.swift; sourceTree = "<group>"; };
 		D07A4C7524E2BF1D008377C5 /* UIAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertController.swift; sourceTree = "<group>"; };
@@ -538,6 +540,7 @@
 				41626049248D31E3003FCAA8 /* CasePaths */,
 				4168FB07248C5D9900CD8FB5 /* Info.plist */,
 				41364C9A248C6028007EBA46 /* Reducer.swift */,
+				D000D2A724E9787300ADE15C /* Reducer+Utils.swift */,
 				41364C9B248C6028007EBA46 /* RxCombine */,
 				41364CA3248C6028007EBA46 /* Debugging */,
 				41364CA5248C6028007EBA46 /* Internal */,
@@ -1328,6 +1331,7 @@
 				41364CE5248C6028007EBA46 /* ForEachStore.swift in Sources */,
 				418033AC24D715B700EA11AB /* Store+TableBinding.swift in Sources */,
 				418033AA24D715B700EA11AB /* RxFlatTableDataSource.swift in Sources */,
+				D000D2A824E9787300ADE15C /* Reducer+Utils.swift in Sources */,
 				41364CE1248C6028007EBA46 /* IdentifiedArray.swift in Sources */,
 				41364CDB248C6028007EBA46 /* Store.swift in Sources */,
 				41364CE3248C6028007EBA46 /* IfLetStore.swift in Sources */,
