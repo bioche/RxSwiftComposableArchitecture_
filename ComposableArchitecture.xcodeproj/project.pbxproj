@@ -48,9 +48,6 @@
 		41626039248D2D6E003FCAA8 /* Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364C96248C6028007EBA46 /* Interface.swift */; };
 		4162603C248D2DD1003FCAA8 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 4162603A248D2DD1003FCAA8 /* Cartfile */; };
 		4162603D248D2DD1003FCAA8 /* Cartfile.resolved in Resources */ = {isa = PBXBuildFile; fileRef = 4162603B248D2DD1003FCAA8 /* Cartfile.resolved */; };
-		41626042248D2E14003FCAA8 /* RxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4162603F248D2E14003FCAA8 /* RxRelay.framework */; };
-		41626044248D2E14003FCAA8 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626040248D2E14003FCAA8 /* RxCocoa.framework */; };
-		41626046248D2E14003FCAA8 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; };
 		4162604E248D31E3003FCAA8 /* EnumReflection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4162604A248D31E3003FCAA8 /* EnumReflection.swift */; };
 		4162604F248D31E3003FCAA8 /* CasePaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4162604B248D31E3003FCAA8 /* CasePaths.swift */; };
 		41626050248D31E3003FCAA8 /* CasePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4162604C248D31E3003FCAA8 /* CasePath.swift */; };
@@ -68,17 +65,10 @@
 		41626089248D4AB2003FCAA8 /* EffectCancellationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4162605F248D4983003FCAA8 /* EffectCancellationTests.swift */; };
 		4162608A248D4AB2003FCAA8 /* StoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41626060248D4983003FCAA8 /* StoreTests.swift */; };
 		41626094248D4B98003FCAA8 /* ComposableCoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626029248D2CBA003FCAA8 /* ComposableCoreLocation.framework */; };
-		4162609A248D4C4A003FCAA8 /* ComposableArchitecture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4168FAFC248C5D4700CD8FB5 /* ComposableArchitecture.framework */; };
-		4162609F248D4D32003FCAA8 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626040248D2E14003FCAA8 /* RxCocoa.framework */; };
-		416260A1248D4D33003FCAA8 /* RxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4162603F248D2E14003FCAA8 /* RxRelay.framework */; };
-		416260A3248D4D33003FCAA8 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; };
 		416260A6248D522C003FCAA8 /* ComposableCoreLocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41626062248D4983003FCAA8 /* ComposableCoreLocationTests.swift */; };
 		416260AA2499667D003FCAA8 /* RxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4162603F248D2E14003FCAA8 /* RxRelay.framework */; platformFilter = ios; };
 		416260AB2499667D003FCAA8 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; platformFilter = ios; };
 		416260AC249968A0003FCAA8 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626040248D2E14003FCAA8 /* RxCocoa.framework */; platformFilter = ios; };
-		416260B324996ABC003FCAA8 /* RxSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 416260B024996ABC003FCAA8 /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		416260B424996ABC003FCAA8 /* RxCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 416260B124996ABC003FCAA8 /* RxCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		416260B524996ABC003FCAA8 /* RxRelay.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 416260B224996ABC003FCAA8 /* RxRelay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4176B30C24A8F515003D6097 /* ReducerInstrumentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B30B24A8F515003D6097 /* ReducerInstrumentation.swift */; };
 		4176B33C24A90209003D6097 /* ComposableCoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4176B32824A901D8003D6097 /* ComposableCoreMotion.framework */; };
 		4176B34224A90266003D6097 /* GyroData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4176B31124A901B1003D6097 /* GyroData.swift */; };
@@ -123,9 +113,19 @@
 		A5A7FE4424CF271200608A39 /* ComposableArchitecture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4168FAFC248C5D4700CD8FB5 /* ComposableArchitecture.framework */; };
 		BE556C7424C9CCAC00C716B7 /* RxTestScheduler+utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED7DF6424C21EA7007EDABE /* RxTestScheduler+utils.swift */; };
 		BE5B861524C2263300461DAD /* RxTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 416260AD249968A0003FCAA8 /* RxTest.framework */; };
-		BE5B861624C2269600461DAD /* RxTest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 416260AD249968A0003FCAA8 /* RxTest.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BE66156E24DDBC9C0049DAE6 /* ComposableArchitectureTestSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5A7FE2724CF245E00608A39 /* ComposableArchitectureTestSupport.framework */; platformFilter = ios; };
 		BEC93A4424B8EE0B00D8082D /* IfLetUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */; };
+		D000D2A824E9787300ADE15C /* Reducer+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D000D2A724E9787300ADE15C /* Reducer+Utils.swift */; };
+		D07A4C7224E2BE9F008377C5 /* AlertState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07A4C7124E2BE9F008377C5 /* AlertState.swift */; };
+		D07A4C7424E2BEDA008377C5 /* ActionSheetState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07A4C7324E2BEDA008377C5 /* ActionSheetState.swift */; };
+		D07A4C7624E2BF1D008377C5 /* UIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07A4C7524E2BF1D008377C5 /* UIAlertController.swift */; };
+		D07A4C7724E2C2E7008377C5 /* ComposableArchitecture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4168FAFC248C5D4700CD8FB5 /* ComposableArchitecture.framework */; };
+		D07A4C7A24E2C2E9008377C5 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626040248D2E14003FCAA8 /* RxCocoa.framework */; };
+		D07A4C7C24E2C2EA008377C5 /* RxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4162603F248D2E14003FCAA8 /* RxRelay.framework */; };
+		D07A4C7E24E2C2EC008377C5 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; };
+		D07A4C8024E2C2EF008377C5 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626040248D2E14003FCAA8 /* RxCocoa.framework */; };
+		D07A4C8324E2C2F0008377C5 /* RxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4162603F248D2E14003FCAA8 /* RxRelay.framework */; };
+		D07A4C8524E2C2F4008377C5 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -181,17 +181,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		416260AF24996A97003FCAA8 /* CopyFiles */ = {
+		416260AF24996A97003FCAA8 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				BE5B861624C2269600461DAD /* RxTest.framework in CopyFiles */,
-				416260B324996ABC003FCAA8 /* RxSwift.framework in CopyFiles */,
-				416260B424996ABC003FCAA8 /* RxCocoa.framework in CopyFiles */,
-				416260B524996ABC003FCAA8 /* RxRelay.framework in CopyFiles */,
 			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -314,6 +311,10 @@
 		BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IfLetUIKit.swift; sourceTree = "<group>"; };
 		BED7DF6124C2068B007EDABE /* TestStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStore.swift; sourceTree = "<group>"; };
 		BED7DF6424C21EA7007EDABE /* RxTestScheduler+utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RxTestScheduler+utils.swift"; sourceTree = "<group>"; };
+		D000D2A724E9787300ADE15C /* Reducer+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Reducer+Utils.swift"; sourceTree = "<group>"; };
+		D07A4C7124E2BE9F008377C5 /* AlertState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertState.swift; sourceTree = "<group>"; };
+		D07A4C7324E2BEDA008377C5 /* ActionSheetState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetState.swift; sourceTree = "<group>"; };
+		D07A4C7524E2BF1D008377C5 /* UIAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -321,10 +322,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				416260A3248D4D33003FCAA8 /* RxSwift.framework in Frameworks */,
-				4162609F248D4D32003FCAA8 /* RxCocoa.framework in Frameworks */,
-				4162609A248D4C4A003FCAA8 /* ComposableArchitecture.framework in Frameworks */,
-				416260A1248D4D33003FCAA8 /* RxRelay.framework in Frameworks */,
+				D07A4C7E24E2C2EC008377C5 /* RxSwift.framework in Frameworks */,
+				D07A4C7C24E2C2EA008377C5 /* RxRelay.framework in Frameworks */,
+				D07A4C7A24E2C2E9008377C5 /* RxCocoa.framework in Frameworks */,
+				D07A4C7724E2C2E7008377C5 /* ComposableArchitecture.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,9 +354,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				41626044248D2E14003FCAA8 /* RxCocoa.framework in Frameworks */,
-				41626042248D2E14003FCAA8 /* RxRelay.framework in Frameworks */,
-				41626046248D2E14003FCAA8 /* RxSwift.framework in Frameworks */,
+				D07A4C8024E2C2EF008377C5 /* RxCocoa.framework in Frameworks */,
+				D07A4C8324E2C2F0008377C5 /* RxRelay.framework in Frameworks */,
+				D07A4C8524E2C2F4008377C5 /* RxSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,13 +447,14 @@
 		41364C97248C6028007EBA46 /* ComposableArchitecture */ = {
 			isa = PBXGroup;
 			children = (
+				D07A4C7024E2BE64008377C5 /* UI */,
 				41BE275B24E04CF1003F71AC /* TestSupport */,
 				4180339024D7157E00EA11AB /* Utils */,
 				41626049248D31E3003FCAA8 /* CasePaths */,
 				4168FB07248C5D9900CD8FB5 /* Info.plist */,
 				41364C9A248C6028007EBA46 /* Reducer.swift */,
+				D000D2A724E9787300ADE15C /* Reducer+Utils.swift */,
 				41364C9B248C6028007EBA46 /* RxCombine */,
-				41364CA1248C6028007EBA46 /* UIKit */,
 				41364CA3248C6028007EBA46 /* Debugging */,
 				41364CA5248C6028007EBA46 /* Internal */,
 				41364CAD248C6028007EBA46 /* Effect.swift */,
@@ -463,7 +465,6 @@
 				41364CB2248C6028007EBA46 /* Store+Combine.swift */,
 				41364CB3248C6028007EBA46 /* Effects */,
 				41364CB7248C6028007EBA46 /* ViewStore.swift */,
-				41364CB8248C6028007EBA46 /* SwiftUI */,
 			);
 			path = ComposableArchitecture;
 			sourceTree = "<group>";
@@ -483,6 +484,7 @@
 				4180339624D715B700EA11AB /* ForEach */,
 				BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */,
 				41364CA2248C6028007EBA46 /* IfLetUIKit+Combine.swift */,
+				D07A4C7524E2BF1D008377C5 /* UIAlertController.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -803,6 +805,17 @@
 			path = RxTestSchedulerExtension;
 			sourceTree = "<group>";
 		};
+		D07A4C7024E2BE64008377C5 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				41364CB8248C6028007EBA46 /* SwiftUI */,
+				41364CA1248C6028007EBA46 /* UIKit */,
+				D07A4C7124E2BE9F008377C5 /* AlertState.swift */,
+				D07A4C7324E2BEDA008377C5 /* ActionSheetState.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -870,7 +883,7 @@
 				41626070248D49CA003FCAA8 /* Sources */,
 				41626071248D49CA003FCAA8 /* Frameworks */,
 				41626072248D49CA003FCAA8 /* Resources */,
-				416260AF24996A97003FCAA8 /* CopyFiles */,
+				416260AF24996A97003FCAA8 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1218,6 +1231,7 @@
 				41364CDA248C6028007EBA46 /* ViewStore+Combine.swift in Sources */,
 				41364CD3248C6028007EBA46 /* Exports.swift in Sources */,
 				418033AB24D715B700EA11AB /* TCAItem.swift in Sources */,
+				D07A4C7624E2BF1D008377C5 /* UIAlertController.swift in Sources */,
 				41364CD9248C6028007EBA46 /* Effect+failure.swift in Sources */,
 				41364CCA248C6028007EBA46 /* Publisher+asObservable.swift in Sources */,
 				41364CE2248C6028007EBA46 /* Identified.swift in Sources */,
@@ -1225,6 +1239,7 @@
 				41364CE5248C6028007EBA46 /* ForEachStore.swift in Sources */,
 				418033AC24D715B700EA11AB /* Store+TableBinding.swift in Sources */,
 				418033AA24D715B700EA11AB /* RxFlatTableDataSource.swift in Sources */,
+				D000D2A824E9787300ADE15C /* Reducer+Utils.swift in Sources */,
 				41364CE1248C6028007EBA46 /* IdentifiedArray.swift in Sources */,
 				41364CDB248C6028007EBA46 /* Store.swift in Sources */,
 				41364CE3248C6028007EBA46 /* IfLetStore.swift in Sources */,
@@ -1232,8 +1247,10 @@
 				418033AD24D715B700EA11AB /* Store+GenericBinding.swift in Sources */,
 				41364CE4248C6028007EBA46 /* TCAIdentifiable.swift in Sources */,
 				418033AE24D715B700EA11AB /* Store+CollectionBinding.swift in Sources */,
+				D07A4C7224E2BE9F008377C5 /* AlertState.swift in Sources */,
 				418033A924D715B700EA11AB /* RxSectionedTableDataSource.swift in Sources */,
 				4162604F248D31E3003FCAA8 /* CasePaths.swift in Sources */,
+				D07A4C7424E2BEDA008377C5 /* ActionSheetState.swift in Sources */,
 				418033A624D715B700EA11AB /* TCASection.swift in Sources */,
 				418033A724D715B700EA11AB /* RxSectionedCollectionDataSource.swift in Sources */,
 			);
@@ -1348,7 +1365,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.6.1;
+				MARKETING_VERSION = 0.7.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					Combine,
@@ -1385,7 +1402,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.6.1;
+				MARKETING_VERSION = 0.7.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					Combine,
@@ -1626,7 +1643,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.6.1;
+				MARKETING_VERSION = 0.7.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					SwiftUI,
@@ -1663,7 +1680,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.6.1;
+				MARKETING_VERSION = 0.7.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					SwiftUI,
@@ -1700,7 +1717,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.6.1;
+				MARKETING_VERSION = 0.7.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					Combine,
@@ -1737,7 +1754,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.6.1;
+				MARKETING_VERSION = 0.7.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					Combine,
@@ -1814,7 +1831,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.6.1;
+				MARKETING_VERSION = 0.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableDifferenceKitDatasources;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1845,7 +1862,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.6.1;
+				MARKETING_VERSION = 0.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableDifferenceKitDatasources;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1876,7 +1893,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.6.1;
+				MARKETING_VERSION = 0.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableArchitectureTestSupport;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1907,7 +1924,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.6.1;
+				MARKETING_VERSION = 0.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableArchitectureTestSupport;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
