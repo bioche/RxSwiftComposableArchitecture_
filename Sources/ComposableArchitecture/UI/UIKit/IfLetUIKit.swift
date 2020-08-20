@@ -52,13 +52,26 @@ extension Store {
     then unwrap: @escaping (Store<Wrapped, Action>) -> Void,
     else: @escaping () -> Void
   ) -> Disposable where State == Wrapped? {
-    scope { (state: Observable<Wrapped?>) in
+    
+    let elseDisposable = self
+      .scope(
+        state: { (state: Observable<Wrapped?>) in
+          state
+            .distinctUntilChanged { ($0 != nil) == ($1 != nil) }
+        }
+      )
+      .subscribe(onNext: { store in
+        if store.state == nil { `else`() }
+      })
+  
+    let thenDisposable = scope { (state: Observable<Wrapped?>) in
       state
         .distinctUntilChanged { ($0 != nil) == ($1 != nil) }
-        .do(onNext: { if $0 == nil { `else`() } })
         .compactMap { $0 }
     }
     .subscribe(onNext: unwrap)
+    
+    return Disposables.create([thenDisposable, elseDisposable])
   }
   
   /// An overload of `ifLet(then:else:)` for the times that you do not want to handle the `else`

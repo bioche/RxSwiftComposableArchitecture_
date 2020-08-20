@@ -15,6 +15,7 @@
 		CA0A57A7242ABA7400BA537D /* NewGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA841EB524212DB50093C098 /* NewGameViewController.swift */; };
 		CA0A57A8242ABA7400BA537D /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA841EB92421594D0093C098 /* GameViewController.swift */; };
 		CA0A57A9242ABA7400BA537D /* TwoFactorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA841EB724214C4D0093C098 /* TwoFactorViewController.swift */; };
+		D0DDE20D24ED84C200EFD667 /* CombineSchedulers in Frameworks */ = {isa = PBXBuildFile; productRef = D0DDE20C24ED84C200EFD667 /* CombineSchedulers */; };
 		DC09A282242023D1007E2F27 /* LiveAuthenticationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC09A281242023D1007E2F27 /* LiveAuthenticationClient.swift */; };
 		DC13941D2469E40B00EE1157 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = DC13941C2469E40B00EE1157 /* ComposableArchitecture */; };
 		DC13941E2469E42A00EE1157 /* TicTacToeCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCAF11312420293300483288 /* TicTacToeCommon.framework */; };
@@ -808,6 +809,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0DDE20D24ED84C200EFD667 /* CombineSchedulers in Frameworks */,
 				DC13941D2469E40B00EE1157 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1493,6 +1495,7 @@
 			name = TicTacToeCommon;
 			packageProductDependencies = (
 				DC13941C2469E40B00EE1157 /* ComposableArchitecture */,
+				D0DDE20C24ED84C200EFD667 /* CombineSchedulers */,
 			);
 			productName = TicTacToeCommon;
 			productReference = DCAF11312420293300483288 /* TicTacToeCommon.framework */;
@@ -1591,6 +1594,7 @@
 			);
 			mainGroup = DC9193ED2420104100A5BE1F;
 			packageReferences = (
+				D0DDE20724ED82E500EFD667 /* XCRemoteSwiftPackageReference "combine-schedulers" */,
 			);
 			productRefGroup = DC9193F72420104100A5BE1F /* Products */;
 			projectDirPath = "";
@@ -3429,7 +3433,23 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		D0DDE20724ED82E500EFD667 /* XCRemoteSwiftPackageReference "combine-schedulers" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/combine-schedulers";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		D0DDE20C24ED84C200EFD667 /* CombineSchedulers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D0DDE20724ED82E500EFD667 /* XCRemoteSwiftPackageReference "combine-schedulers" */;
+			productName = CombineSchedulers;
+		};
 		DC13941C2469E40B00EE1157 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ComposableArchitecture;
