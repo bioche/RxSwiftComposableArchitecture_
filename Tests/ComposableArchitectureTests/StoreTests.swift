@@ -236,4 +236,86 @@ final class StoreTests: XCTestCase {
     store.send(.incr)
     XCTAssertEqual(ViewStore(store).state, 100_000)
   }
+
+  func testIfLetAfterScope() {
+    struct AppState {
+      var count: Int?
+    }
+
+    let appReducer = Reducer<AppState, Int?, Void> { state, action, _ in
+      state.count = action
+      return .none
+    }
+
+    let parentStore = Store(initialState: AppState(), reducer: appReducer, environment: ())
+
+    // NB: This test needs to hold a strong reference to the emitted stores
+    var outputs: [Int?] = []
+    var stores: [Any] = []
+
+    parentStore
+      .scope(state: { $0.count })
+      .ifLet(
+        then: { store in
+          stores.append(store)
+          outputs.append(store.state)
+        },
+        else: {
+          outputs.append(nil)
+        })
+      .disposed(by: disposeBag)
+
+    XCTAssertEqual(outputs, [nil])
+
+    parentStore.send(1)
+    XCTAssertEqual(outputs, [nil, 1])
+
+    parentStore.send(nil)
+    XCTAssertEqual(outputs, [nil, 1, nil])
+
+    parentStore.send(1)
+    XCTAssertEqual(outputs, [nil, 1, nil, 1])
+
+    parentStore.send(nil)
+    XCTAssertEqual(outputs, [nil, 1, nil, 1, nil])
+
+    parentStore.send(1)
+    XCTAssertEqual(outputs, [nil, 1, nil, 1, nil, 1])
+
+    parentStore.send(nil)
+    XCTAssertEqual(outputs, [nil, 1, nil, 1, nil, 1, nil])
+  }
+
+  func testIfLetTwo() {
+    let parentStore = Store(
+      initialState: 0,
+      reducer: Reducer<Int?, Bool, Void> { state, action, _ in
+        if action {
+          state? += 1
+          return .none
+        } else {
+          return Just(true).receive(on: DispatchQueue.main).eraseToEffect()
+        }
+      },
+      environment: ()
+    )
+
+    parentStore.ifLet { childStore in
+      let vs = ViewStore(childStore)
+
+      vs
+        .driver
+        .drive(onNext: { _ in })
+        .disposed(by: self.disposeBag)
+
+      vs.send(false)
+      _ = XCTWaiter.wait(for: [.init()], timeout: 0.1)
+      vs.send(false)
+      _ = XCTWaiter.wait(for: [.init()], timeout: 0.1)
+      vs.send(false)
+      _ = XCTWaiter.wait(for: [.init()], timeout: 0.1)
+      XCTAssertEqual(vs.state, 3)
+    }
+    .disposed(by: disposeBag)
+  }
 }
