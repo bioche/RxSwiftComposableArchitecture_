@@ -10,7 +10,7 @@ import RxCocoa
 /// the `scope` method to derive more focused stores that can be passed to subviews.
 public final class Store<State, Action> {
   let stateRelay: BehaviorRelay<State>
-  var state: State {
+  public internal(set) var state: State {
     get {
       stateRelay.value
     }
@@ -139,7 +139,7 @@ public final class Store<State, Action> {
       self.scope(state: toLocalState, action: { $0 })
   }
 
-  func send(_ action: Action) {
+  public func send(_ action: Action) {
     self.synchronousActionsToSend.append(action)
 
     while !self.synchronousActionsToSend.isEmpty {
@@ -251,6 +251,19 @@ extension Store {
 extension Store: TCAIdentifiable where State: TCAIdentifiable {
   public var id: State.ID {
     ViewStore(self, removeDuplicates: {_, _ in false }).id
+  }
+}
+
+/// To avoid creating ViewStores
+extension Store {
+  public func driver(removeDuplicates isDuplicate: @escaping (State, State) -> Bool) -> StoreDriver<State> {
+    .init(stateRelay.distinctUntilChanged(isDuplicate))
+  }
+}
+
+extension Store where State: Equatable {
+  public func driver() -> StoreDriver<State> {
+    .init(stateRelay.distinctUntilChanged())
   }
 }
 
