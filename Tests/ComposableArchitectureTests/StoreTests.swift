@@ -318,4 +318,76 @@ final class StoreTests: XCTestCase {
     }
     .disposed(by: disposeBag)
   }
+  
+  func testOnceAvailable() {
+    struct AppState {
+      var count: Int?
+    }
+    
+    class IntWrapper {
+      let value: Int
+      
+      init(_ value: Int) {
+        self.value = value
+      }
+    }
+
+    let appReducer = Reducer<AppState, Int?, Void> { state, action, _ in
+      state.count = action
+      return .none
+    }
+
+    let parentStore = Store(initialState: AppState(), reducer: appReducer, environment: ())
+
+    // NB: This test needs to hold a strong reference to the emitted stores
+    var outputs: [Int?] = []
+    var stores: [Any] = []
+
+    weak var weakResult: IntWrapper?
+    var disposeBag = DisposeBag()
+    
+    parentStore
+      .scope(state: { $0.count })
+      .onceAvailable(
+        { store -> IntWrapper in
+          stores.append(store)
+          outputs.append(store.state)
+          let wrapper = IntWrapper(store.state)
+          weakResult = wrapper
+          return wrapper
+        },
+        thenWhenNil: { (wrapper: IntWrapper) in
+          XCTAssertEqual(wrapper.value, outputs.last)
+          outputs.append(nil)
+        }
+      )
+      .disposed(by: disposeBag)
+    
+    XCTAssertEqual(outputs, [])
+
+    parentStore.send(1)
+    XCTAssertEqual(outputs, [1])
+
+    parentStore.send(nil)
+    XCTAssertEqual(outputs, [1, nil])
+
+    parentStore.send(1)
+    XCTAssertEqual(outputs, [1, nil, 1])
+
+    parentStore.send(nil)
+    XCTAssertEqual(outputs, [1, nil, 1, nil])
+
+    parentStore.send(1)
+    XCTAssertEqual(outputs, [1, nil, 1, nil, 1])
+
+    parentStore.send(nil)
+    XCTAssertEqual(outputs, [1, nil, 1, nil, 1, nil])
+    
+    // The result is kept in onceAvailable closures so the weak variable shouldn't be nil
+    XCTAssertNotNil(weakResult)
+    // dispose bag gets cleared : onceAvailable should not retain anything
+    disposeBag = DisposeBag()
+    // and the weak variable should be nil
+    XCTAssertNil(weakResult)
+  }
 }
