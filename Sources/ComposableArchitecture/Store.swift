@@ -10,7 +10,7 @@ import RxCocoa
 /// the `scope` method to derive more focused stores that can be passed to subviews.
 public final class Store<State, Action> {
   let stateRelay: BehaviorRelay<State>
-  var state: State {
+  public internal(set) var state: State {
     get {
       stateRelay.value
     }
@@ -139,7 +139,16 @@ public final class Store<State, Action> {
       self.scope(state: toLocalState, action: { $0 })
   }
 
-  func send(_ action: Action) {
+  /// Sends an action to the store.
+  ///
+  /// `Store` is not thread safe and you should only send actions to it from the main thread.
+  /// If you are wanting to send actions on background threads due to the fact that the reducer
+  /// is performing computationally expensive work, then a better way to handle this is to wrap
+  /// that work in an `Effect` that is performed on a background thread so that the result can
+  /// be fed back into the store.
+  ///
+  /// - Parameter action: An action.
+  public func send(_ action: Action) {
     self.synchronousActionsToSend.append(action)
 
     while !self.synchronousActionsToSend.isEmpty {
@@ -251,6 +260,26 @@ extension Store {
 extension Store: TCAIdentifiable where State: TCAIdentifiable {
   public var id: State.ID {
     ViewStore(self, removeDuplicates: {_, _ in false }).id
+  }
+}
+
+extension Store {
+  /// Allows observation of State from the store.
+  /// New event is not fired for duplicated state (using `isDuplicate` to detect duplicates)
+  /// Useful for UIKit controllers or coordinators as we avoid the boilerplate of having both ViewStore and Store to manage.
+  /// - Parameter isDuplicate: Returns true if both states should be considered equal
+  /// - Returns: A driver on the state
+  public func driver(removeDuplicates isDuplicate: @escaping (State, State) -> Bool) -> StoreDriver<State> {
+    .init(stateRelay.distinctUntilChanged(isDuplicate))
+  }
+}
+
+extension Store where State: Equatable {
+  /// Allows observation of State from the store.
+  /// New event is not fired for duplicated state.
+  /// Useful for UIKit controllers or coordinators as we avoid the boilerplate of having both ViewStore and Store to manage.
+  public var driver: StoreDriver<State> {
+    .init(stateRelay.distinctUntilChanged())
   }
 }
 

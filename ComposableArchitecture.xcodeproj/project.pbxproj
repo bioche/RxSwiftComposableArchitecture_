@@ -1365,7 +1365,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.1;
+				MARKETING_VERSION = 0.8.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					Combine,
@@ -1402,7 +1402,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.1;
+				MARKETING_VERSION = 0.8.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					Combine,
@@ -1645,7 +1645,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.1;
+				MARKETING_VERSION = 0.8.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					SwiftUI,
@@ -1682,7 +1682,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.1;
+				MARKETING_VERSION = 0.8.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					SwiftUI,
@@ -1719,7 +1719,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.1;
+				MARKETING_VERSION = 0.8.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					Combine,
@@ -1756,7 +1756,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.1;
+				MARKETING_VERSION = 0.8.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					Combine,
@@ -1833,7 +1833,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.1;
+				MARKETING_VERSION = 0.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableDifferenceKitDatasources;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1864,7 +1864,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.1;
+				MARKETING_VERSION = 0.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableDifferenceKitDatasources;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1895,7 +1895,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.1;
+				MARKETING_VERSION = 0.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableArchitectureTestSupport;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1926,7 +1926,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7.1;
+				MARKETING_VERSION = 0.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableArchitectureTestSupport;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
