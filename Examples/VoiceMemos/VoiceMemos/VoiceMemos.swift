@@ -1,6 +1,7 @@
 import AVFoundation
 import ComposableArchitecture
 import SwiftUI
+import RxSwift
 
 struct VoiceMemosState: Equatable {
   var alert: AlertState<VoiceMemosAction>?
@@ -42,7 +43,7 @@ struct VoiceMemosEnvironment {
   var audioPlayerClient: AudioPlayerClient
   var audioRecorderClient: AudioRecorderClient
   var date: () -> Date
-  var mainQueue: AnySchedulerOf<DispatchQueue>
+  var mainQueue: SchedulerType
   var openSettings: Effect<Never, Never>
   var temporaryDirectory: () -> URL
   var uuid: () -> UUID
@@ -71,7 +72,7 @@ let voiceMemosReducer = Reducer<VoiceMemosState, VoiceMemosAction, VoiceMemosEnv
         environment.audioRecorderClient.startRecording(RecorderId(), url)
           .catchToEffect()
           .map(VoiceMemosAction.audioRecorderClient),
-        Effect.timer(id: RecorderTimerId(), every: 1, tolerance: .zero, on: environment.mainQueue)
+        Effect<Int, Never>.timer(id: RecorderTimerId(), every: .seconds(1), on: environment.mainQueue)
           .map { _ in .currentRecordingTimerUpdated }
       )
     }
@@ -124,7 +125,7 @@ let voiceMemosReducer = Reducer<VoiceMemosState, VoiceMemosAction, VoiceMemosEnv
       case .undetermined:
         return environment.audioRecorderClient.requestRecordPermission()
           .map(VoiceMemosAction.recordPermissionBlockCalled)
-          .receive(on: environment.mainQueue)
+          .observeOn(environment.mainQueue)
           .eraseToEffect()
 
       case .denied:
@@ -286,7 +287,7 @@ struct VoiceMemos_Previews: PreviewProvider {
             stopRecording: { _ in .none }
           ),
           date: Date.init,
-          mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
+          mainQueue: MainScheduler(),
           openSettings: .none,
           temporaryDirectory: { URL(fileURLWithPath: NSTemporaryDirectory()) },
           uuid: UUID.init

@@ -237,6 +237,36 @@ final class StoreTests: XCTestCase {
     XCTAssertEqual(ViewStore(store).state, 100_000)
   }
 
+  func testPublisherScope() {
+    let appReducer = Reducer<Int, Bool, Void> { state, action, _ in
+      state += action ? 1 : 0
+      return .none
+    }
+
+    let parentStore = Store(initialState: 0, reducer: appReducer, environment: ())
+
+    var outputs: [Int] = []
+
+    parentStore
+      .scope { $0.removeDuplicates() }
+      .sink { outputs.append($0.state) }
+      .store(in: &self.cancellables)
+
+    XCTAssertEqual(outputs, [0])
+
+    parentStore.send(true)
+    XCTAssertEqual(outputs, [0, 1])
+
+    parentStore.send(false)
+    XCTAssertEqual(outputs, [0, 1])
+    parentStore.send(false)
+    XCTAssertEqual(outputs, [0, 1])
+    parentStore.send(false)
+    XCTAssertEqual(outputs, [0, 1])
+    parentStore.send(false)
+    XCTAssertEqual(outputs, [0, 1])
+  }
+
   func testIfLetAfterScope() {
     struct AppState {
       var count: Int?

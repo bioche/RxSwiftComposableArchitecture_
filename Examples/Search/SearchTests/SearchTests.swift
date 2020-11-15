@@ -1,11 +1,32 @@
 import Combine
 import ComposableArchitecture
+import RxTest
 import XCTest
 
 @testable import Search
 
+// we use 0.01 as a resolution, because in the tests we are sometime advancing time by 0.25
+let resolution = 0.01
+
+extension RxTest.TestScheduler {
+  
+  public static func defaultTestScheduler(withInitialClock initialClock: Int = 0) -> RxTest.TestScheduler {
+    // simulateProcessingDelay must be set to false for everything to work
+    RxTest.TestScheduler(initialClock: initialClock, resolution: resolution, simulateProcessingDelay: false)
+  }
+
+   public func advance(by: TimeInterval = 0) {
+    self.advanceTo(self.clock + Int( by / resolution ))
+   }
+
+  public func run() {
+    self.advanceTo(Int(Date.distantFuture.timeIntervalSince1970))
+  }
+
+}
+
 class SearchTests: XCTestCase {
-  let scheduler = DispatchQueue.testScheduler
+    let scheduler = TestScheduler.defaultTestScheduler()
 
   func testSearchAndClearQuery() {
     let store = TestStore(
@@ -13,7 +34,7 @@ class SearchTests: XCTestCase {
       reducer: searchReducer,
       environment: SearchEnvironment(
         weatherClient: .mock(),
-        mainQueue: self.scheduler.eraseToAnyScheduler()
+        mainQueue: self.scheduler
       )
     )
 
@@ -41,7 +62,7 @@ class SearchTests: XCTestCase {
       reducer: searchReducer,
       environment: SearchEnvironment(
         weatherClient: .mock(),
-        mainQueue: self.scheduler.eraseToAnyScheduler()
+        mainQueue: self.scheduler
       )
     )
 
@@ -63,7 +84,7 @@ class SearchTests: XCTestCase {
       reducer: searchReducer,
       environment: SearchEnvironment(
         weatherClient: .mock(searchLocation: { _ in Effect(value: mockLocations) }),
-        mainQueue: self.scheduler.eraseToAnyScheduler()
+        mainQueue: self.scheduler
       )
     )
 
@@ -91,7 +112,7 @@ class SearchTests: XCTestCase {
       reducer: searchReducer,
       environment: SearchEnvironment(
         weatherClient: .mock(weather: { _ in Effect(value: specialLocationWeather) }),
-        mainQueue: self.scheduler.eraseToAnyScheduler()
+        mainQueue: self.scheduler
       )
     )
 
@@ -119,7 +140,7 @@ class SearchTests: XCTestCase {
       reducer: searchReducer,
       environment: SearchEnvironment(
         weatherClient: .mock(weather: { _ in Effect(value: specialLocationWeather) }),
-        mainQueue: self.scheduler.eraseToAnyScheduler()
+        mainQueue: self.scheduler
       )
     )
 
@@ -144,7 +165,7 @@ class SearchTests: XCTestCase {
       reducer: searchReducer,
       environment: SearchEnvironment(
         weatherClient: .mock(weather: { _ in Fail(error: .init()).eraseToEffect() }),
-        mainQueue: self.scheduler.eraseToAnyScheduler()
+        mainQueue: self.scheduler
       )
     )
 

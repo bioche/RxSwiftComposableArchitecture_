@@ -100,6 +100,7 @@ import Foundation
 ///     )
 ///
 public struct ActionSheetState<Action> {
+  public let id = UUID()
   public var buttons: [Button]
   public var message: String?
   public var title: String
@@ -117,12 +118,31 @@ public struct ActionSheetState<Action> {
   public typealias Button = AlertState<Action>.Button
 }
 
-extension ActionSheetState: Equatable where Action: Equatable {}
+extension ActionSheetState: CustomDebugOutputConvertible {
+  public var debugOutput: String {
+    let fields = (
+      title: self.title,
+      message: self.message,
+      buttons: self.buttons
+    )
+    return "\(Self.self)\(ComposableArchitecture.debugOutput(fields))"
+  }
+}
 
-extension ActionSheetState: Hashable where Action: Hashable {}
+extension ActionSheetState: Equatable where Action: Equatable {
+  public static func == (lhs: Self, rhs: Self) -> Bool {
+    lhs.title == rhs.title
+      && lhs.message == rhs.message
+      && lhs.buttons == rhs.buttons
+  }
+}
 
-extension ActionSheetState: Identifiable where Action: Hashable {
-  public var id: Self { self }
+extension ActionSheetState: Hashable where Action: Hashable {
+  public func hash(into hasher: inout Hasher) {
+    hasher.combine(self.title)
+    hasher.combine(self.message)
+    hasher.combine(self.buttons)
+  }
 }
 
 #if canImport(Combine)
@@ -130,10 +150,16 @@ import SwiftUI
 
 @available(iOS 13, *)
 @available(macCatalyst 13, *)
+@available(macOS, unavailable)
 @available(tvOS 13, *)
 @available(watchOS 6, *)
-@available(OSX 10.15, *)
+extension ActionSheetState: Identifiable {}
+
+@available(iOS 13, *)
+@available(macCatalyst 13, *)
 @available(macOS, unavailable)
+@available(tvOS 13, *)
+@available(watchOS 6, *)
 extension View {
   /// Displays an action sheet when the store's state becomes non-`nil`, and dismisses it when it
   /// becomes `nil`.
@@ -141,22 +167,23 @@ extension View {
   /// - Parameters:
   ///   - store: A store that describes if the action sheet is shown or dismissed.
   ///   - dismissal: An action to send when the action sheet is dismissed through non-user actions,
-  ///     such as when an action sheet is automatically dismissed by the system.
+  ///     such as when an action sheet is automatically dismissed by the system. Use this action to
+  ///     `nil` out the associated action sheet state.
+  @available(iOS 13, *)
+  @available(macCatalyst 13, *)
+  @available(macOS, unavailable)
+  @available(tvOS 13, *)
+  @available(watchOS 6, *)
   public func actionSheet<Action>(
     _ store: Store<ActionSheetState<Action>?, Action>,
     dismiss: Action
   ) -> some View {
 
-    let viewStore = ViewStore(store, removeDuplicates: { ($0 == nil) != ($1 == nil) })
-    return self.actionSheet(
-      isPresented: Binding(
-        get: { viewStore.state != nil },
-        set: {
-          guard !$0 else { return }
-          viewStore.send(dismiss)
-        }),
-      content: { viewStore.state?.toSwiftUI(send: viewStore.send) ?? ActionSheet(title: Text("")) }
-    )
+    WithViewStore(store, removeDuplicates: { $0?.id == $1?.id }) { viewStore in
+      self.actionSheet(item: viewStore.binding(send: dismiss)) { state in
+        state.toSwiftUI(send: viewStore.send)
+      }
+    }
   }
 }
 

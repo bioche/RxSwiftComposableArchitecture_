@@ -1,5 +1,6 @@
 import ComposableArchitecture
 import SwiftUI
+import RxSwift
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -18,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
           reducer: searchReducer.debug(),
           environment: SearchEnvironment(
             weatherClient: WeatherClient.live,
-            mainQueue: DispatchQueue.main.eraseToAnyScheduler()
+            mainQueue: MainScheduler()
           )
         )
       )

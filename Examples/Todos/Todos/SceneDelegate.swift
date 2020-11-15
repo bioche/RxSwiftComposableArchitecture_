@@ -1,6 +1,7 @@
 import ComposableArchitecture
 import SwiftUI
 import UIKit
+import RxSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   var window: UIWindow?
@@ -17,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         initialState: AppState(),
         reducer: appReducer,
         environment: AppEnvironment(
-          mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
+          mainQueue: MainScheduler(),
           uuid: UUID.init
         )
       )

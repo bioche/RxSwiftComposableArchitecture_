@@ -1,5 +1,6 @@
 import ComposableArchitecture
 import SwiftUI
+import RxSwift
 
 enum Filter: LocalizedStringKey, CaseIterable, Hashable {
   case all = "All"
@@ -33,7 +34,7 @@ enum AppAction: Equatable {
 }
 
 struct AppEnvironment {
-  var mainQueue: AnySchedulerOf<DispatchQueue>
+  var mainQueue: SchedulerType
   var uuid: () -> UUID
 }
 
@@ -62,8 +63,8 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
 
     case let .move(source, destination):
       state.todos.move(fromOffsets: source, toOffset: destination)
-      return Effect(value: .sortCompletedTodos)
-        .delay(for: .milliseconds(100), scheduler: environment.mainQueue)
+      return Observable.just(AppAction.sortCompletedTodos)
+        .delay(.milliseconds(100), scheduler: environment.mainQueue)
         .eraseToEffect()
 
     case .sortCompletedTodos:
@@ -73,7 +74,7 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
     case .todo(id: _, action: .checkBoxToggled):
       struct TodoCompletionId: Hashable {}
       return Effect(value: .sortCompletedTodos)
-        .debounce(id: TodoCompletionId(), for: 1, scheduler: environment.mainQueue)
+        .debounce(id: TodoCompletionId(), for: .seconds(1), scheduler: environment.mainQueue)
 
     case .todo:
       return .none
@@ -190,7 +191,7 @@ struct AppView_Previews: PreviewProvider {
         initialState: AppState(todos: .mock),
         reducer: appReducer,
         environment: AppEnvironment(
-          mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
+          mainQueue: MainScheduler(),
           uuid: UUID.init
         )
       )

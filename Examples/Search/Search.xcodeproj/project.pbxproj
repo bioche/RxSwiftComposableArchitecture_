@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		41F6B0D125608EB5008861FB /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = 41F6B0D025608EB5008861FB /* RxTest */; };
 		CA5C0ECA2425661800C1F9AB /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5C0EC92425661800C1F9AB /* ActivityIndicator.swift */; };
 		CA66690B242547B000A639B3 /* WeatherClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA66690A242547B000A639B3 /* WeatherClient.swift */; };
 		CA86E49D24253C2500357AD9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA86E49C24253C2500357AD9 /* SceneDelegate.swift */; };
@@ -50,6 +51,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		41F6B0CB2560877C008861FB /* RxTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxTest.framework; path = ../../Carthage/Build/iOS/RxTest.framework; sourceTree = "<group>"; };
 		CA5C0EC92425661800C1F9AB /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		CA66690A242547B000A639B3 /* WeatherClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherClient.swift; sourceTree = "<group>"; };
 		CA86E49724253C2500357AD9 /* Search.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Search.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41F6B0D125608EB5008861FB /* RxTest in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +128,7 @@
 		CA86E4C424253CE200357AD9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				41F6B0CB2560877C008861FB /* RxTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -169,6 +173,7 @@
 			);
 			name = SearchTests;
 			packageProductDependencies = (
+				41F6B0D025608EB5008861FB /* RxTest */,
 			);
 			productName = SearchTests;
 			productReference = CA86E4AD24253C2700357AD9 /* SearchTests.xctest */;
@@ -203,6 +208,7 @@
 			);
 			mainGroup = CA86E48E24253C2500357AD9;
 			packageReferences = (
+				41F6B0CD25608E9E008861FB /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = CA86E49824253C2500357AD9 /* Products */;
 			projectDirPath = "";
@@ -481,7 +487,23 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		41F6B0CD25608E9E008861FB /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		41F6B0D025608EB5008861FB /* RxTest */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 41F6B0CD25608E9E008861FB /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxTest;
+		};
 		DC1394132469E30800EE1157 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ComposableArchitecture;

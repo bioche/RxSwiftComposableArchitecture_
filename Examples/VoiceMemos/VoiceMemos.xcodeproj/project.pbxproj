@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		41CCECD32561A6EA00C86AB6 /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = 41CCECD22561A6EA00C86AB6 /* RxTest */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CA93D05C249BF42500A6F65D /* VoiceMemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA93D05B249BF42500A6F65D /* VoiceMemo.swift */; };
 		CA93D05E249BF46E00A6F65D /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA93D05D249BF46E00A6F65D /* Helpers.swift */; };
 		DC1394342469E59600EE1157 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = DC1394332469E59600EE1157 /* ComposableArchitecture */; };
@@ -79,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41CCECD32561A6EA00C86AB6 /* RxTest in Frameworks */,
 				DC1394342469E59600EE1157 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -183,6 +185,7 @@
 			name = VoiceMemos;
 			packageProductDependencies = (
 				DC1394332469E59600EE1157 /* ComposableArchitecture */,
+				41CCECD22561A6EA00C86AB6 /* RxTest */,
 			);
 			productName = VoiceMemos;
 			productReference = DC5BDCAA24589177009C65A3 /* VoiceMemos.app */;
@@ -237,6 +240,9 @@
 				Base,
 			);
 			mainGroup = DC5BDCA124589177009C65A3;
+			packageReferences = (
+				41CCECCD25619F7000C86AB6 /* XCRemoteSwiftPackageReference "RxSwift" */,
+			);
 			productRefGroup = DC5BDCAB24589177009C65A3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -422,12 +428,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = MLDJM8453C;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
 				INFOPLIST_FILE = VoiceMemos/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = co.pointfree.VoiceMemos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -440,12 +450,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = MLDJM8453C;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
 				INFOPLIST_FILE = VoiceMemos/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = co.pointfree.VoiceMemos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -523,7 +537,23 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		41CCECCD25619F7000C86AB6 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		41CCECD22561A6EA00C86AB6 /* RxTest */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 41CCECCD25619F7000C86AB6 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxTest;
+		};
 		DC1394332469E59600EE1157 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ComposableArchitecture;

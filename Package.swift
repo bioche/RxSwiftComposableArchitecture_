@@ -14,14 +14,6 @@ let package = Package(
       targets: ["ComposableArchitecture"]
     ),
     .library(
-      name: "ComposableCoreLocation",
-      targets: ["ComposableCoreLocation"]
-    ),
-    .library(
-      name: "ComposableCoreMotion",
-      targets: ["ComposableCoreMotion"]
-    ),
-    .library(
       name: "ComposableDifferenceKitDatasources",
       targets: ["ComposableDifferenceKitDatasources"]
     )
@@ -39,30 +31,6 @@ let package = Package(
       name: "ComposableArchitectureTests",
       dependencies: [
         "ComposableArchitecture", "RxTest"
-      ]
-    ),
-    .target(
-      name: "ComposableCoreLocation",
-      dependencies: [
-        "ComposableArchitecture"
-      ]
-    ),
-    .testTarget(
-      name: "ComposableCoreLocationTests",
-      dependencies: [
-        "ComposableCoreLocation"
-      ]
-    ),
-    .target(
-      name: "ComposableCoreMotion",
-      dependencies: [
-        "ComposableArchitecture"
-      ]
-    ),
-    .testTarget(
-      name: "ComposableCoreMotionTests",
-      dependencies: [
-        "ComposableCoreMotion"
       ]
     ),
     .target(name: "ComposableDifferenceKitDatasources",

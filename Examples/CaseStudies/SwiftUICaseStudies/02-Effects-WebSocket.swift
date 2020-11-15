@@ -1,4 +1,5 @@
 import Combine
+import CombineSchedulers
 import ComposableArchitecture
 import SwiftUI
 
@@ -133,7 +134,6 @@ let webSocketReducer = Reducer<WebSocketState, WebSocketAction, WebSocketEnviron
     )
   }
 }
-.debug()
 
 struct WebSocketView: View {
   let store: Store<WebSocketState, WebSocketAction>
