@@ -25,7 +25,7 @@
 		41364CDA248C6028007EBA46 /* ViewStore+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CB0248C6028007EBA46 /* ViewStore+Combine.swift */; };
 		41364CDB248C6028007EBA46 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CB1248C6028007EBA46 /* Store.swift */; };
 		41364CDC248C6028007EBA46 /* Store+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CB2248C6028007EBA46 /* Store+Combine.swift */; };
-		41364CDD248C6028007EBA46 /* Effect+Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CB4248C6028007EBA46 /* Effect+Timer.swift */; };
+		41364CDD248C6028007EBA46 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CB4248C6028007EBA46 /* Timer.swift */; };
 		41364CDE248C6028007EBA46 /* Cancellation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CB5248C6028007EBA46 /* Cancellation.swift */; };
 		41364CDF248C6028007EBA46 /* Debouncing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CB6248C6028007EBA46 /* Debouncing.swift */; };
 		41364CE0248C6028007EBA46 /* ViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CB7248C6028007EBA46 /* ViewStore.swift */; };
@@ -82,6 +82,7 @@
 		418033D724D7174F00EA11AB /* ComposableArchitecture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4168FAFC248C5D4700CD8FB5 /* ComposableArchitecture.framework */; };
 		418033DD24D7177C00EA11AB /* DifferenceKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 418033DC24D7177C00EA11AB /* DifferenceKit.framework */; };
 		418E991D24D873CF00A48A09 /* AnyDisposable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418E991C24D873CF00A48A09 /* AnyDisposable.swift */; };
+		41912D6025632144006AD8FE /* Debouncing+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41912D5F25632144006AD8FE /* Debouncing+Combine.swift */; };
 		41BE275F24E04F97003F71AC /* TestStore.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BE275D24E04F8A003F71AC /* TestStore.generated.swift */; };
 		A5A7FE4124CF25EA00608A39 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; };
 		A5A7FE4424CF271200608A39 /* ComposableArchitecture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4168FAFC248C5D4700CD8FB5 /* ComposableArchitecture.framework */; };
@@ -152,7 +153,7 @@
 		41364CB0248C6028007EBA46 /* ViewStore+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ViewStore+Combine.swift"; sourceTree = "<group>"; };
 		41364CB1248C6028007EBA46 /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		41364CB2248C6028007EBA46 /* Store+Combine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Store+Combine.swift"; sourceTree = "<group>"; };
-		41364CB4248C6028007EBA46 /* Effect+Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Effect+Timer.swift"; sourceTree = "<group>"; };
+		41364CB4248C6028007EBA46 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		41364CB5248C6028007EBA46 /* Cancellation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cancellation.swift; sourceTree = "<group>"; };
 		41364CB6248C6028007EBA46 /* Debouncing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Debouncing.swift; sourceTree = "<group>"; };
 		41364CB7248C6028007EBA46 /* ViewStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewStore.swift; sourceTree = "<group>"; };
@@ -217,6 +218,7 @@
 		418033C724D716B700EA11AB /* TCASection+DifferentiableSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TCASection+DifferentiableSection.swift"; sourceTree = "<group>"; };
 		418033DC24D7177C00EA11AB /* DifferenceKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DifferenceKit.framework; path = Carthage/Build/iOS/DifferenceKit.framework; sourceTree = "<group>"; };
 		418E991C24D873CF00A48A09 /* AnyDisposable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyDisposable.swift; sourceTree = "<group>"; };
+		41912D5F25632144006AD8FE /* Debouncing+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Debouncing+Combine.swift"; sourceTree = "<group>"; };
 		41BE275D24E04F8A003F71AC /* TestStore.generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStore.generated.swift; sourceTree = "<group>"; };
 		A5A7FE2724CF245E00608A39 /* ComposableArchitectureTestSupport.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ComposableArchitectureTestSupport.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5A7FE2A24CF245E00608A39 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -352,9 +354,10 @@
 		41364CB3248C6028007EBA46 /* Effects */ = {
 			isa = PBXGroup;
 			children = (
-				41364CB4248C6028007EBA46 /* Effect+Timer.swift */,
+				41364CB4248C6028007EBA46 /* Timer.swift */,
 				41364CB5248C6028007EBA46 /* Cancellation.swift */,
 				41364CB6248C6028007EBA46 /* Debouncing.swift */,
+				41912D5F25632144006AD8FE /* Debouncing+Combine.swift */,
 			);
 			path = Effects;
 			sourceTree = "<group>";
@@ -835,7 +838,7 @@
 				4180339424D7157E00EA11AB /* Array+safesubscript.swift in Sources */,
 				41364CCB248C6028007EBA46 /* Observable+asPublisher.swift in Sources */,
 				BEC93A4424B8EE0B00D8082D /* IfLetUIKit.swift in Sources */,
-				41364CDD248C6028007EBA46 /* Effect+Timer.swift in Sources */,
+				41364CDD248C6028007EBA46 /* Timer.swift in Sources */,
 				41364CD8248C6028007EBA46 /* Effect+Combine.swift in Sources */,
 				414309DD24DF4E9E0016DC7A /* ActionSheet.swift in Sources */,
 				41626051248D31E3003FCAA8 /* Operators.swift in Sources */,
@@ -851,6 +854,7 @@
 				41364CE2248C6028007EBA46 /* Identified.swift in Sources */,
 				41364CDE248C6028007EBA46 /* Cancellation.swift in Sources */,
 				41364CE5248C6028007EBA46 /* ForEachStore.swift in Sources */,
+				41912D6025632144006AD8FE /* Debouncing+Combine.swift in Sources */,
 				418033AC24D715B700EA11AB /* Store+TableBinding.swift in Sources */,
 				418033AA24D715B700EA11AB /* RxFlatTableDataSource.swift in Sources */,
 				D000D2A824E9787300ADE15C /* Reducer+Utils.swift in Sources */,

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		41CCECD32561A6EA00C86AB6 /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = 41CCECD22561A6EA00C86AB6 /* RxTest */; settings = {ATTRIBUTES = (Weak, ); }; };
+		419D14C7256ABD6200D7995B /* CombineSchedulers in Frameworks */ = {isa = PBXBuildFile; productRef = 419D14C6256ABD6200D7995B /* CombineSchedulers */; };
 		CA93D05C249BF42500A6F65D /* VoiceMemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA93D05B249BF42500A6F65D /* VoiceMemo.swift */; };
 		CA93D05E249BF46E00A6F65D /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA93D05D249BF46E00A6F65D /* Helpers.swift */; };
 		DC1394342469E59600EE1157 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = DC1394332469E59600EE1157 /* ComposableArchitecture */; };
@@ -80,7 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				41CCECD32561A6EA00C86AB6 /* RxTest in Frameworks */,
+				419D14C7256ABD6200D7995B /* CombineSchedulers in Frameworks */,
 				DC1394342469E59600EE1157 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -185,7 +185,7 @@
 			name = VoiceMemos;
 			packageProductDependencies = (
 				DC1394332469E59600EE1157 /* ComposableArchitecture */,
-				41CCECD22561A6EA00C86AB6 /* RxTest */,
+				419D14C6256ABD6200D7995B /* CombineSchedulers */,
 			);
 			productName = VoiceMemos;
 			productReference = DC5BDCAA24589177009C65A3 /* VoiceMemos.app */;
@@ -241,7 +241,7 @@
 			);
 			mainGroup = DC5BDCA124589177009C65A3;
 			packageReferences = (
-				41CCECCD25619F7000C86AB6 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				419D14C5256ABD6200D7995B /* XCRemoteSwiftPackageReference "combine-schedulers" */,
 			);
 			productRefGroup = DC5BDCAB24589177009C65A3 /* Products */;
 			projectDirPath = "";
@@ -538,21 +538,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		41CCECCD25619F7000C86AB6 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+		419D14C5256ABD6200D7995B /* XCRemoteSwiftPackageReference "combine-schedulers" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			repositoryURL = "https://github.com/pointfreeco/combine-schedulers";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.1.1;
+				minimumVersion = 0.1.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		41CCECD22561A6EA00C86AB6 /* RxTest */ = {
+		419D14C6256ABD6200D7995B /* CombineSchedulers */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 41CCECCD25619F7000C86AB6 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxTest;
+			package = 419D14C5256ABD6200D7995B /* XCRemoteSwiftPackageReference "combine-schedulers" */;
+			productName = CombineSchedulers;
 		};
 		DC1394332469E59600EE1157 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;

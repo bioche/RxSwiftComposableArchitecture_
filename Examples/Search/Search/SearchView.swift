@@ -1,5 +1,5 @@
 import ComposableArchitecture
-import RxSwift
+import CombineSchedulers
 import SwiftUI
 
 private let readMe = """
@@ -26,7 +26,7 @@ enum SearchAction: Equatable {
 
 struct SearchEnvironment {
   var weatherClient: WeatherClient
-  var mainQueue: SchedulerType
+  var mainQueue: AnySchedulerOf<DispatchQueue>
 }
 
 // MARK: - Search feature reducer
@@ -49,9 +49,8 @@ let searchReducer = Reducer<SearchState, SearchAction, SearchEnvironment> {
 
     return environment.weatherClient
       .weather(location.id)
-      .asObservable()
-      .observeOn(environment.mainQueue)
-      .catchToEffect(failureType: WeatherClient.Failure.self)
+      .receive(on: environment.mainQueue)
+      .catchToEffect()
       .map(SearchAction.locationWeatherResponse)
       .cancellable(id: SearchWeatherId(), cancelInFlight: true)
 
@@ -70,10 +69,9 @@ let searchReducer = Reducer<SearchState, SearchAction, SearchEnvironment> {
 
     return environment.weatherClient
       .searchLocation(query)
-      .asObservable()
-      .observeOn(environment.mainQueue)
-      .catchToEffect(failureType: WeatherClient.Failure.self)
-      .debounce(id: SearchLocationId(), for: .milliseconds(300), scheduler: environment.mainQueue)
+      .receive(on: environment.mainQueue)
+      .catchToEffect()
+      .debounce(id: SearchLocationId(), for: 0.3, scheduler: environment.mainQueue)
       .map(SearchAction.locationsResponse)
 
   case let .locationWeatherResponse(.failure(locationWeather)):
@@ -235,7 +233,7 @@ struct SearchView_Previews: PreviewProvider {
                 id: id
               ))
           }),
-        mainQueue: MainScheduler()
+        mainQueue: DispatchQueue.main.eraseToAnyScheduler()
       )
     )
 

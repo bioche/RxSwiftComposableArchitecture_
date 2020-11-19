@@ -1,7 +1,8 @@
 import AVFoundation
 import ComposableArchitecture
 import SwiftUI
-import RxSwift
+import Combine
+import CombineSchedulers
 
 struct VoiceMemosState: Equatable {
   var alert: AlertState<VoiceMemosAction>?
@@ -43,7 +44,7 @@ struct VoiceMemosEnvironment {
   var audioPlayerClient: AudioPlayerClient
   var audioRecorderClient: AudioRecorderClient
   var date: () -> Date
-  var mainQueue: SchedulerType
+  var mainQueue: AnySchedulerOf<DispatchQueue>
   var openSettings: Effect<Never, Never>
   var temporaryDirectory: () -> URL
   var uuid: () -> UUID
@@ -72,7 +73,7 @@ let voiceMemosReducer = Reducer<VoiceMemosState, VoiceMemosAction, VoiceMemosEnv
         environment.audioRecorderClient.startRecording(RecorderId(), url)
           .catchToEffect()
           .map(VoiceMemosAction.audioRecorderClient),
-        Effect<Int, Never>.timer(id: RecorderTimerId(), every: .seconds(1), on: environment.mainQueue)
+        Effect.timer(id: RecorderTimerId(), every: 1, tolerance: .zero, on: environment.mainQueue)
           .map { _ in .currentRecordingTimerUpdated }
       )
     }
@@ -125,7 +126,7 @@ let voiceMemosReducer = Reducer<VoiceMemosState, VoiceMemosAction, VoiceMemosEnv
       case .undetermined:
         return environment.audioRecorderClient.requestRecordPermission()
           .map(VoiceMemosAction.recordPermissionBlockCalled)
-          .observeOn(environment.mainQueue)
+          .receive(on: environment.mainQueue)
           .eraseToEffect()
 
       case .denied:
@@ -287,12 +288,32 @@ struct VoiceMemos_Previews: PreviewProvider {
             stopRecording: { _ in .none }
           ),
           date: Date.init,
-          mainQueue: MainScheduler(),
+          mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
           openSettings: .none,
           temporaryDirectory: { URL(fileURLWithPath: NSTemporaryDirectory()) },
           uuid: UUID.init
         )
       )
     )
+  }
+}
+
+// This is part of PointFree original ComposableArchitecture package but we can't have it in RxComposableArchi
+// because it uses `CombineSchedulers` module which we don't want to include for now.
+
+extension Effect where Failure == Never {
+  public static func timer<S>(
+    id: AnyHashable,
+    every interval: S.SchedulerTimeType.Stride,
+    tolerance: S.SchedulerTimeType.Stride? = nil,
+    on scheduler: S,
+    options: S.SchedulerOptions? = nil
+  ) -> Effect where S: Scheduler, S.SchedulerTimeType == Output {
+
+    Publishers.Timer(every: interval, tolerance: tolerance, scheduler: scheduler, options: options)
+      .autoconnect()
+      .setFailureType(to: Failure.self)
+      .eraseToEffect()
+      .cancellable(id: id)
   }
 }

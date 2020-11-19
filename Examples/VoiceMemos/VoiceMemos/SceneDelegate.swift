@@ -1,7 +1,6 @@
 import ComposableArchitecture
 import SwiftUI
 import UIKit
-import RxSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   var window: UIWindow?
@@ -21,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             audioPlayerClient: .live,
             audioRecorderClient: .live,
             date: Date.init,
-            mainQueue: MainScheduler(),
+            mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
             openSettings: .fireAndForget {
               UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
             },

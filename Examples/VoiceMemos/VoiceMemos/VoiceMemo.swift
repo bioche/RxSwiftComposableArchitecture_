@@ -1,7 +1,7 @@
 import ComposableArchitecture
 import Foundation
 import SwiftUI
-import RxSwift
+import CombineSchedulers
 
 struct VoiceMemo: Equatable {
   var date: Date
@@ -36,7 +36,7 @@ enum VoiceMemoAction: Equatable {
 
 struct VoiceMemoEnvironment {
   var audioPlayerClient: AudioPlayerClient
-  var mainQueue: SchedulerType
+  var mainQueue: AnySchedulerOf<DispatchQueue>
 }
 
 let voiceMemoReducer = Reducer<VoiceMemo, VoiceMemoAction, VoiceMemoEnvironment> {
@@ -70,11 +70,11 @@ let voiceMemoReducer = Reducer<VoiceMemo, VoiceMemoAction, VoiceMemoEnvironment>
           .map(VoiceMemoAction.audioPlayerClient)
           .cancellable(id: PlayerId()),
 
-        Effect<Int, Never>.timer(id: TimerId(), every: .milliseconds(500), on: environment.mainQueue)
-          .map { _ in
-            let now = environment.mainQueue.now
-            return VoiceMemoAction.timerUpdated(
-                start.distance(to: now)
+        Effect.timer(id: TimerId(), every: 0.5, on: environment.mainQueue)
+          .map {
+            .timerUpdated(
+              TimeInterval($0.dispatchTime.uptimeNanoseconds - start.dispatchTime.uptimeNanoseconds)
+                / TimeInterval(NSEC_PER_SEC)
             )
           }
       )

@@ -1,33 +1,12 @@
 import Combine
 import ComposableArchitecture
 import XCTest
-import RxSwift
-import RxTest
+import CombineSchedulers
 
 @testable import VoiceMemos
 
-// we use 0.01 as a resolution, because in the tests we are sometime advancing time by 0.25
-let resolution = 0.01
-
-extension RxTest.TestScheduler {
-  
-  public static func defaultTestScheduler(withInitialClock initialClock: Int = 0) -> RxTest.TestScheduler {
-    // simulateProcessingDelay must be set to false for everything to work
-    RxTest.TestScheduler(initialClock: initialClock, resolution: resolution, simulateProcessingDelay: false)
-  }
-
-   public func advance(by: TimeInterval = 0) {
-    self.advanceTo(self.clock + Int( by / resolution ))
-   }
-
-  public func run() {
-    self.advanceTo(Int(Date.distantFuture.timeIntervalSince1970))
-  }
-
-}
-
 class VoiceMemosTests: XCTestCase {
-    let scheduler = TestScheduler.defaultTestScheduler()
+  let scheduler = DispatchQueue.testScheduler
 
   func testRecordMemoHappyPath() {
     // NB: Combine's concatenation behavior is different in 13.3
@@ -53,7 +32,7 @@ class VoiceMemosTests: XCTestCase {
           }
         ),
         date: { Date(timeIntervalSinceReferenceDate: 0) },
-        mainQueue: self.scheduler,
+        mainQueue: self.scheduler.eraseToAnyScheduler(),
         temporaryDirectory: { URL(fileURLWithPath: "/tmp") },
         uuid: { UUID(uuidString: "DEADBEEF-DEAD-BEEF-DEAD-BEEFDEADBEEF")! }
       )
@@ -110,7 +89,7 @@ class VoiceMemosTests: XCTestCase {
         audioRecorderClient: .mock(
           requestRecordPermission: { Effect(value: false) }
         ),
-        mainQueue: self.scheduler,
+        mainQueue: self.scheduler.eraseToAnyScheduler(),
         openSettings: .fireAndForget { didOpenSettings = true }
       )
     )
@@ -145,7 +124,7 @@ class VoiceMemosTests: XCTestCase {
           startRecording: { _, _ in audioRecorderSubject.eraseToEffect() }
         ),
         date: { Date(timeIntervalSinceReferenceDate: 0) },
-        mainQueue: self.scheduler,
+        mainQueue: self.scheduler.eraseToAnyScheduler(),
         temporaryDirectory: { URL(fileURLWithPath: "/tmp") },
         uuid: { UUID(uuidString: "DEADBEEF-DEAD-BEEF-DEAD-BEEFDEADBEEF")! }
       )
@@ -187,12 +166,12 @@ class VoiceMemosTests: XCTestCase {
       environment: .mock(
         audioPlayerClient: .mock(
           play: { _, _ in
-            Effect<AudioPlayerClient.Action, AudioPlayerClient.Failure>(value: .didFinishPlaying(successfully: true))
-              .delay(.seconds(1), scheduler: self.scheduler)
+            Effect(value: .didFinishPlaying(successfully: true))
+              .delay(for: 1, scheduler: self.scheduler)
               .eraseToEffect()
           }
         ),
-        mainQueue: self.scheduler
+        mainQueue: self.scheduler.eraseToAnyScheduler()
       )
     )
 
@@ -236,7 +215,7 @@ class VoiceMemosTests: XCTestCase {
         audioPlayerClient: .mock(
           play: { _, _ in Effect(error: .decodeErrorDidOccur) }
         ),
-        mainQueue: self.scheduler
+        mainQueue: self.scheduler.eraseToAnyScheduler()
       )
     )
 
@@ -271,7 +250,7 @@ class VoiceMemosTests: XCTestCase {
         audioPlayerClient: .mock(
           stop: { _ in .fireAndForget { didStopAudioPlayerClient = true } }
         ),
-        mainQueue: self.scheduler
+        mainQueue: self.scheduler.eraseToAnyScheduler()
       )
     )
 
@@ -303,7 +282,7 @@ class VoiceMemosTests: XCTestCase {
         audioPlayerClient: .mock(
           stop: { _ in .fireAndForget { didStopAudioPlayerClient = true } }
         ),
-        mainQueue: self.scheduler
+        mainQueue: self.scheduler.eraseToAnyScheduler()
       )
     )
 
@@ -334,7 +313,7 @@ class VoiceMemosTests: XCTestCase {
           play: { id, url in .future { _ in } },
           stop: { _ in .fireAndForget {} }
         ),
-        mainQueue: self.scheduler
+        mainQueue: self.scheduler.eraseToAnyScheduler()
       )
     )
 
@@ -355,7 +334,7 @@ extension VoiceMemosEnvironment {
     audioPlayerClient: AudioPlayerClient = .mock(),
     audioRecorderClient: AudioRecorderClient = .mock(),
     date: @escaping () -> Date = { fatalError() },
-    mainQueue: SchedulerType,
+    mainQueue: AnySchedulerOf<DispatchQueue>,
     openSettings: Effect<Never, Never> = .fireAndForget { fatalError() },
     temporaryDirectory: @escaping () -> URL = { fatalError() },
     uuid: @escaping () -> UUID = { fatalError() }

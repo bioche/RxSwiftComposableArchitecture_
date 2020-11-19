@@ -1,38 +1,17 @@
 import ComposableArchitecture
 import XCTest
-import RxTest
 
 @testable import Todos
 
-// we use 0.01 as a resolution, because in the tests we are sometime advancing time by 0.25
-let resolution = 0.01
-
-extension RxTest.TestScheduler {
-  
-  public static func defaultTestScheduler(withInitialClock initialClock: Int = 0) -> RxTest.TestScheduler {
-    // simulateProcessingDelay must be set to false for everything to work
-    RxTest.TestScheduler(initialClock: initialClock, resolution: resolution, simulateProcessingDelay: false)
-  }
-
-   public func advance(by: TimeInterval = 0) {
-    self.advanceTo(self.clock + Int( by / resolution ))
-   }
-
-  public func run() {
-    self.advanceTo(Int(Date.distantFuture.timeIntervalSince1970))
-  }
-
-}
-
 class TodosTests: XCTestCase {
-    let scheduler = TestScheduler.defaultTestScheduler()
+  let scheduler = DispatchQueue.testScheduler
 
   func testAddTodo() {
     let store = TestStore(
       initialState: AppState(),
       reducer: appReducer,
       environment: AppEnvironment(
-        mainQueue: self.scheduler,
+        mainQueue: self.scheduler.eraseToAnyScheduler(),
         uuid: UUID.incrementing
       )
     )
@@ -65,7 +44,7 @@ class TodosTests: XCTestCase {
       initialState: state,
       reducer: appReducer,
       environment: AppEnvironment(
-        mainQueue: self.scheduler,
+        mainQueue: self.scheduler.eraseToAnyScheduler(),
         uuid: UUID.incrementing
       )
     )
@@ -98,7 +77,7 @@ class TodosTests: XCTestCase {
       initialState: state,
       reducer: appReducer,
       environment: AppEnvironment(
-        mainQueue: self.scheduler,
+        mainQueue: self.scheduler.eraseToAnyScheduler(),
         uuid: UUID.incrementing
       )
     )
@@ -136,7 +115,7 @@ class TodosTests: XCTestCase {
       initialState: state,
       reducer: appReducer,
       environment: AppEnvironment(
-        mainQueue: self.scheduler,
+        mainQueue: self.scheduler.eraseToAnyScheduler(),
         uuid: UUID.incrementing
       )
     )
@@ -173,7 +152,7 @@ class TodosTests: XCTestCase {
       initialState: state,
       reducer: appReducer,
       environment: AppEnvironment(
-        mainQueue: self.scheduler,
+        mainQueue: self.scheduler.eraseToAnyScheduler(),
         uuid: UUID.incrementing
       )
     )
@@ -211,7 +190,7 @@ class TodosTests: XCTestCase {
       initialState: state,
       reducer: appReducer,
       environment: AppEnvironment(
-        mainQueue: self.scheduler,
+        mainQueue: self.scheduler.eraseToAnyScheduler(),
         uuid: UUID.incrementing
       )
     )
@@ -250,7 +229,7 @@ class TodosTests: XCTestCase {
       initialState: state,
       reducer: appReducer,
       environment: AppEnvironment(
-        mainQueue: self.scheduler,
+        mainQueue: self.scheduler.eraseToAnyScheduler(),
         uuid: UUID.incrementing
       )
     )
@@ -266,7 +245,7 @@ class TodosTests: XCTestCase {
           $0.todos[2],
         ]
       },
-      .do { self.scheduler.advance(by: 0.1) },
+      .do { self.scheduler.advance(by: .milliseconds(100)) },
       .receive(.sortCompletedTodos)
     )
   }
@@ -290,7 +269,7 @@ class TodosTests: XCTestCase {
       initialState: state,
       reducer: appReducer,
       environment: AppEnvironment(
-        mainQueue: self.scheduler,
+        mainQueue: self.scheduler.eraseToAnyScheduler(),
         uuid: UUID.incrementing
       )
     )
