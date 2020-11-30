@@ -1,11 +1,3 @@
-//
-//  RxFlatTableDataSource.swift
-//  UneatenIngredients
-//
-//  Created by Bioche on 25/07/2020.
-//  Copyright © 2020 Bioche. All rights reserved.
-//
-
 #if canImport(UIKit)
 #if !os(watchOS)
 import UIKit

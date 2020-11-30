@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  UIKitCaseStudiesiOS12
-//
-//  Created by Bioche on 11/05/2020.
-//  Copyright © 2020 Point-Free. All rights reserved.
-//
-
 import UIKit
 import ComposableArchitecture
 

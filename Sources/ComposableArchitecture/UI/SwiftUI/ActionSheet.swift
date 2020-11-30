@@ -4,7 +4,7 @@ import Foundation
 /// `Action` generic is the type of actions that can be sent from tapping on a button in the sheet.
 ///
 /// This type can be used in your application's state in order to control the presentation or
-/// dismissal of action sheets. It is preferrable to use this API instead of the default SwiftUI API
+/// dismissal of action sheets. It is preferable to use this API instead of the default SwiftUI API
 /// for action sheets because SwiftUI uses 2-way bindings in order to control the showing and
 /// dismissal of sheets, and that does not play nicely with the Composable Architecture. The library
 /// requires that all state mutations happen by sending an action so that a reducer can handle that

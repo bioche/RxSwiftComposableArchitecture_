@@ -1,11 +1,3 @@
-//
-//  Store+ForEachScope.swift
-//  ComposableArchitecture
-//
-//  Created by Bioche on 27/07/2020.
-//  Copyright © 2020 Bioche. All rights reserved.
-//
-
 import Foundation
 import RxSwift
 import RxCocoa

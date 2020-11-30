@@ -1,11 +1,3 @@
-//
-//  Reducer+utils.swift
-//  ComposableArchitecture
-//
-//  Created by Bioche on 02/08/2020.
-//  Copyright © 2020 Bioche. All rights reserved.
-//
-
 import Foundation
 
 extension Reducer {

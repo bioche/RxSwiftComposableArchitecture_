@@ -1,11 +1,3 @@
-//
-//  ListOfStates.swift
-//  UIKitCaseStudiesiOS12
-//
-//  Created by Bioche on 01/06/2020.
-//  Copyright © 2020 Point-Free. All rights reserved.
-//
-
 import Foundation
 import UIKit
 import RxSwift

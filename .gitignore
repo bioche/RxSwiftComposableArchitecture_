@@ -2,6 +2,7 @@
 /.build
 /Packages
 xcuserdata/
+/.swiftpm
 /ComposableArchitecture.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
 Package.resolved
 Carthage

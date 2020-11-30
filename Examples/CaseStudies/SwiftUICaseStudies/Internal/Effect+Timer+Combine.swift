@@ -1,11 +1,3 @@
-//
-//  Effect+Timer+Combine.swift
-//  SwiftUICaseStudies
-//
-//  Created by Bioche on 14/11/2020.
-//  Copyright © 2020 Point-Free. All rights reserved.
-//
-
 import Foundation
 import Combine
 import CombineSchedulers
