@@ -1,10 +1,3 @@
-//
-//  UIAlertController.swift
-//  ComposableArchitecture
-//
-//  Created by Eric Blachère on 11/08/2020.
-//  Copyright © 2020 Bioche. All rights reserved.
-//
 #if canImport(UIKit)
 #if !os(watchOS)
 

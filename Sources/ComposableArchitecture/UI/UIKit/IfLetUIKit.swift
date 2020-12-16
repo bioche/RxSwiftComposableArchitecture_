@@ -1,11 +1,3 @@
-//
-//  ComposableArchitecture+utils.swift
-//  pureairconnect
-//
-//  Created by sebastien on 09/07/2020.
-//  Copyright © 2020 Dragna. All rights reserved.
-//
-
 import Foundation
 import RxSwift
 

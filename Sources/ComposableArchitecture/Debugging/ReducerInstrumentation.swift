@@ -83,7 +83,7 @@ extension Effect where Failure == Never {
   }
 }
 
-func debugCaseOutput(_ value: Any) -> String {
+public func debugCaseOutput(_ value: Any) -> String {
   func debugCaseOutputHelp(_ value: Any) -> String {
     let mirror = Mirror(reflecting: value)
     switch mirror.displayStyle {

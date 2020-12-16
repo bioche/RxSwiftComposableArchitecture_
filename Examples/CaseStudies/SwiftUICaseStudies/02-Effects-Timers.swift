@@ -1,4 +1,5 @@
 import Combine
+import CombineSchedulers
 import ComposableArchitecture
 import SwiftUI
 
@@ -43,8 +44,6 @@ let timersReducer = Reducer<TimersState, TimersAction, TimersEnvironment> {
       : Effect.cancel(id: TimerId())
   }
 }
-.signpost()
-.debug()
 
 // MARK: - Timer feature view
 

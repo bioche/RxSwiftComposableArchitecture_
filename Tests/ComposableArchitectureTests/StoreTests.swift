@@ -3,6 +3,7 @@ import RxSwift
 import RxTest
 import XCTest
 
+import ComposableArchitectureTestSupport
 @testable import ComposableArchitecture
 
 @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
@@ -237,6 +238,36 @@ final class StoreTests: XCTestCase {
     XCTAssertEqual(ViewStore(store).state, 100_000)
   }
 
+  func testPublisherScope() {
+    let appReducer = Reducer<Int, Bool, Void> { state, action, _ in
+      state += action ? 1 : 0
+      return .none
+    }
+
+    let parentStore = Store(initialState: 0, reducer: appReducer, environment: ())
+
+    var outputs: [Int] = []
+
+    parentStore
+      .scope { $0.distinctUntilChanged() }
+      .subscribe(onNext: { outputs.append($0.state) })
+      .disposed(by: disposeBag)
+
+    XCTAssertEqual(outputs, [0])
+
+    parentStore.send(true)
+    XCTAssertEqual(outputs, [0, 1])
+
+    parentStore.send(false)
+    XCTAssertEqual(outputs, [0, 1])
+    parentStore.send(false)
+    XCTAssertEqual(outputs, [0, 1])
+    parentStore.send(false)
+    XCTAssertEqual(outputs, [0, 1])
+    parentStore.send(false)
+    XCTAssertEqual(outputs, [0, 1])
+  }
+
   func testIfLetAfterScope() {
     struct AppState {
       var count: Int?
@@ -389,5 +420,47 @@ final class StoreTests: XCTestCase {
     disposeBag = DisposeBag()
     // and the weak variable should be nil
     XCTAssertNil(weakResult)
+  }
+  
+  func testActionQueuing() {
+    let subject = PassthroughSubject<Void, Never>()
+
+    enum Action: Equatable {
+      case incrementTapped
+      case `init`
+      case doIncrement
+    }
+
+    let store = TestStore(
+      initialState: 0,
+      reducer: Reducer<Int, Action, Void> { state, action, _ in
+        switch action {
+        case .incrementTapped:
+          subject.send()
+          return .none
+
+        case .`init`:
+          return subject.map { .doIncrement }.eraseToEffect()
+
+        case .doIncrement:
+          state += 1
+          return .none
+        }
+      },
+      environment: ()
+    )
+
+    store.assert(
+      .send(.`init`),
+      .send(.incrementTapped),
+      .receive(.doIncrement) {
+        $0 = 1
+      },
+      .send(.incrementTapped),
+      .receive(.doIncrement) {
+        $0 = 2
+      },
+      .do { subject.send(completion: .finished) }
+    )
   }
 }

@@ -25,6 +25,7 @@ public final class Store<State, Action> {
   private let disposeBag = DisposeBag()
   private let reducer: (inout State, Action) -> Effect<Action, Never>
   private var synchronousActionsToSend: [Action] = []
+  private var bufferedActions: [Action] = []
 
   /// Initializes a store from an initial state, a reducer, and an environment.
   ///
@@ -43,37 +44,34 @@ public final class Store<State, Action> {
     )
   }
 
-  /// Scopes the store to one that exposes local state and actions.
-  ///
-  /// This can be useful for deriving new stores to hand to child views in an application. For
-  /// example:
-  ///
-  ///     // Application state made from local states.
-  ///     struct AppState { var login: LoginState, ... }
-  ///     struct AppAction { case login(LoginAction), ... }
-  ///
-  ///     // A store that runs the entire application.
-  ///     let store = Store(initialState: AppState(), reducer: appReducer, environment: ())
-  ///
-  ///     // Construct a login view by scoping the store to one that works with only login domain.
-  ///     let loginView = LoginView(
-  ///       store: store.scope(
-  ///         state: { $0.login },
-  ///         action: { AppAction.login($0) }
-  ///       )
-  ///     )
-  ///
-  /// - Parameters:
-  ///   - toLocalState: A function that transforms `State` into `LocalState`.
-  ///   - fromLocalAction: A function that transforms `LocalAction` into `Action`.
-  /// - Returns: A new store with its domain (state and action) transformed.
-  public func scope<LocalState, LocalAction>(
-    state toLocalState: @escaping (State) -> LocalState,
+  /// A version of scoping where the state may not be transformable into local state.
+  /// Meant to be private for now. Could be set public if need be.
+  /// (ifLet should be enough in most cases)
+  func scope<LocalState, LocalAction>(
+    initialLocalState: LocalState,
+    state toLocalState: @escaping (State) -> LocalState?,
     action fromLocalAction: @escaping (LocalAction) -> Action
   ) -> Store<LocalState, LocalAction> {
-    scope(initialLocalState: toLocalState(state),
-          state: toLocalState,
-          action: fromLocalAction)
+
+    let localStore = Store<LocalState, LocalAction>(
+      initialState: initialLocalState,
+      reducer: { localState, localAction in
+        self.send(fromLocalAction(localAction))
+        if let newState = toLocalState(self.state) {
+          localState = newState
+        }
+        return .none
+      }
+    )
+
+    self.stateRelay
+      .subscribe(onNext: { [weak localStore] newValue in
+        if let newState = toLocalState(newValue) {
+          localStore?.state = newState
+        }
+      }).disposed(by: localStore.disposeBag)
+    return localStore
+
   }
 
   /// Scopes the store to one that exposes local state.
@@ -149,32 +147,19 @@ public final class Store<State, Action> {
   ///
   /// - Parameter action: An action.
   public func send(_ action: Action) {
-    self.synchronousActionsToSend.append(action)
+    if !self.isSending {
+      self.synchronousActionsToSend.append(action)
+    } else {
+      self.bufferedActions.append(action)
+      return
+    }
 
-    while !self.synchronousActionsToSend.isEmpty {
-      let action = self.synchronousActionsToSend.removeFirst()
+    while !self.synchronousActionsToSend.isEmpty || !self.bufferedActions.isEmpty {
+      let action =
+        !self.synchronousActionsToSend.isEmpty
+        ? self.synchronousActionsToSend.removeFirst()
+        : self.bufferedActions.removeFirst()
 
-      if self.isSending {
-        assertionFailure(
-          """
-          The store was sent the action \(debugCaseOutput(action)) while it was already
-          processing another action.
-
-          This can happen for a few reasons:
-
-          * The store was sent an action recursively. This can occur when you run an effect \
-          directly in the reducer, rather than returning it from the reducer. Check the stack (⌘7) \
-          to find frames corresponding to one of your reducers. That code should be refactored to \
-          not invoke the effect directly.
-
-          * The store has been sent actions from multiple threads. The `send` method is not \
-          thread-safe, and should only ever be used from a single thread (typically the main \
-          thread). Instead of calling `send` from multiple threads you should use effects to \
-          process expensive computations on background threads so that it can be fed back into the \
-          store.
-          """
-        )
-      }
       self.isSending = true
       let effect = self.reducer(&self.state, action)
       self.isSending = false
@@ -226,34 +211,37 @@ public final class Store<State, Action> {
 }
 
 extension Store {
-  /// A version of scoping where the state may not be transformable into local state.
-  /// Meant to be private for now. Could be set public if need be.
-  /// (ifLet should be enough in most cases)
-  func scope<LocalState, LocalAction>(
-    initialLocalState: LocalState,
-    state toLocalState: @escaping (State) -> LocalState?,
+  /// Scopes the store to one that exposes local state and actions.
+  ///
+  /// This can be useful for deriving new stores to hand to child views in an application. For
+  /// example:
+  ///
+  ///     // Application state made from local states.
+  ///     struct AppState { var login: LoginState, ... }
+  ///     struct AppAction { case login(LoginAction), ... }
+  ///
+  ///     // A store that runs the entire application.
+  ///     let store = Store(initialState: AppState(), reducer: appReducer, environment: ())
+  ///
+  ///     // Construct a login view by scoping the store to one that works with only login domain.
+  ///     let loginView = LoginView(
+  ///       store: store.scope(
+  ///         state: { $0.login },
+  ///         action: { AppAction.login($0) }
+  ///       )
+  ///     )
+  ///
+  /// - Parameters:
+  ///   - toLocalState: A function that transforms `State` into `LocalState`.
+  ///   - fromLocalAction: A function that transforms `LocalAction` into `Action`.
+  /// - Returns: A new store with its domain (state and action) transformed.
+  public func scope<LocalState, LocalAction>(
+    state toLocalState: @escaping (State) -> LocalState,
     action fromLocalAction: @escaping (LocalAction) -> Action
   ) -> Store<LocalState, LocalAction> {
-
-    let localStore = Store<LocalState, LocalAction>(
-      initialState: initialLocalState,
-      reducer: { localState, localAction in
-        self.send(fromLocalAction(localAction))
-        if let newState = toLocalState(self.state) {
-          localState = newState
-        }
-        return .none
-      }
-    )
-
-    self.stateRelay
-      .subscribe(onNext: { [weak localStore] newValue in
-        if let newState = toLocalState(newValue) {
-          localStore?.state = newState
-        }
-      }).disposed(by: localStore.disposeBag)
-    return localStore
-
+    scope(initialLocalState: toLocalState(state),
+          state: toLocalState,
+          action: fromLocalAction)
   }
 }
 

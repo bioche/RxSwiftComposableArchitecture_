@@ -1,6 +1,7 @@
 import Combine
 import ComposableArchitecture
 import SwiftUI
+import CombineSchedulers
 
 private let readMe = """
   This screen demonstrates how one can create reusable components in the Composable Architecture.
@@ -79,7 +80,6 @@ let cityMapReducer = Reducer<CityMapState, CityMapAction, CityMapEnvironment> {
     )
   }
 )
-.signpost()
 
 struct CityMapRowView: View {
   let store: Store<CityMapState, CityMapAction>
@@ -168,7 +168,7 @@ let mapAppReducer: Reducer<MapAppState, MapAppAction, MapAppEnvironment> = cityM
       mainQueue: $0.mainQueue
     )
   }
-).debug()
+)
 
 struct CitiesView: View {
   let store: Store<MapAppState, MapAppAction>

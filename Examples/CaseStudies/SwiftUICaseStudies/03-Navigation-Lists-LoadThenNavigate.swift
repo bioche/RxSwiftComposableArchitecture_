@@ -1,4 +1,5 @@
 import ComposableArchitecture
+import CombineSchedulers
 import SwiftUI
 
 private let readMe = """
@@ -10,7 +11,11 @@ private let readMe = """
   """
 
 struct LoadThenNavigateListState: Equatable {
-  var rows: IdentifiedArrayOf<Row> = []
+  var rows: IdentifiedArrayOf<Row> = [
+    .init(count: 1, id: UUID()),
+    .init(count: 42, id: UUID()),
+    .init(count: 100, id: UUID()),
+  ]
   var selection: Identified<Row.ID, CounterState>?
 
   struct Row: Equatable, Identifiable, TCAIdentifiable {
@@ -37,7 +42,7 @@ let loadThenNavigateListReducer =
     action: .self,
     environment: { $0 }
   )
-  .optional
+  .optional()
   .pullback(
     state: \LoadThenNavigateListState.selection,
     action: /LoadThenNavigateListAction.counter,

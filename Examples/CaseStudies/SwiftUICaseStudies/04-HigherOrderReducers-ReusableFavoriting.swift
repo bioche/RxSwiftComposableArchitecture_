@@ -1,4 +1,5 @@
 import Combine
+import CombineSchedulers
 import ComposableArchitecture
 import SwiftUI
 
@@ -78,7 +79,7 @@ extension Reducer {
             .cancellable(id: FavoriteCancelId(id: state.id), cancelInFlight: true)
 
         case let .response(.failure(error)):
-          state.alert = .init(title: error.localizedDescription)
+          state.alert = .init(title: .init(error.localizedDescription))
           return .none
 
         case let .response(.success(isFavorite)):
