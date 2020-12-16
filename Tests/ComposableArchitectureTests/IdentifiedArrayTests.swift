@@ -200,7 +200,7 @@ final class IdentifiedArrayTests: XCTestCase {
   // TODO: Try swapping out the LCRNG for a Xoshiro generator
   #if swift(>=5.3)
     func testShuffle() {
-      struct User: Equatable, Identifiable {
+      struct User: Equatable, Identifiable, TCAIdentifiable {
         let id: Int
         var name: String
       }

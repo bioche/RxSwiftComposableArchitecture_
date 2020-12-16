@@ -3,6 +3,7 @@ import RxSwift
 import RxTest
 import XCTest
 
+import ComposableArchitectureTestSupport
 @testable import ComposableArchitecture
 
 @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
@@ -248,9 +249,9 @@ final class StoreTests: XCTestCase {
     var outputs: [Int] = []
 
     parentStore
-      .scope { $0.removeDuplicates() }
-      .sink { outputs.append($0.state) }
-      .store(in: &self.cancellables)
+      .scope { $0.distinctUntilChanged() }
+      .subscribe(onNext: { outputs.append($0.state) })
+      .disposed(by: disposeBag)
 
     XCTAssertEqual(outputs, [0])
 

@@ -37,6 +37,10 @@
 		41364CE6248C6028007EBA46 /* WithViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41364CBE248C6028007EBA46 /* WithViewStore.swift */; };
 		414309DD24DF4E9E0016DC7A /* ActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414309DB24DF4E9E0016DC7A /* ActionSheet.swift */; };
 		414309DE24DF4E9E0016DC7A /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 414309DC24DF4E9E0016DC7A /* Alert.swift */; };
+		4158C0342575A77700F5C73C /* TestStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4158C0312575A77700F5C73C /* TestStoreTests.swift */; };
+		4158C0352575A77800F5C73C /* LocalizedStringKeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4158C0322575A77700F5C73C /* LocalizedStringKeyTests.swift */; };
+		4158C0362575A77800F5C73C /* LCRNG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4158C0332575A77700F5C73C /* LCRNG.swift */; };
+		4158C0482575A85400F5C73C /* LocalizedStringKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4158C03D2575A81000F5C73C /* LocalizedStringKey.swift */; };
 		4162603C248D2DD1003FCAA8 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 4162603A248D2DD1003FCAA8 /* Cartfile */; };
 		4162603D248D2DD1003FCAA8 /* Cartfile.resolved in Resources */ = {isa = PBXBuildFile; fileRef = 4162603B248D2DD1003FCAA8 /* Cartfile.resolved */; };
 		4162604E248D31E3003FCAA8 /* EnumReflection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4162604A248D31E3003FCAA8 /* EnumReflection.swift */; };
@@ -165,6 +169,10 @@
 		41364CBE248C6028007EBA46 /* WithViewStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithViewStore.swift; sourceTree = "<group>"; };
 		414309DB24DF4E9E0016DC7A /* ActionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionSheet.swift; sourceTree = "<group>"; };
 		414309DC24DF4E9E0016DC7A /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		4158C0312575A77700F5C73C /* TestStoreTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestStoreTests.swift; sourceTree = "<group>"; };
+		4158C0322575A77700F5C73C /* LocalizedStringKeyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedStringKeyTests.swift; sourceTree = "<group>"; };
+		4158C0332575A77700F5C73C /* LCRNG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCRNG.swift; sourceTree = "<group>"; };
+		4158C03D2575A81000F5C73C /* LocalizedStringKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedStringKey.swift; sourceTree = "<group>"; };
 		4162603A248D2DD1003FCAA8 /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		4162603B248D2DD1003FCAA8 /* Cartfile.resolved */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = "<group>"; };
 		4162603F248D2E14003FCAA8 /* RxRelay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxRelay.framework; path = Carthage/Build/iOS/RxRelay.framework; sourceTree = "<group>"; };
@@ -340,6 +348,7 @@
 		41364CA5248C6028007EBA46 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
+				4158C03D2575A81000F5C73C /* LocalizedStringKey.swift */,
 				41364CA6248C6028007EBA46 /* Diff.swift */,
 				41364CA7248C6028007EBA46 /* Deprecations.swift */,
 				41364CA8248C6028007EBA46 /* Throttling.swift */,
@@ -411,6 +420,9 @@
 		41626053248D4983003FCAA8 /* ComposableArchitectureTests */ = {
 			isa = PBXGroup;
 			children = (
+				4158C0332575A77700F5C73C /* LCRNG.swift */,
+				4158C0322575A77700F5C73C /* LocalizedStringKeyTests.swift */,
+				4158C0312575A77700F5C73C /* TestStoreTests.swift */,
 				BED7DF6324C21A6D007EDABE /* RxTestSchedulerExtension */,
 				41626078248D49CA003FCAA8 /* Info.plist */,
 				41626054248D4983003FCAA8 /* ComposableArchitectureTests.swift */,
@@ -801,12 +813,15 @@
 				41626081248D4AB2003FCAA8 /* ReducerTests.swift in Sources */,
 				41626085248D4AB2003FCAA8 /* EffectTests.swift in Sources */,
 				4162607F248D4AB2003FCAA8 /* ComposableArchitectureTests.swift in Sources */,
+				4158C0352575A77800F5C73C /* LocalizedStringKeyTests.swift in Sources */,
 				41626086248D4AB2003FCAA8 /* IdentifiedArrayTests.swift in Sources */,
 				41626083248D4AB2003FCAA8 /* EffectThrottleTests.swift in Sources */,
+				4158C0342575A77700F5C73C /* TestStoreTests.swift in Sources */,
 				41626080248D4AB2003FCAA8 /* MemoryManagementTests.swift in Sources */,
 				41626088248D4AB2003FCAA8 /* DebugTests.swift in Sources */,
 				41626084248D4AB2003FCAA8 /* EffectDebounceTests.swift in Sources */,
 				41626087248D4AB2003FCAA8 /* TimerTests.swift in Sources */,
+				4158C0362575A77800F5C73C /* LCRNG.swift in Sources */,
 				4162608A248D4AB2003FCAA8 /* StoreTests.swift in Sources */,
 				BE556C7424C9CCAC00C716B7 /* RxTestScheduler+utils.swift in Sources */,
 			);
@@ -820,6 +835,7 @@
 				41364CE6248C6028007EBA46 /* WithViewStore.swift in Sources */,
 				418033B024D715B700EA11AB /* Store+ScopeForEach.swift in Sources */,
 				4176B30C24A8F515003D6097 /* ReducerInstrumentation.swift in Sources */,
+				4158C0482575A85400F5C73C /* LocalizedStringKey.swift in Sources */,
 				418033A824D715B700EA11AB /* RxFlatCollectionDataSource.swift in Sources */,
 				41626050248D31E3003FCAA8 /* CasePath.swift in Sources */,
 				41364CCF248C6028007EBA46 /* ReducerDebugging.swift in Sources */,

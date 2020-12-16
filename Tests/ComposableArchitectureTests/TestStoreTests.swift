@@ -1,6 +1,9 @@
 import Combine
 import ComposableArchitecture
+import ComposableArchitectureTestSupport
 import XCTest
+import RxSwift
+import RxTest
 
 class TestStoreTests: XCTestCase {
   func testEffectConcatenation() {
@@ -10,16 +13,16 @@ class TestStoreTests: XCTestCase {
       case a, b1, b2, b3, c1, c2, c3, d
     }
 
-    let testScheduler = DispatchQueue.testScheduler
+    let testScheduler = TestScheduler.defaultTestScheduler()
 
-    let reducer = Reducer<State, Action, AnySchedulerOf<DispatchQueue>> { _, action, scheduler in
+    let reducer = Reducer<State, Action, TestScheduler> { _, action, scheduler in
       switch action {
       case .a:
-        return .merge(
-          Effect.concatenate(.init(value: .b1), .init(value: .c1))
-            .delay(for: 1, scheduler: scheduler)
+        return Effect<Action, Never>.merge(
+          Effect<Action, Never>.concatenate(.init(value: .b1), .init(value: .c1))
+            .delay(.seconds(1), scheduler: scheduler)
             .eraseToEffect(),
-          Empty(completeImmediately: false)
+          Observable.never()
             .eraseToEffect()
             .cancellable(id: 1)
         )
@@ -42,7 +45,7 @@ class TestStoreTests: XCTestCase {
     let store = TestStore(
       initialState: State(),
       reducer: reducer,
-      environment: testScheduler.eraseToAnyScheduler()
+      environment: testScheduler
     )
 
     store.assert(

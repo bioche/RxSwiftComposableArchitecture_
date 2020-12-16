@@ -11,7 +11,7 @@ final class TimerTests: XCTestCase {
 
     var count = 0
 
-    Effect<Int, Error>.timer(id: 1, every: .seconds(1), on: scheduler).debug("ohanas")
+    Effect<Int, Never>.timer(id: 1, every: .seconds(1), on: scheduler).debug("ohanas")
       .subscribe(onNext: { _ in count += 1 })
       .disposed(by: disposeBag)
 
@@ -35,10 +35,10 @@ final class TimerTests: XCTestCase {
     var count3 = 0
 
     Effect<Int, Error>.merge(
-      Effect<Int, Error>.timer(id: 1, every: .seconds(2), on: scheduler)
+      Effect<Int, Never>.timer(id: 1, every: .seconds(2), on: scheduler)
         .do(onNext: { _ in count2 += 1 })
         .eraseToEffect(),
-      Effect<Int, Error>.timer(id: 2, every: .seconds(3), on: scheduler)
+      Effect<Int, Never>.timer(id: 2, every: .seconds(3), on: scheduler)
         .do(onNext: { _ in count3 += 1 })
         .eraseToEffect()
     )
@@ -68,10 +68,10 @@ final class TimerTests: XCTestCase {
     struct CancelToken: Hashable {}
 
     Effect<Int, Error>.merge(
-      Effect<Int, Error>.timer(id: CancelToken(), every: .seconds(2), on: scheduler)
+      Effect<Int, Never>.timer(id: CancelToken(), every: .seconds(2), on: scheduler)
         .do(onNext: { _ in count2 += 1 })
         .eraseToEffect(),
-      Effect<Int, Error>.timer(id: CancelToken(), every: .seconds(3), on: scheduler)
+      Effect<Int, Never>.timer(id: CancelToken(), every: .seconds(3), on: scheduler)
         .do(onNext: { _ in count3 += 1 })
         .eraseToEffect(),
       Observable.just(())
@@ -113,7 +113,7 @@ final class TimerTests: XCTestCase {
 
     var count = 0
 
-    Effect<Int, Error>.timer(id: 1, every: .seconds(1), on: scheduler)
+    Effect<Int, Never>.timer(id: 1, every: .seconds(1), on: scheduler)
       .take(3)
       .subscribe(onNext: { _ in count += 1 })
       .disposed(by: disposeBag)
