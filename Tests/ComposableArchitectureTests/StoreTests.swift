@@ -414,6 +414,12 @@ final class StoreTests: XCTestCase {
     parentStore.send(nil)
     XCTAssertEqual(outputs, [1, nil, 1, nil, 1, nil])
     
+    // check that the result is cleared when the state becomes nil
+    XCTAssertNil(weakResult)
+    
+    parentStore.send(1)
+    XCTAssertEqual(outputs, [1, nil, 1, nil, 1, nil, 1])
+    
     // The result is kept in onceAvailable closures so the weak variable shouldn't be nil
     XCTAssertNotNil(weakResult)
     // dispose bag gets cleared : onceAvailable should not retain anything
