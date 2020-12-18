@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		41F6B0D4256093B2008861FB /* CombineSchedulers in Frameworks */ = {isa = PBXBuildFile; productRef = 41F6B0D3256093B2008861FB /* CombineSchedulers */; };
 		CA2332102447ACFA00B818EB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA23320F2447ACFA00B818EB /* SceneDelegate.swift */; };
 		CA2332122447ACFA00B818EB /* SpeechRecognition.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2332112447ACFA00B818EB /* SpeechRecognition.swift */; };
 		CA2332142447ACFB00B818EB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA2332132447ACFB00B818EB /* Assets.xcassets */; };
@@ -71,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41F6B0D4256093B2008861FB /* CombineSchedulers in Frameworks */,
 				DC1394162469E34200EE1157 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -162,6 +164,7 @@
 			name = SpeechRecognition;
 			packageProductDependencies = (
 				DC1394152469E34200EE1157 /* ComposableArchitecture */,
+				41F6B0D3256093B2008861FB /* CombineSchedulers */,
 			);
 			productName = SpeechRecognition;
 			productReference = CA23320A2447ACFA00B818EB /* SpeechRecognition.app */;
@@ -216,6 +219,9 @@
 				Base,
 			);
 			mainGroup = CA2332012447ACFA00B818EB;
+			packageReferences = (
+				41F6B0D2256093B2008861FB /* XCRemoteSwiftPackageReference "combine-schedulers" */,
+			);
 			productRefGroup = CA23320B2447ACFA00B818EB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -495,7 +501,23 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		41F6B0D2256093B2008861FB /* XCRemoteSwiftPackageReference "combine-schedulers" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/combine-schedulers";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		41F6B0D3256093B2008861FB /* CombineSchedulers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 41F6B0D2256093B2008861FB /* XCRemoteSwiftPackageReference "combine-schedulers" */;
+			productName = CombineSchedulers;
+		};
 		DC1394152469E34200EE1157 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ComposableArchitecture;

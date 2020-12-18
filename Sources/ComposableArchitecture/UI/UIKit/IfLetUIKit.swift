@@ -1,11 +1,3 @@
-//
-//  ComposableArchitecture+utils.swift
-//  pureairconnect
-//
-//  Created by sebastien on 09/07/2020.
-//  Copyright © 2020 Dragna. All rights reserved.
-//
-
 import Foundation
 import RxSwift
 
@@ -89,7 +81,7 @@ extension Store {
   /// Variant of ifLet useful to perform push/pop or present/dismiss navigation operations between UIKit controllers.
   ///  Once the state becomes non-`nil`, `unwrap` gets called with store of unwrapped state and returns a result.
   ///  When the state goes back to being `nil`, `else` gets called with the previously produced result.
-  ///  The result is captured by the closures and is only released when replaced by another result or the subscription is disposed.
+  ///  The result is captured by the closures and is only released after `else` is called or the subscription is disposed.
   ///
   /// - Parameters:
   ///   - unwrap: A function that is called with a store of non-optional state whenever the store's optional state goes from `nil` to non-`nil`. It returns a result that will be given to the `else` closure as soon as the store's optional state becomes `nil` again.
@@ -105,10 +97,11 @@ extension Store {
     return ifLet(then: {
       result = unwrap($0)
     }, else: {
-      guard let result = result else {
+      guard let unwrappedResult = result else {
         return
       }
-      `else`(result)
+      `else`(unwrappedResult)
+      result = nil
     })
   }
 }

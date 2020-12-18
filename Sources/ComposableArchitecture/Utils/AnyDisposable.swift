@@ -1,11 +1,3 @@
-//
-//  AnyDisposable.swift
-//  ComposableArchitecture
-//
-//  Created by Bioche on 03/08/2020.
-//  Copyright © 2020 Bioche. All rights reserved.
-//
-
 import Foundation
 import RxSwift
 

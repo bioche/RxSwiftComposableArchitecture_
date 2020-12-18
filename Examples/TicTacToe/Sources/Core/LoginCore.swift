@@ -39,8 +39,9 @@ public struct LoginEnvironment {
   }
 }
 
-public let loginReducer = twoFactorReducer
-  .optional
+public let loginReducer =
+  twoFactorReducer
+  .optional()
   .pullback(
     state: \.twoFactor,
     action: /LoginAction.twoFactor,
@@ -72,7 +73,7 @@ public let loginReducer = twoFactorReducer
         return .none
 
       case let .loginResponse(.failure(error)):
-        state.alert = .init(title: error.localizedDescription)
+        state.alert = .init(title: .init(error.localizedDescription))
         state.isLoginRequestInFlight = false
         return .none
 
@@ -94,7 +95,7 @@ public let loginReducer = twoFactorReducer
 
       case .twoFactorDismissed:
         state.twoFactor = nil
-        return .none
+        return .cancel(id: TwoFactorTearDownToken())
       }
     }
   )

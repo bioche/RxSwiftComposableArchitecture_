@@ -1,5 +1,6 @@
 import ComposableArchitecture
 import SwiftUI
+import CombineSchedulers
 
 struct DownloadComponentState<ID: Equatable>: Equatable {
   var alert: AlertState<DownloadComponentAction.AlertAction>?
@@ -125,7 +126,7 @@ private let deleteAlert = AlertState(
 
 private let cancelAlert = AlertState(
   title: "Do you want to cancel downloading this map?",
-  primaryButton: .cancel(send: .cancelButtonTapped),
+  primaryButton: .destructive("Cancel", send: .cancelButtonTapped),
   secondaryButton: nevermindButton
 )
 

@@ -1,11 +1,3 @@
-//
-//  Store+differentiable.swift
-//  UneatenIngredients
-//
-//  Created by Bioche on 14/07/2020.
-//  Copyright © 2020 Bioche. All rights reserved.
-//
-
 import Foundation
 import DifferenceKit
 import ComposableArchitecture

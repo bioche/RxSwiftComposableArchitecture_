@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		419D14C4256ABB3F00D7995B /* CombineSchedulers in Frameworks */ = {isa = PBXBuildFile; productRef = 419D14C3256ABB3F00D7995B /* CombineSchedulers */; };
 		CA93D060249BF4D000A6F65D /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA93D05F249BF4D000A6F65D /* Todo.swift */; };
 		DC1394322469E57000EE1157 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = DC1394312469E57000EE1157 /* ComposableArchitecture */; };
 		DCBCB77624290F6C00DE1F59 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBCB77524290F6C00DE1F59 /* SceneDelegate.swift */; };
@@ -65,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				419D14C4256ABB3F00D7995B /* CombineSchedulers in Frameworks */,
 				DC1394322469E57000EE1157 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -145,6 +147,7 @@
 			name = Todos;
 			packageProductDependencies = (
 				DC1394312469E57000EE1157 /* ComposableArchitecture */,
+				419D14C3256ABB3F00D7995B /* CombineSchedulers */,
 			);
 			productName = Todos;
 			productReference = DCBCB77024290F6C00DE1F59 /* Todos.app */;
@@ -200,6 +203,7 @@
 			);
 			mainGroup = DCBCB76724290F6C00DE1F59;
 			packageReferences = (
+				419D14C2256ABB3F00D7995B /* XCRemoteSwiftPackageReference "combine-schedulers" */,
 			);
 			productRefGroup = DCBCB77124290F6C00DE1F59 /* Products */;
 			projectDirPath = "";
@@ -377,6 +381,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTING_SEARCH_PATHS = NO;
 				INFOPLIST_FILE = Todos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -395,6 +400,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTING_SEARCH_PATHS = NO;
 				INFOPLIST_FILE = Todos/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -477,7 +483,23 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		419D14C2256ABB3F00D7995B /* XCRemoteSwiftPackageReference "combine-schedulers" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/combine-schedulers";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		419D14C3256ABB3F00D7995B /* CombineSchedulers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 419D14C2256ABB3F00D7995B /* XCRemoteSwiftPackageReference "combine-schedulers" */;
+			productName = CombineSchedulers;
+		};
 		DC1394312469E57000EE1157 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ComposableArchitecture;

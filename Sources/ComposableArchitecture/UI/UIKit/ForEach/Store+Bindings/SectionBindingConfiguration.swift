@@ -1,11 +1,3 @@
-//
-//  SectionBindingConfiguration.swift
-//  ComposableArchitecture
-//
-//  Created by Bioche on 30/07/2020.
-//  Copyright © 2020 Bioche. All rights reserved.
-//
-
 import Foundation
 
 /// The configuration of bindings

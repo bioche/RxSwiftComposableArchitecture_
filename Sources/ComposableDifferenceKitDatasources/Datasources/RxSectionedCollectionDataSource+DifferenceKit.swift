@@ -1,10 +1,3 @@
-//
-//  RxSectionedCollectionDataSource+DifferenceKit.swift
-//  ComposableArchitecture
-//
-//  Created by Bioche on 29/07/2020.
-//  Copyright © 2020 Bioche. All rights reserved.
-//
 #if canImport(UIKit)
 #if !os(watchOS)
 import Foundation

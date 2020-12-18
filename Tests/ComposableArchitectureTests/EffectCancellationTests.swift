@@ -31,7 +31,7 @@ final class EffectCancellationTests: XCTestCase {
     subject.onNext(2)
     XCTAssertEqual(values, [1, 2])
 
-    _ = Effect<Never, Never>.cancel(id: CancelToken())
+    Effect<Never, Never>.cancel(id: CancelToken())
       .subscribe(onNext: { _ in })
       .disposed(by: disposeBag)
 
@@ -78,7 +78,7 @@ final class EffectCancellationTests: XCTestCase {
     XCTAssertEqual(value, nil)
 
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-      _ = Effect<Never, Never>.cancel(id: CancelToken())
+      Effect<Never, Never>.cancel(id: CancelToken())
         .subscribe(onNext: { _ in })
         .disposed(by: self.disposeBag)
     }
@@ -155,7 +155,7 @@ final class EffectCancellationTests: XCTestCase {
     subject.onNext(1)
     XCTAssertEqual(values, [1])
 
-    _ = Effect<Never, Never>.cancel(id: CancelToken())
+    Effect<Never, Never>.cancel(id: CancelToken())
       .subscribe(onNext: { _ in })
       .disposed(by: disposeBag)
 
@@ -180,7 +180,7 @@ final class EffectCancellationTests: XCTestCase {
     subject.onCompleted()
     XCTAssertEqual(values, [1])
 
-    _ = Effect<Never, Never>.cancel(id: CancelToken())
+    Effect<Never, Never>.cancel(id: CancelToken())
       .subscribe(onNext: { _ in })
       .disposed(by: disposeBag)
 

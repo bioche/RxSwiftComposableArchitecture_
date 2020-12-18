@@ -1,5 +1,6 @@
 import ComposableArchitecture
 import SwiftUI
+import CombineSchedulers
 
 private let readMe = """
   This screen demonstrates navigation that depends on loading optional data into state.
@@ -23,8 +24,9 @@ struct PresentAndLoadEnvironment {
   var mainQueue: AnySchedulerOf<DispatchQueue>
 }
 
-let presentAndLoadReducer = counterReducer
-  .optional
+let presentAndLoadReducer =
+  counterReducer
+  .optional()
   .pullback(
     state: \.optionalCounter,
     action: /PresentAndLoadAction.optionalCounter,

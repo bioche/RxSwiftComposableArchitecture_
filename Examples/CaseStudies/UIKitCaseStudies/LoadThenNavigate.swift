@@ -1,4 +1,5 @@
 import Combine
+import CombineSchedulers
 import ComposableArchitecture
 import SwiftUI
 import UIKit
@@ -18,8 +19,9 @@ struct LazyNavigationEnvironment {
   var mainQueue: AnySchedulerOf<DispatchQueue>
 }
 
-let lazyNavigationReducer = counterReducer
-  .optional
+let lazyNavigationReducer =
+  counterReducer
+  .optional()
   .pullback(
     state: \.optionalCounter,
     action: /LazyNavigationAction.optionalCounter,
