@@ -212,16 +212,16 @@ public struct Reducer<State, Action, Environment> {
   }
   
   /// Combines the current reducer with another one according to environment function
+  /// Allows for dynamic combining.
+  /// For example, we can condition the application of a reducer to a specific configuration
   ///
   /// - Parameter fromEnvironment: A function which may return a reducer to combine with
   /// - Returns: A single reducer.
   public func combined(_ fromEnvironment: @escaping (Environment) -> Reducer) -> Reducer {
     Self { value, action, environment in
-      let otherReducer = fromEnvironment(environment)
-      return self.combined(with: otherReducer)(&value, action, environment)
+      self.combined(with: fromEnvironment(environment))(&value, action, environment)
     }
   }
-  
   
   /// Transforms a reducer that works on local state, action and environment into one that works on
   /// global state, action and environment. It accomplishes this by providing 3 transformations to
