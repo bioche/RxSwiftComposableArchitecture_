@@ -46,3 +46,18 @@ extension Observable {
     )
   }
 }
+
+public extension PrimitiveSequence where Trait == SingleTrait {
+    /// Creates an effect from a single. The Failure type is guessed at compilation. It should match errors encountered by this observable.
+    /// - Returns: The effect of output type `Element` and failure type `Failure`
+    func eraseToEffect<Failure: Error>() -> Effect<Element, Failure> {
+        asObservable().eraseToEffect()
+    }
+    
+    /// Creates an effect from a Single
+    /// - Parameter failureType: The Failure type that can be encountered by this observable.
+    /// - Returns: The effect of output type `Element` and failure type `failureType`
+    func eraseToEffect<Failure: Error>(failureType: Failure.Type) -> Effect<Element, Failure> {
+      asObservable().eraseToEffect()
+    }
+}

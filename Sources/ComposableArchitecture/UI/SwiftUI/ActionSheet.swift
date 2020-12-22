@@ -145,6 +145,7 @@ extension ActionSheetState: Hashable where Action: Hashable {
   }
 }
 
+#if !os(macOS)
 #if canImport(Combine)
 import SwiftUI
 
@@ -204,4 +205,5 @@ extension ActionSheetState {
     )
   }
 }
+#endif
 #endif

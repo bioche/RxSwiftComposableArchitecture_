@@ -266,6 +266,16 @@ extension Effect {
   }
 }
 
+extension Effect {
+  /// Inits an effect that's gonna complete immediately after emitting the provided value. Shortcut for `init(value: Output)`
+  ///
+  /// - Parameter value: the value the effect is gonna complete with
+  /// - Returns: The effect that completes immediately after emitting the provided value
+  public static func just(_ value: Output) -> Self {
+      .init(value: value)
+  }
+}
+
 extension Effect where Failure == Swift.Error {
   /// Initializes an effect that lazily executes some work in the real world and synchronously sends
   /// that data back into the store.
