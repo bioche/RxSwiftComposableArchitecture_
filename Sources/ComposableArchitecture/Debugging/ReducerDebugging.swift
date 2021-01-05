@@ -44,7 +44,8 @@ public enum ActionFormat {
 extension Reducer {
   /// Prints debug messages describing all received actions and state mutations.
   ///
-  /// Printing is only done in debug (`#if DEBUG`) builds.
+  /// Printing is only done if `debuggingActivationFlag` is set to true.
+  /// (true by default in debug builds & false in release builds.
   ///
   /// - Parameters:
   ///   - prefix: A string with which to prefix all debug messages.
@@ -71,7 +72,8 @@ extension Reducer {
 
   /// Prints debug messages describing all received actions.
   ///
-  /// Printing is only done in debug (`#if DEBUG`) builds.
+  /// Printing is only done if `debuggingActivationFlag` is set to true.
+  /// (true by default in debug builds & false in release builds.
   ///
   /// - Parameters:
   ///   - prefix: A string with which to prefix all debug messages.
@@ -98,7 +100,8 @@ extension Reducer {
 
   /// Prints debug messages describing all received local actions and local state mutations.
   ///
-  /// Printing is only done if ``debuggingActivationFlag` is set to true. (true by default in debug builds & false in release builds.
+  /// Printing is only done if `debuggingActivationFlag` is set to true.
+  /// (true by default in debug builds & false in release builds.
   ///
   /// - Parameters:
   ///   - prefix: A string with which to prefix all debug messages.
@@ -127,7 +130,7 @@ extension Reducer {
         let debugEnvironment = toDebugEnvironment(environment)
         return .merge(
           .fireAndForget {
-            debugEnvironment.queue.async {
+            debugEnvironment.execute {
               let actionOutput =
                 actionFormat == .prettyPrint
                 ? debugOutput(localAction).indent(by: 2)
@@ -156,21 +159,41 @@ extension Reducer {
 
 /// An environment for debug-printing reducers.
 public struct DebugEnvironment {
+  
+  /// Describe on which queue printing should be performed
+  public enum Dispatching {
+    /// Should be performed synchronously (on current queue)
+    case sync
+    /// Should be performed asynchronously (on specified queue)
+    case async(DispatchQueue)
+  }
+  
   public var printer: (String) -> Void
-  public var queue: DispatchQueue
+  public var dispatching: Dispatching
 
   public init(
     printer: @escaping (String) -> Void = { print($0) },
-    queue: DispatchQueue
+    dispatching: Dispatching
   ) {
     self.printer = printer
-    self.queue = queue
+    self.dispatching = dispatching
   }
 
   public init(
     printer: @escaping (String) -> Void = { print($0) }
   ) {
-    self.init(printer: printer, queue: _queue)
+    self.init(printer: printer, dispatching: .async(_queue))
+  }
+  
+  func execute(_ block: @escaping () -> Void) {
+    switch dispatching {
+    case .sync:
+      block()
+    case .async(let queue):
+      queue.async {
+        block()
+      }
+    }
   }
 }
 

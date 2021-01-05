@@ -11,14 +11,14 @@ final class EffectTests: XCTestCase {
   func testEraseToEffectWithError() {
     struct Error: Swift.Error, Equatable {}
     Observable<Int>.just(42)
-      .catchToEffect(failureType: Error.self)
+      .catchToResultEffect(assertedFailureType: Error.self)
       .subscribe(onNext: { XCTAssertEqual($0, .success(42)) })
       .disposed(by: disposeBag)
     
     Observable<Int>.create({ (observer) in
       observer.on(.error(Error()))
       return Disposables.create()
-    }).catchToEffect(failureType: Error.self)
+    }).catchToResultEffect(assertedFailureType: Error.self)
       .subscribe(onNext: { XCTAssertEqual($0, .failure(Error())) })
       .disposed(by: disposeBag)
     
