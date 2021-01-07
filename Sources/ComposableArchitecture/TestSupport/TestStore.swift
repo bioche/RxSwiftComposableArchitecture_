@@ -365,7 +365,12 @@
             )
           }
           do {
-            try work(&self.environment)
+            // Avoid simultaneous access failures when advancing scheduler
+            // (advancing scheduler triggers receive action on store above
+            // which action will be reduced using the very same environment)
+            var aux = self.environment
+            try work(&aux)
+            self.environment = aux
           } catch {
             _XCTFail("Threw error: \(error)", file: step.file, line: step.line)
           }

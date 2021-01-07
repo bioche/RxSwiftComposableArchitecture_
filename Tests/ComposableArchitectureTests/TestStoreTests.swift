@@ -13,14 +13,18 @@ class TestStoreTests: XCTestCase {
       case a, b1, b2, b3, c1, c2, c3, d
     }
 
+    struct Environment {
+      let scheduler: TestScheduler
+    }
+    
     let testScheduler = TestScheduler.defaultTestScheduler()
 
-    let reducer = Reducer<State, Action, TestScheduler> { _, action, scheduler in
+    let reducer = Reducer<State, Action, Environment> { _, action, env in
       switch action {
       case .a:
         return Effect<Action, Never>.merge(
           Effect<Action, Never>.concatenate(.init(value: .b1), .init(value: .c1))
-            .delay(.seconds(1), scheduler: scheduler)
+            .delay(.seconds(1), scheduler: env.scheduler)
             .eraseToEffect(),
           Observable.never()
             .eraseToEffect()
@@ -45,14 +49,14 @@ class TestStoreTests: XCTestCase {
     let store = TestStore(
       initialState: State(),
       reducer: reducer,
-      environment: testScheduler
+      environment: Environment(scheduler: testScheduler)
     )
-
+    
     store.assert(
       .send(.a),
-
-      .do { testScheduler.advance(by: 1) },
-
+      .environment {
+        $0.scheduler.advance(by: 1)
+      },
       .receive(.b1),
       .receive(.b2),
       .receive(.b3),
