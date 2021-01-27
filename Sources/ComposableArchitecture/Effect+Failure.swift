@@ -44,7 +44,7 @@ extension ObservableConvertibleType {
         // Because Rx doesn't give any guaranty on the error type,
         // We have to make sure the error is of type Failure
         // If we find this isn't the case, we raise assertion failure & complete the stream
-        .catchError { received -> Observable<Result<Element, Failure>> in
+        .catch { received -> Observable<Result<Element, Failure>> in
           guard let expected = received as? Failure else {
             assertionFailure("Expected error of type \(Failure.self), received this \(received)")
             return .empty()
@@ -62,7 +62,7 @@ extension ObservableConvertibleType {
     _ errorMapping: @escaping (Error) -> Failure
   ) -> Effect<Element, Failure> {
     asObservable()
-      .catchError { .error(errorMapping($0)) }
+      .catch { .error(errorMapping($0)) }
       .eraseToEffect(failureType: Failure.self)
   }
   
@@ -76,7 +76,7 @@ extension ObservableConvertibleType {
     _ errorMapping: @escaping (Error) -> Failure
   ) -> Effect<Result<Element, Failure>, Never> {
     asObservable()
-      .catchError { .error(errorMapping($0)) }
+      .catch { .error(errorMapping($0)) }
       .catchToResultEffect(assertedFailureType: Failure.self)
   }
   
@@ -88,7 +88,7 @@ extension ObservableConvertibleType {
     _ elementForError: @escaping (Error) -> Element
   ) -> Effect<Element, Never> {
     asObservable()
-      .catchError { .just(elementForError($0)) }
+      .catch { .just(elementForError($0)) }
       .eraseToEffect(failureType: Never.self)
   }
 }

@@ -1,2 +1,2 @@
-github "ReactiveX/RxSwift"
-github "ra1028/DifferenceKit"
+github "ReactiveX/RxSwift" ~> 6.0.0
+github "ra1028/DifferenceKit" ~> 1.0.0
