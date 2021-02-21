@@ -88,6 +88,8 @@
 		418033DD24D7177C00EA11AB /* DifferenceKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 418033DC24D7177C00EA11AB /* DifferenceKit.framework */; };
 		418E991D24D873CF00A48A09 /* AnyDisposable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418E991C24D873CF00A48A09 /* AnyDisposable.swift */; };
 		41912D6025632144006AD8FE /* Debouncing+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41912D5F25632144006AD8FE /* Debouncing+Combine.swift */; };
+		41B4654D25DFD4370087794C /* UIAlertController+AlertState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B4654C25DFD4370087794C /* UIAlertController+AlertState.swift */; };
+		41B4655225DFD4810087794C /* UIAlertAction+Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B4655125DFD4810087794C /* UIAlertAction+Button.swift */; };
 		41BE275F24E04F97003F71AC /* TestStore.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BE275D24E04F8A003F71AC /* TestStore.generated.swift */; };
 		A5A7FE4124CF25EA00608A39 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; };
 		A5A7FE4424CF271200608A39 /* ComposableArchitecture.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4168FAFC248C5D4700CD8FB5 /* ComposableArchitecture.framework */; };
@@ -96,7 +98,7 @@
 		BE66156E24DDBC9C0049DAE6 /* ComposableArchitectureTestSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5A7FE2724CF245E00608A39 /* ComposableArchitectureTestSupport.framework */; platformFilter = ios; };
 		BEC93A4424B8EE0B00D8082D /* IfLetUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */; };
 		D000D2A824E9787300ADE15C /* Reducer+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D000D2A724E9787300ADE15C /* Reducer+Utils.swift */; };
-		D07A4C7624E2BF1D008377C5 /* UIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07A4C7524E2BF1D008377C5 /* UIAlertController.swift */; };
+		D07A4C7624E2BF1D008377C5 /* UIAlertController+ActionSheetState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07A4C7524E2BF1D008377C5 /* UIAlertController+ActionSheetState.swift */; };
 		D07A4C8024E2C2EF008377C5 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626040248D2E14003FCAA8 /* RxCocoa.framework */; };
 		D07A4C8324E2C2F0008377C5 /* RxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4162603F248D2E14003FCAA8 /* RxRelay.framework */; };
 		D07A4C8524E2C2F4008377C5 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626041248D2E14003FCAA8 /* RxSwift.framework */; };
@@ -229,6 +231,8 @@
 		418033DC24D7177C00EA11AB /* DifferenceKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DifferenceKit.framework; path = Carthage/Build/iOS/DifferenceKit.framework; sourceTree = "<group>"; };
 		418E991C24D873CF00A48A09 /* AnyDisposable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyDisposable.swift; sourceTree = "<group>"; };
 		41912D5F25632144006AD8FE /* Debouncing+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Debouncing+Combine.swift"; sourceTree = "<group>"; };
+		41B4654C25DFD4370087794C /* UIAlertController+AlertState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+AlertState.swift"; sourceTree = "<group>"; };
+		41B4655125DFD4810087794C /* UIAlertAction+Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertAction+Button.swift"; sourceTree = "<group>"; };
 		41BE275D24E04F8A003F71AC /* TestStore.generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStore.generated.swift; sourceTree = "<group>"; };
 		A5A7FE2724CF245E00608A39 /* ComposableArchitectureTestSupport.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ComposableArchitectureTestSupport.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5A7FE2A24CF245E00608A39 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -236,7 +240,7 @@
 		BED7DF6124C2068B007EDABE /* TestStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStore.swift; sourceTree = "<group>"; };
 		BED7DF6424C21EA7007EDABE /* RxTestScheduler+utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RxTestScheduler+utils.swift"; sourceTree = "<group>"; };
 		D000D2A724E9787300ADE15C /* Reducer+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Reducer+Utils.swift"; sourceTree = "<group>"; };
-		D07A4C7524E2BF1D008377C5 /* UIAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertController.swift; sourceTree = "<group>"; };
+		D07A4C7524E2BF1D008377C5 /* UIAlertController+ActionSheetState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+ActionSheetState.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -334,7 +338,9 @@
 				4180339624D715B700EA11AB /* ForEach */,
 				BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */,
 				41364CA2248C6028007EBA46 /* IfLetUIKit+Combine.swift */,
-				D07A4C7524E2BF1D008377C5 /* UIAlertController.swift */,
+				D07A4C7524E2BF1D008377C5 /* UIAlertController+ActionSheetState.swift */,
+				41B4654C25DFD4370087794C /* UIAlertController+AlertState.swift */,
+				41B4655125DFD4810087794C /* UIAlertAction+Button.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -867,7 +873,7 @@
 				41364CDA248C6028007EBA46 /* ViewStore+Combine.swift in Sources */,
 				41364CD3248C6028007EBA46 /* Exports.swift in Sources */,
 				418033AB24D715B700EA11AB /* TCAItem.swift in Sources */,
-				D07A4C7624E2BF1D008377C5 /* UIAlertController.swift in Sources */,
+				D07A4C7624E2BF1D008377C5 /* UIAlertController+ActionSheetState.swift in Sources */,
 				41364CD9248C6028007EBA46 /* Effect+Failure.swift in Sources */,
 				41364CCA248C6028007EBA46 /* Publisher+asObservable.swift in Sources */,
 				41364CE2248C6028007EBA46 /* Identified.swift in Sources */,
@@ -881,6 +887,7 @@
 				41364CDB248C6028007EBA46 /* Store.swift in Sources */,
 				416C541F2593E66E001E9F23 /* Effect+ResultMapping.swift in Sources */,
 				41364CE3248C6028007EBA46 /* IfLetStore.swift in Sources */,
+				41B4654D25DFD4370087794C /* UIAlertController+AlertState.swift in Sources */,
 				41364CD6248C6028007EBA46 /* Locking.swift in Sources */,
 				418033AD24D715B700EA11AB /* Store+GenericBinding.swift in Sources */,
 				41364CE4248C6028007EBA46 /* TCAIdentifiable.swift in Sources */,
@@ -889,6 +896,7 @@
 				4162604F248D31E3003FCAA8 /* CasePaths.swift in Sources */,
 				418033A624D715B700EA11AB /* TCASection.swift in Sources */,
 				418033A724D715B700EA11AB /* RxSectionedCollectionDataSource.swift in Sources */,
+				41B4655225DFD4810087794C /* UIAlertAction+Button.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1127,7 +1135,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.11.0;
+				MARKETING_VERSION = 0.12.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					SwiftUI,
@@ -1164,7 +1172,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.11.0;
+				MARKETING_VERSION = 0.12.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					SwiftUI,
@@ -1201,7 +1209,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.11.0;
+				MARKETING_VERSION = 0.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableDifferenceKitDatasources;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1232,7 +1240,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.11.0;
+				MARKETING_VERSION = 0.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableDifferenceKitDatasources;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1263,7 +1271,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.11.0;
+				MARKETING_VERSION = 0.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableArchitectureTestSupport;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1294,7 +1302,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.11.0;
+				MARKETING_VERSION = 0.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableArchitectureTestSupport;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

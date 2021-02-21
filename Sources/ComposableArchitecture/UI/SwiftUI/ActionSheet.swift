@@ -103,10 +103,10 @@ public struct ActionSheetState<Action> {
   public let id = UUID()
   public var buttons: [Button]
   public var message: String?
-  public var title: String
+  public var title: String?
 
   public init(
-    title: String,
+    title: String?,
     message: String? = nil,
     buttons: [Button]
   ) {
@@ -197,7 +197,7 @@ extension View {
 extension ActionSheetState {
   fileprivate func toSwiftUI(send: @escaping (Action) -> Void) -> SwiftUI.ActionSheet {
     SwiftUI.ActionSheet(
-      title: Text(self.title),
+      title: Text(self.title ?? ""),
       message: self.message.map { Text($0) },
       buttons: self.buttons.map {
         $0.toSwiftUI(send: send)

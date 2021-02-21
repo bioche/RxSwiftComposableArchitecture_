@@ -122,6 +122,11 @@ public struct AlertState<Action> {
   public struct Button {
     public var action: Action?
     public var type: `Type`
+    
+    public init(action: Action?, type: `Type`) {
+      self.action = action
+      self.type = type
+    }
 
     public static func cancel(
       _ label: String,
