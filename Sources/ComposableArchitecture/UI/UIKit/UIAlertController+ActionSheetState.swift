@@ -11,11 +11,14 @@ extension Store where State == ActionSheetState<Action>? {
   /// - Parameter onPresent: Can be used to customize alert controller UI or its popoverViewController
   /// - Returns: Disposable to cancel the subscription to store's state
   public func bindTo(sheetPresenter: UIViewController,
+                     sourceView: UIView,
                      onPresent: @escaping (UIAlertController) -> Void = { _ in }) -> Disposable {
     var alertController: UIAlertController?
     return ifLet(then: { [weak sheetPresenter] store in
       let viewStore = ViewStore(store, removeDuplicates: { _, _ in false })
       alertController = .from(viewStore: viewStore)
+      sheetPresenter?.popoverPresentationController?.sourceView = sourceView
+      sheetPresenter?.popoverPresentationController?.sourceRect = sourceView.bounds
       onPresent(alertController!)
       sheetPresenter?.present(alertController!, animated: true, completion: nil)
       }, else: { [weak alertController] in
