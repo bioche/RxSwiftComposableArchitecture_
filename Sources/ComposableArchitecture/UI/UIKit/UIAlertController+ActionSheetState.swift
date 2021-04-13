@@ -4,25 +4,38 @@
 import UIKit
 import RxSwift
 
+public enum ActionSheetUISource {
+  case view(UIView)
+  case barButtonItem(UIBarButtonItem)
+}
+
 extension Store where State == ActionSheetState<Action>? {
   /// Presents or dismisses alert controller depending on state.
   /// The store will receive the actions emitted when pressing alert buttons
   /// - Parameter sheetPresenter: The controller doing the presenting
+  /// - Parameter sourceView: The source needed for iPad popover display
   /// - Parameter onPresent: Can be used to customize alert controller UI or its popoverViewController
   /// - Returns: Disposable to cancel the subscription to store's state
   public func bindTo(sheetPresenter: UIViewController,
-                     sourceView: UIView,
+                     sourceView: ActionSheetUISource,
                      onPresent: @escaping (UIAlertController) -> Void = { _ in }) -> Disposable {
     var alertController: UIAlertController?
     return ifLet(then: { [weak sheetPresenter] store in
       let viewStore = ViewStore(store, removeDuplicates: { _, _ in false })
       alertController = .from(viewStore: viewStore)
-      sheetPresenter?.popoverPresentationController?.sourceView = sourceView
-      sheetPresenter?.popoverPresentationController?.sourceRect = sourceView.bounds
+      if let presenter = alertController?.popoverPresentationController {
+        switch sourceView {
+        case .barButtonItem(let barButtonItem):
+          presenter.barButtonItem = barButtonItem
+        case .view(let sourceView):
+          presenter.sourceView = sourceView
+          presenter.sourceRect = sourceView.bounds
+        }
+      }
       onPresent(alertController!)
       sheetPresenter?.present(alertController!, animated: true, completion: nil)
-      }, else: { [weak alertController] in
-        alertController?.dismiss(animated: true, completion: nil)
+    }, else: { [weak alertController] in
+      alertController?.dismiss(animated: true, completion: nil)
     })
   }
 }
