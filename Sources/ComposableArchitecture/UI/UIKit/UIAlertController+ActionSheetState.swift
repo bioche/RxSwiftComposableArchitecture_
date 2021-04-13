@@ -17,6 +17,7 @@ extension Store where State == ActionSheetState<Action>? {
     return ifLet(then: { [weak sheetPresenter] store in
       let viewStore = ViewStore(store, removeDuplicates: { _, _ in false })
       alertController = .from(viewStore: viewStore)
+      alertController?.modalPresentationStyle = .popover
       sheetPresenter?.popoverPresentationController?.sourceView = sourceView
       sheetPresenter?.popoverPresentationController?.sourceRect = sourceView.bounds
       onPresent(alertController!)
