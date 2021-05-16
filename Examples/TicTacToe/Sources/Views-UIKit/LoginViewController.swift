@@ -43,7 +43,7 @@ class LoginViewController: UIViewController {
     super.viewDidLoad()
 
     self.navigationItem.title = "Login"
-    self.view.backgroundColor = .white
+    self.view.backgroundColor = .systemBackground
 
     let disclaimerLabel = UILabel()
     disclaimerLabel.text = """
@@ -137,7 +137,7 @@ class LoginViewController: UIViewController {
         guard let alert = alert else { return }
 
         let alertController = UIAlertController(
-          title: alert.title.formatted(), message: nil, preferredStyle: .alert)
+          title: alert.title, message: nil, preferredStyle: .alert)
         alertController.addAction(
           UIAlertAction(
             title: "Ok", style: .default,

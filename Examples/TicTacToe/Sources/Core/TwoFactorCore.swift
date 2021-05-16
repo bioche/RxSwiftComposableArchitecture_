@@ -64,7 +64,7 @@ public let twoFactorReducer = Reducer<TwoFactorState, TwoFactorAction, TwoFactor
       .cancellable(id: TwoFactorTearDownToken())
 
   case let .twoFactorResponse(.failure(error)):
-    state.alert = .init(title: .init(error.localizedDescription))
+    state.alert = .init(title: error.localizedDescription)
     state.isTwoFactorRequestInFlight = false
     return .none
 

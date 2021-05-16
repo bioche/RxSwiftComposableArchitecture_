@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import Combine
 import RxSwift
 
 /// A `ViewStore` is an object that can observe state changes and send actions. They are most
@@ -49,6 +50,11 @@ public final class ViewStore<State, Action> {
 
   private let disposeBag = DisposeBag()
 
+  // N.B. `ViewStore` does not use a `@Published` property, so `objectWillChange`
+  // won't be synthesized automatically. To work around issues on iOS 13 we explicitly declare it.
+  @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+  public private(set) lazy var objectWillChange = ObservableObjectPublisher()
+
   /// Initializes a view store from a store.
   ///
   /// - Parameters:
@@ -72,7 +78,7 @@ public final class ViewStore<State, Action> {
   public private(set) var state: State {
     willSet {
       if #available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *) {
-        objectWillChange()
+        objectWillChange.send()
       }
     }
   }
@@ -100,6 +106,12 @@ public final class ViewStore<State, Action> {
 
 extension ViewStore where State: Equatable {
   public convenience init(_ store: Store<State, Action>) {
+    self.init(store, removeDuplicates: ==)
+  }
+}
+
+extension ViewStore where State == Void {
+  public convenience init(_ store: Store<Void, Action>) {
     self.init(store, removeDuplicates: ==)
   }
 }

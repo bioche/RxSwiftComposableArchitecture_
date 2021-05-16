@@ -51,21 +51,19 @@ class TestStoreTests: XCTestCase {
       reducer: reducer,
       environment: Environment(scheduler: testScheduler)
     )
-    
-    store.assert(
-      .send(.a),
-      .environment {
-        $0.scheduler.advance(by: 1)
-      },
-      .receive(.b1),
-      .receive(.b2),
-      .receive(.b3),
 
-      .receive(.c1),
-      .receive(.c2),
-      .receive(.c3),
+    store.send(.a)
 
-      .send(.d)
-    )
+    store.environment.scheduler.advance(by: 1)
+
+    store.receive(.b1)
+    store.receive(.b2)
+    store.receive(.b3)
+
+    store.receive(.c1)
+    store.receive(.c2)
+    store.receive(.c3)
+
+    store.send(.d)
   }
 }

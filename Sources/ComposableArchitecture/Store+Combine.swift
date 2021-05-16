@@ -34,12 +34,12 @@ extension Store {
     ///     `LocalState`.
     ///   - fromLocalAction: A function that transforms `LocalAction` into `Action`.
     /// - Returns: A publisher of stores with its domain (state and action) transformed.
-    public func scope<P: Publisher, LocalState, LocalAction>(
+    public func publisherScope<P: Publisher, LocalState, LocalAction>(
       state toLocalState: @escaping (AnyPublisher<State, Never>) -> P,
       action fromLocalAction: @escaping (LocalAction) -> Action
     ) -> AnyPublisher<Store<LocalState, LocalAction>, Never>
     where P.Output == LocalState, P.Failure == Never {
-        scope(state: { (observable: Observable<State>) -> Observable<LocalState> in
+        observableScope(state: { (observable: Observable<State>) -> Observable<LocalState> in
             toLocalState(observable.unfailablePublisher).asObservable()
             }, action: fromLocalAction).unfailablePublisher
     }
@@ -50,11 +50,11 @@ extension Store {
     ///   of `LocalState`.
     /// - Returns: A publisher of stores with its domain (state and action)
     ///   transformed.
-    public func scope<P: Publisher, LocalState>(
+    public func publisherScope<P: Publisher, LocalState>(
       state toLocalState: @escaping (AnyPublisher<State, Never>) -> P
     ) -> AnyPublisher<Store<LocalState, Action>, Never>
     where P.Output == LocalState, P.Failure == Never {
-      self.scope(state: toLocalState, action: { $0 })
+      self.publisherScope(state: toLocalState, action: { $0 })
     }
     
 }

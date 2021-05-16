@@ -79,7 +79,7 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
     case .todo(id: _, action: .checkBoxToggled):
       struct TodoCompletionId: Hashable {}
       return Effect(value: .sortCompletedTodos)
-        .debounce(id: TodoCompletionId(), for: 1, scheduler: environment.mainQueue)
+        .debounce(id: TodoCompletionId(), for: 1, scheduler: environment.mainQueue.animation())
 
     case .todo:
       return .none
@@ -104,7 +104,7 @@ struct AppView: View {
           WithViewStore(self.store.scope(state: { $0.filter }, action: AppAction.filterPicked)) {
             filterViewStore in
             Picker(
-              "Filter", selection: filterViewStore.binding(send: { $0 })
+              "Filter", selection: filterViewStore.binding(send: { $0 }).animation()
             ) {
               ForEach(Filter.allCases, id: \.self) { filter in
                 Text(filter.rawValue).tag(filter)
@@ -127,9 +127,11 @@ struct AppView: View {
         .navigationBarItems(
           trailing: HStack(spacing: 20) {
             EditButton()
-            Button("Clear Completed") { viewStore.send(.clearCompletedButtonTapped) }
-              .disabled(viewStore.isClearCompletedButtonDisabled)
-            Button("Add Todo") { viewStore.send(.addTodoButtonTapped) }
+            Button("Clear Completed") {
+              viewStore.send(.clearCompletedButtonTapped, animation: .default)
+            }
+            .disabled(viewStore.isClearCompletedButtonDisabled)
+            Button("Add Todo") { viewStore.send(.addTodoButtonTapped, animation: .default) }
           }
         )
         .environment(

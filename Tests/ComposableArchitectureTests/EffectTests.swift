@@ -170,4 +170,15 @@ final class EffectTests: XCTestCase {
     XCTAssertEqual(values, [1])
     XCTAssertEqual(isComplete, true)
   }
+
+  #if compiler(>=5.4)
+    func testFailing() {
+      let effect = Effect<Never, Never>.failing("failing")
+      XCTExpectFailure {
+        effect
+          .subscribe(onNext: { _ in })
+          .disposed(by: disposeBag)
+      }
+    }
+  #endif
 }

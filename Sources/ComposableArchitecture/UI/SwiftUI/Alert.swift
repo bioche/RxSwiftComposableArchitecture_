@@ -45,9 +45,9 @@ import Foundation
 ///
 ///         case .deleteTapped:
 ///           state.alert = .init(
-///             title: "Delete",
-///             message: "Are you sure you want to delete this? It cannot be undone.",
-///             primaryButton: .default("Confirm", send: .confirmTapped),
+///             title: TextState("Delete"),
+///             message: TextState("Are you sure you want to delete this? It cannot be undone."),
+///             primaryButton: .default(TextState("Confirm"), send: .confirmTapped),
 ///             secondaryButton: .cancel()
 ///           )
 ///         return .none
@@ -75,20 +75,18 @@ import Foundation
 ///       environment: .mock
 ///     )
 ///
-///     store.assert(
-///       .send(.deleteTapped) {
-///         $0.alert = .init(
-///           title: "Delete",
-///           message: "Are you sure you want to delete this? It cannot be undone.",
-///           primaryButton: .default("Confirm", send: .confirmTapped),
-///           secondaryButton: .cancel(send: .cancelTapped)
-///         )
-///       },
-///       .send(.deleteTapped) {
-///         $0.alert = nil
-///         // Also verify that delete logic executed correctly
-///       }
-///     )
+///     store.send(.deleteTapped) {
+///       $0.alert = .init(
+///         title: TextState("Delete"),
+///         message: TextState("Are you sure you want to delete this? It cannot be undone."),
+///         primaryButton: .default(TextState("Confirm"), send: .confirmTapped),
+///         secondaryButton: .cancel(send: .cancelTapped)
+///       )
+///     }
+///     store.send(.deleteTapped) {
+///       $0.alert = nil
+///       // Also verify that delete logic executed correctly
+///     }
 ///
 public struct AlertState<Action> {
   public let id = UUID()
@@ -246,20 +244,17 @@ extension AlertState.Button {
 @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension AlertState {
   fileprivate func toSwiftUI(send: @escaping (Action) -> Void) -> SwiftUI.Alert {
-    let title = Text(self.title)
-    let message = self.message.map { Text($0) }
-
     if let primaryButton = self.primaryButton, let secondaryButton = self.secondaryButton {
       return SwiftUI.Alert(
-        title: title,
-        message: message,
+        title: Text(self.title),
+        message: self.message.map { Text($0) },
         primaryButton: primaryButton.toSwiftUI(send: send),
         secondaryButton: secondaryButton.toSwiftUI(send: send)
       )
     } else {
       return SwiftUI.Alert(
-        title: title,
-        message: message,
+        title: Text(self.title),
+        message: self.message.map { Text($0) },
         dismissButton: self.primaryButton?.toSwiftUI(send: send)
       )
     }

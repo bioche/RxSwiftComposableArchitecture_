@@ -90,7 +90,7 @@ struct NavigateAndLoadListView: View {
                 self.store.scope(
                   state: { $0.selection?.value }, action: NavigateAndLoadListAction.counter),
                 then: CounterView.init(store:),
-                else: ActivityIndicator()
+                else: { ActivityIndicator() }
               ),
               tag: row.id,
               selection: viewStore.binding(

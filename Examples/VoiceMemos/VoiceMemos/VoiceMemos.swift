@@ -105,7 +105,7 @@ let voiceMemosReducer = Reducer<VoiceMemosState, VoiceMemosAction, VoiceMemosEnv
 
     case .audioRecorderClient(.success(.didFinishRecording(successfully: false))),
       .audioRecorderClient(.failure):
-      state.alert = .init(title: "Voice memo recording failed.")
+      state.alert = .init(title: .init("Voice memo recording failed."))
       state.currentRecording = nil
       return .cancel(id: RecorderTimerId())
 
@@ -130,7 +130,7 @@ let voiceMemosReducer = Reducer<VoiceMemosState, VoiceMemosAction, VoiceMemosEnv
           .eraseToEffect()
 
       case .denied:
-        state.alert = .init(title: "Permission is required to record voice memos.")
+        state.alert = .init(title: .init("Permission is required to record voice memos."))
         return .none
 
       case .allowed:
@@ -161,12 +161,12 @@ let voiceMemosReducer = Reducer<VoiceMemosState, VoiceMemosAction, VoiceMemosEnv
       if permission {
         return startRecording()
       } else {
-        state.alert = .init(title: "Permission is required to record voice memos.")
+        state.alert = .init(title: .init("Permission is required to record voice memos."))
         return .none
       }
 
     case .voiceMemo(index: _, action: .audioPlayerClient(.failure)):
-      state.alert = .init(title: "Voice memo playback failed.")
+      state.alert = .init(title: .init("Voice memo playback failed."))
       return .none
 
     case let .voiceMemo(index: index, action: .delete):
@@ -209,14 +209,13 @@ struct VoiceMemosView: View {
           VStack {
             ZStack {
               Circle()
-                .foregroundColor(.black)
+                .foregroundColor(Color(.label))
                 .frame(width: 74, height: 74)
 
-              Button(action: { viewStore.send(.recordButtonTapped) }) {
+              Button(action: { viewStore.send(.recordButtonTapped, animation: .spring()) }) {
                 RoundedRectangle(cornerRadius: viewStore.currentRecording != nil ? 4 : 35)
-                  .foregroundColor(.red)
+                  .foregroundColor(Color(.systemRed))
                   .padding(viewStore.currentRecording != nil ? 17 : 2)
-                  .animation(.spring())
               }
               .frame(width: 70, height: 70)
 
@@ -236,13 +235,12 @@ struct VoiceMemosView: View {
                 Text($0)
                   .font(Font.body.monospacedDigit().bold())
                   .foregroundColor(.white)
-                  .colorMultiply(Int(duration).isMultiple(of: 2) ? .red : .black)
+                  .colorMultiply(Color(Int(duration).isMultiple(of: 2) ? .systemRed : .label))
                   .animation(.easeInOut(duration: 0.5))
               }
             }
           }
           .padding()
-          .animation(Animation.easeInOut(duration: 0.3))
         }
         .alert(
           self.store.scope(state: { $0.alert }),
@@ -295,6 +293,7 @@ struct VoiceMemos_Previews: PreviewProvider {
         )
       )
     )
+    .environment(\.colorScheme, .dark)
   }
 }
 

@@ -91,7 +91,7 @@ public final class Store<State, Action> {
   ///     `LocalState`.
   ///   - fromLocalAction: A function that transforms `LocalAction` into `Action`.
   /// - Returns: A publisher of stores with its domain (state and action) transformed.
-  public func scope<O: ObservableType, LocalState, LocalAction>(
+  public func observableScope<O: ObservableType, LocalState, LocalAction>(
     state toLocalState: @escaping (Observable<State>) -> O,
     action fromLocalAction: @escaping (LocalAction) -> Action
   ) -> Observable<Store<LocalState, LocalAction>>
@@ -130,11 +130,11 @@ public final class Store<State, Action> {
   ///   of `LocalState`.
   /// - Returns: A publisher of stores with its domain (state and action)
   ///   transformed.
-  public func scope<O: ObservableType, LocalState>(
+  public func observableScope<O: ObservableType, LocalState>(
     state toLocalState: @escaping (Observable<State>) -> O
   ) -> Observable<Store<LocalState, Action>>
     where O.Element == LocalState {
-      self.scope(state: toLocalState, action: { $0 })
+      self.observableScope(state: toLocalState, action: { $0 })
   }
 
   /// Sends an action to the store.
@@ -222,19 +222,121 @@ extension Store {
   ///
   ///     // A store that runs the entire application.
   ///     let store = Store(initialState: AppState(), reducer: appReducer, environment: ())
+  ///     let store = Store(
+  ///       initialState: AppState(),
+  ///       reducer: appReducer,
+  ///       environment: AppEnvironment()
+  ///     )
   ///
   ///     // Construct a login view by scoping the store to one that works with only login domain.
   ///     let loginView = LoginView(
+  ///     LoginView(
   ///       store: store.scope(
   ///         state: { $0.login },
   ///         action: { AppAction.login($0) }
   ///       )
   ///     )
   ///
-  /// - Parameters:
-  ///   - toLocalState: A function that transforms `State` into `LocalState`.
-  ///   - fromLocalAction: A function that transforms `LocalAction` into `Action`.
-  /// - Returns: A new store with its domain (state and action) transformed.
+  /// Scoping in this fashion allows you to better modularize your application. In this case,
+  /// `LoginView` could be extracted to a module that has no access to `AppState` or `AppAction`.
+  ///
+  /// Scoping also gives a view the opportunity to focus on just the state and actions it cares
+  /// about, even if its feature domain is larger.
+  ///
+  /// For example, the above login domain could model a two screen login flow: a login form followed
+  /// by a two-factor authentication screen. The second screen's domain might be nested in the
+  /// first:
+  ///
+  ///     struct LoginState: Equatable {
+  ///       var email = ""
+  ///       var password = ""
+  ///       var twoFactorAuth: TwoFactorAuthState?
+  ///     }
+  ///
+  ///     enum LoginAction: Equatable {
+  ///       case emailChanged(String)
+  ///       case loginButtonTapped
+  ///       case loginResponse(Result<TwoFactorAuthState, LoginError>)
+  ///       case passwordChanged(String)
+  ///       case twoFactorAuth(TwoFactorAuthAction)
+  ///     }
+  ///
+  /// The login view holds onto a store of this domain:
+  ///
+  ///     struct LoginView: View {
+  ///       let store: Store<LoginState, LoginAction>
+  ///
+  ///       var body: some View { ... }
+  ///     }
+  ///
+  /// If its body were to use a view store of the same domain, this would introduce a number of
+  /// problems:
+  ///
+  /// * The login view would be able to read from `twoFactorAuth` state. This state is only intended
+  ///   to be read from the two-factor auth screen.
+  ///
+  /// * Even worse, changes to `twoFactorAuth` state would now cause SwiftUI to recompute
+  ///   `LoginView`'s body unnecessarily.
+  ///
+  /// * The login view would be able to send `twoFactorAuth` actions. These actions are only
+  ///   intended to be sent from the two-factor auth screen (and reducer).
+  ///
+  /// * The login view would be able to send non user-facing login actions, like `loginResponse`.
+  ///   These actions are only intended to be used in the login reducer to feed the results of
+  ///   effects back into the store.
+  ///
+  /// To avoid these issues, one can introduce a view-specific domain that slices off the subset of
+  /// state and actions that a view cares about:
+  ///
+  ///     extension LoginView {
+  ///       struct State: Equatable {
+  ///         var email: String
+  ///         var password: String
+  ///       }
+  ///
+  ///       enum Action: Equatable {
+  ///         case emailChanged(String)
+  ///         case loginButtonTapped
+  ///         case passwordChanged(String)
+  ///       }
+  ///     }
+  ///
+  /// One can also introduce a couple helpers that transform feature state into view state and
+  /// transform view actions into feature actions.
+  ///
+  ///     extension LoginState {
+  ///       var view: LoginView.State {
+  ///         .init(email: self.email, password: self.password)
+  ///       }
+  ///     }
+  ///
+  ///     extension LoginView.Action {
+  ///       var feature: LoginAction {
+  ///         switch self {
+  ///         case let .emailChanged(email)
+  ///           return .emailChanged(email)
+  ///         case .loginButtonTapped:
+  ///           return .loginButtonTapped
+  ///         case let .passwordChanged(password)
+  ///           return .passwordChanged(password)
+  ///         }
+  ///       }
+  ///     }
+  ///
+  /// With these helpers defined, `LoginView` can now scope its store's feature domain into its view
+  /// domain:
+  ///
+  ///     var body: some View {
+  ///       WithViewStore(
+  ///         self.store.scope(state: { $0.view }, action: { $0.feature })
+  ///       ) { viewStore in
+  ///         ...
+  ///       }
+  ///     }
+  ///
+  /// This view store is now incapable of reading any state but view state (and will not recompute
+  /// when non-view state changes), and is incapable of sending any actions but view actions.
+  ///
   public func scope<LocalState, LocalAction>(
     state toLocalState: @escaping (State) -> LocalState,
     action fromLocalAction: @escaping (LocalAction) -> Action

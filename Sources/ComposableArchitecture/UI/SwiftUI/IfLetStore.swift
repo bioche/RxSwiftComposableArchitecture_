@@ -11,7 +11,7 @@ import SwiftUI
 ///     IfLetStore(
 ///       store.scope(state: \SearchState.results, action: SearchAction.results),
 ///       then: SearchResultsView.init(store:),
-///       else: Text("Loading search results...")
+///       else: { Text("Loading search results...") }
 ///     )
 ///
 ///  And for performing navigation when a piece of state becomes non-`nil`:
@@ -44,8 +44,8 @@ public struct IfLetStore<State, Action, Content>: View where Content: View {
   ///   - elseContent: A view that is only visible when the optional state is `nil`.
   public init<IfContent, ElseContent>(
     _ store: Store<State?, Action>,
-    then ifContent: @escaping (Store<State, Action>) -> IfContent,
-    else elseContent: @escaping @autoclosure () -> ElseContent
+    @ViewBuilder then ifContent: @escaping (Store<State, Action>) -> IfContent,
+    @ViewBuilder else elseContent: @escaping () -> ElseContent
   ) where Content == _ConditionalContent<IfContent, ElseContent> {
     self.store = store
     self.content = { viewStore in
@@ -66,7 +66,7 @@ public struct IfLetStore<State, Action, Content>: View where Content: View {
   ///     is visible only when the optional state is non-`nil`.
   public init<IfContent>(
     _ store: Store<State?, Action>,
-    then ifContent: @escaping (Store<State, Action>) -> IfContent
+    @ViewBuilder then ifContent: @escaping (Store<State, Action>) -> IfContent
   ) where Content == IfContent? {
     self.store = store
     self.content = { viewStore in

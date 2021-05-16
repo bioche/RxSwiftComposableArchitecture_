@@ -39,5 +39,24 @@ extension UIAlertController {
   }
 }
 
+#if canImport(Combine)
+import Combine
+
+@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+extension Store where State == AlertState<Action>? {
+  /// Presents or dismisses alert controller depending on state.
+  /// The store will receive the actions emitted when pressing alert buttons
+  /// - Parameter alertPresenter: The controller doing the presenting
+  /// - Parameter onPresent: Can be used to customize alert controller UI
+  /// - Returns: Cancellable to cancel the subscription to store's state
+  public func bindTo(alertPresenter: UIViewController,
+                     onPresent: @escaping (UIAlertController) -> Void = { _ in }) -> Cancellable {
+    bindTo(alertPresenter: alertPresenter,
+           onPresent: onPresent)
+      .asCancellable()
+  }
+}
+#endif
+
 #endif
 #endif

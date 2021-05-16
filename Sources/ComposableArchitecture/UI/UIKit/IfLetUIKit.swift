@@ -45,9 +45,7 @@ extension Store {
     else: @escaping () -> Void
   ) -> Disposable where State == Wrapped? {
     
-    let elseDisposable = self
-      .scope(
-        state: { (state: Observable<Wrapped?>) in
+    let elseDisposable = observableScope(state: { (state: Observable<Wrapped?>) in
           state
             .distinctUntilChanged { ($0 != nil) == ($1 != nil) }
         }
@@ -56,7 +54,7 @@ extension Store {
         if store.state == nil { `else`() }
       })
   
-    let thenDisposable = scope { (state: Observable<Wrapped?>) in
+    let thenDisposable = observableScope { (state: Observable<Wrapped?>) in
       state
         .distinctUntilChanged { ($0 != nil) == ($1 != nil) }
         .compactMap { $0 }
@@ -104,7 +102,7 @@ extension Store {
     }
     
     let elseDisposable = self
-      .scope(state: { (state: Observable<Wrapped?>) in
+      .observableScope(state: { (state: Observable<Wrapped?>) in
         state
           .distinctUntilChanged { fullCondition($0) == fullCondition($1) }
       })
@@ -113,7 +111,7 @@ extension Store {
       })
     
     let thenDisposable = self
-      .scope { (state: Observable<Wrapped?>) in
+      .observableScope { (state: Observable<Wrapped?>) in
         state
           .distinctUntilChanged { fullCondition($0) == fullCondition($1) }
           .compactMap { $0 }

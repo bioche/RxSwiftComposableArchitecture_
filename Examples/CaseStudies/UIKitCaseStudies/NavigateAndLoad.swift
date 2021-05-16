@@ -70,7 +70,7 @@ class EagerNavigationViewController: UIViewController {
 
     self.title = "Navigate and load"
 
-    self.view.backgroundColor = .white
+    self.view.backgroundColor = .systemBackground
 
     let button = UIButton(type: .system)
     button.addTarget(self, action: #selector(loadOptionalCounterTapped), for: .touchUpInside)
@@ -91,7 +91,7 @@ class EagerNavigationViewController: UIViewController {
             store: self.store
               .scope(state: { $0.optionalCounter }, action: EagerNavigationAction.optionalCounter),
             then: CounterViewController.init(store:),
-            else: ActivityIndicatorViewController()
+            else: ActivityIndicatorViewController.init
           ),
           animated: true
         )
