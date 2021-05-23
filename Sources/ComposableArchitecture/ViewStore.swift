@@ -1,7 +1,15 @@
 import Foundation
-import SwiftUI
-import Combine
 import RxSwift
+
+#if canImport(Combine)
+import Combine
+#else
+@available(*, deprecated, message: "Compilation trick for iOS 12 & below. This should not be used directly")
+public struct ObservableObjectPublisher {
+  fileprivate init() { }
+  fileprivate func send() { }
+}
+#endif
 
 /// A `ViewStore` is an object that can observe state changes and send actions. They are most
 /// commonly used in views, such as SwiftUI views, UIView or UIViewController, but they can be

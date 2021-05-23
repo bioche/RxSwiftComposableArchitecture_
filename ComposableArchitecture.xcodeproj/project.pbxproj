@@ -233,6 +233,7 @@
 		418E991C24D873CF00A48A09 /* AnyDisposable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyDisposable.swift; sourceTree = "<group>"; };
 		41912D5F25632144006AD8FE /* Debouncing+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Debouncing+Combine.swift"; sourceTree = "<group>"; };
 		419FC4E22651C3350059D3A7 /* Disposable+asCancellable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Disposable+asCancellable.swift"; sourceTree = "<group>"; };
+		419FC54D265A9F1B0059D3A7 /* FailingEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FailingEffect.swift; sourceTree = "<group>"; };
 		41B4654C25DFD4370087794C /* UIAlertController+AlertState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+AlertState.swift"; sourceTree = "<group>"; };
 		41B4655125DFD4810087794C /* UIAlertAction+Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertAction+Button.swift"; sourceTree = "<group>"; };
 		41BE275D24E04F8A003F71AC /* TestStore.generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStore.generated.swift; sourceTree = "<group>"; };
@@ -584,6 +585,7 @@
 		41BE275B24E04CF1003F71AC /* TestSupport */ = {
 			isa = PBXGroup;
 			children = (
+				419FC54D265A9F1B0059D3A7 /* FailingEffect.swift */,
 				BED7DF6124C2068B007EDABE /* TestStore.swift */,
 			);
 			path = TestSupport;
@@ -812,6 +814,7 @@
 			);
 			outputPaths = (
 				$SRCROOT/ComposableArchitectureTestSupport/TestStore.generated.swift,
+				$SRCROOT/ComposableArchitectureTestSupport/FailingEffect.generated.swift,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1143,7 +1146,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.13.1;
+				MARKETING_VERSION = 0.14.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					SwiftUI,
@@ -1180,7 +1183,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.13.1;
+				MARKETING_VERSION = 0.14.0;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					SwiftUI,
@@ -1217,7 +1220,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.13.1;
+				MARKETING_VERSION = 0.14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableDifferenceKitDatasources;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1248,7 +1251,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.13.1;
+				MARKETING_VERSION = 0.14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableDifferenceKitDatasources;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1279,7 +1282,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.13.1;
+				MARKETING_VERSION = 0.14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableArchitectureTestSupport;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1310,7 +1313,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.13.1;
+				MARKETING_VERSION = 0.14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.ComposableArchitectureTestSupport;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
