@@ -1,5 +1,6 @@
 import ComposableArchitecture
 import SwiftUI
+import CombineSchedulers
 
 struct DownloadComponentState<ID: Equatable>: Equatable {
   var alert: AlertState<DownloadComponentAction.AlertAction>?

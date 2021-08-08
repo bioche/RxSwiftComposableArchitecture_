@@ -1,6 +1,6 @@
-import Combine
 import os.signpost
 
+@available(iOS 12, macOS 10.14, tvOS 12.0, watchOS 5.0, *)
 extension Reducer {
   /// Instruments the reducer with
   /// [signposts](https://developer.apple.com/documentation/os/logging/recording_performance_data).
@@ -47,46 +47,43 @@ extension Reducer {
         return
           effects
           .effectSignpost(prefix, log: log, actionOutput: actionOutput)
-          .eraseToEffect()
       }
       return effects
     }
   }
 }
 
-extension Publisher where Failure == Never {
+@available(iOS 12, macOS 10.14, tvOS 12.0, watchOS 5.0, *)
+extension Effect where Failure == Never {
   func effectSignpost(
     _ prefix: String,
     log: OSLog,
     actionOutput: String
-  ) -> Publishers.HandleEvents<Self> {
+  ) -> Self {
     let sid = OSSignpostID(log: log)
 
     return
       self
-      .handleEvents(
-        receiveSubscription: { _ in
+      .do(
+        onNext: { value in
+          os_signpost(
+            .event, log: log, name: "Effect Output", "%sOutput from %s", prefix, actionOutput)
+      },
+        onCompleted: {
+          os_signpost(.end, log: log, name: "Effect", signpostID: sid, "%sFinished", prefix)
+        },
+        onSubscribe: {
           os_signpost(
             .begin, log: log, name: "Effect", signpostID: sid, "%sStarted from %s", prefix,
             actionOutput)
         },
-        receiveOutput: { value in
-          os_signpost(
-            .event, log: log, name: "Effect Output", "%sOutput from %s", prefix, actionOutput)
-        },
-        receiveCompletion: { completion in
-          switch completion {
-          case .finished:
-            os_signpost(.end, log: log, name: "Effect", signpostID: sid, "%sFinished", prefix)
-          }
-        },
-        receiveCancel: {
+        onDispose: {
           os_signpost(.end, log: log, name: "Effect", signpostID: sid, "%sCancelled", prefix)
-        })
+        }).eraseToEffect()
   }
 }
 
-func debugCaseOutput(_ value: Any) -> String {
+public func debugCaseOutput(_ value: Any) -> String {
   func debugCaseOutputHelp(_ value: Any) -> String {
     let mirror = Mirror(reflecting: value)
     switch mirror.displayStyle {

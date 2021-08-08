@@ -1,7 +1,7 @@
-import Combine
-import CombineSchedulers
+import Foundation
+import RxSwift
 
-extension Effect where Failure == Never {
+extension Effect where Failure == Never, Output: RxAbstractInteger {
   /// Returns an effect that repeatedly emits the current time of the given scheduler on the given
   /// interval.
   ///
@@ -20,7 +20,9 @@ extension Effect where Failure == Never {
   /// `RunLoop` when running your live app, but use a `TestScheduler` in tests.
   ///
   /// To start and stop a timer in your feature you can create the timer effect from an action
-  /// and then use the `.cancel(id:)` effect to stop the timer:
+  /// and then use the `.cancel(id:)` effect to stop the timer.
+  ///
+  /// Example from Combine : (In Rx we use TestScheduler)
   ///
   ///     struct AppState {
   ///       var count = 0
@@ -78,31 +80,18 @@ extension Effect where Failure == Never {
   ///     store.send(.stopButtonTapped)
   ///   }
   ///
-  /// - Note: This effect is only meant to be used with features built in the Composable
-  ///   Architecture, and returned from a reducer. If you want a testable alternative to
-  ///   Foundation's `Timer.publish` you can use the publisher `Publishers.Timer` that is included
-  ///   in this library via the
-  ///   [`CombineSchedulers`](https://github.com/pointfreeco/combine-schedulers) module.
   ///
   /// - Parameters:
   ///   - interval: The time interval on which to publish events. For example, a value of `0.5`
   ///     publishes an event approximately every half-second.
   ///   - scheduler: The scheduler on which the timer runs.
-  ///   - tolerance: The allowed timing variance when emitting events. Defaults to `nil`, which
-  ///     allows any variance.
-  ///   - options: Scheduler options passed to the timer. Defaults to `nil`.
-  public static func timer<S>(
+  public static func timer(
     id: AnyHashable,
-    every interval: S.SchedulerTimeType.Stride,
-    tolerance: S.SchedulerTimeType.Stride? = nil,
-    on scheduler: S,
-    options: S.SchedulerOptions? = nil
-  ) -> Effect where S: Scheduler, S.SchedulerTimeType == Output {
-
-    Publishers.Timer(every: interval, tolerance: tolerance, scheduler: scheduler, options: options)
-      .autoconnect()
-      .setFailureType(to: Failure.self)
-      .eraseToEffect()
-      .cancellable(id: id)
+    every interval: RxTimeInterval,
+    on scheduler: SchedulerType
+  ) -> Effect {
+    Observable.interval(interval, scheduler: scheduler)
+              .eraseToEffect()
+              .cancellable(id: id)
   }
 }

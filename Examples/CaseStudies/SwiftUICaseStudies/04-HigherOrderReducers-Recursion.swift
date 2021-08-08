@@ -26,7 +26,7 @@ extension Reducer {
   }
 }
 
-struct NestedState: Equatable, Identifiable {
+struct NestedState: Equatable, TCAIdentifiable {
   var children: [NestedState] = []
   let id: UUID
   var description: String = ""

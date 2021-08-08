@@ -1,4 +1,5 @@
 import ComposableArchitecture
+import CombineSchedulers
 import SwiftUI
 
 private let readMe = """
@@ -17,7 +18,7 @@ struct LoadThenNavigateListState: Equatable {
   ]
   var selection: Identified<Row.ID, CounterState>?
 
-  struct Row: Equatable, Identifiable {
+  struct Row: Equatable, Identifiable, TCAIdentifiable {
     var count: Int
     let id: UUID
     var isActivityIndicatorVisible = false

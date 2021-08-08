@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		41912D8325672AC7006AD8FE /* CombineSchedulers in Frameworks */ = {isa = PBXBuildFile; productRef = 41912D8225672AC7006AD8FE /* CombineSchedulers */; };
 		CA5C0ECA2425661800C1F9AB /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5C0EC92425661800C1F9AB /* ActivityIndicator.swift */; };
 		CA66690B242547B000A639B3 /* WeatherClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA66690A242547B000A639B3 /* WeatherClient.swift */; };
 		CA86E49D24253C2500357AD9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA86E49C24253C2500357AD9 /* SceneDelegate.swift */; };
@@ -50,6 +51,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		41F6B0CB2560877C008861FB /* RxTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxTest.framework; path = ../../Carthage/Build/iOS/RxTest.framework; sourceTree = "<group>"; };
 		CA5C0EC92425661800C1F9AB /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		CA66690A242547B000A639B3 /* WeatherClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherClient.swift; sourceTree = "<group>"; };
 		CA86E49724253C2500357AD9 /* Search.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Search.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41912D8325672AC7006AD8FE /* CombineSchedulers in Frameworks */,
 				DC1394142469E30800EE1157 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -125,6 +128,7 @@
 		CA86E4C424253CE200357AD9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				41F6B0CB2560877C008861FB /* RxTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -148,6 +152,7 @@
 			name = Search;
 			packageProductDependencies = (
 				DC1394132469E30800EE1157 /* ComposableArchitecture */,
+				41912D8225672AC7006AD8FE /* CombineSchedulers */,
 			);
 			productName = Search;
 			productReference = CA86E49724253C2500357AD9 /* Search.app */;
@@ -203,6 +208,7 @@
 			);
 			mainGroup = CA86E48E24253C2500357AD9;
 			packageReferences = (
+				41912D8125672AC7006AD8FE /* XCRemoteSwiftPackageReference "combine-schedulers" */,
 			);
 			productRefGroup = CA86E49824253C2500357AD9 /* Products */;
 			projectDirPath = "";
@@ -483,7 +489,23 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		41912D8125672AC7006AD8FE /* XCRemoteSwiftPackageReference "combine-schedulers" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/combine-schedulers";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		41912D8225672AC7006AD8FE /* CombineSchedulers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 41912D8125672AC7006AD8FE /* XCRemoteSwiftPackageReference "combine-schedulers" */;
+			productName = CombineSchedulers;
+		};
 		DC1394132469E30800EE1157 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ComposableArchitecture;

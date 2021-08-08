@@ -1,6 +1,4 @@
 #if DEBUG
-  import XCTestDynamicOverlay
-
   extension Effect {
     /// An effect that causes a test to fail if it runs.
     ///
@@ -76,7 +74,7 @@
     /// - Returns: An effect that causes a test to fail if it runs.
     public static func failing(_ prefix: String) -> Self {
       .fireAndForget {
-        XCTFail("\(prefix.isEmpty ? "" : "\(prefix) - ")A failing effect ran.")
+        _XCTFail("\(prefix.isEmpty ? "" : "\(prefix) - ")A failing effect ran.")
       }
     }
   }

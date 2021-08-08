@@ -1,6 +1,11 @@
 .DS_Store
 /.build
 /Packages
-/*.xcodeproj
 xcuserdata/
+/.swiftpm
+/ComposableArchitecture.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
 Package.resolved
+Carthage
+/ComposableArchitectureTestSupport/TestStore.generated.swift
+/carthage.sh
+/ComposableArchitectureTestSupport/FailingEffect.generated.swift

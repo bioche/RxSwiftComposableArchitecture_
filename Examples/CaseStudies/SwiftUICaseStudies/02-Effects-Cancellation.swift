@@ -1,6 +1,7 @@
 import Combine
 import ComposableArchitecture
 import SwiftUI
+import CombineSchedulers
 
 private let readMe = """
   This screen demonstrates how one can cancel in-flight effects in the Composable Architecture.

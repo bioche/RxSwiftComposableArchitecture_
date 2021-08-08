@@ -1,5 +1,6 @@
 import ComposableArchitecture
 import SwiftUI
+import CombineSchedulers
 
 private let readMe = """
   This screen demonstrates how the `Reducer` struct can be extended to enhance reducers with \

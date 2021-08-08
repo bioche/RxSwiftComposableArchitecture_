@@ -1,6 +1,7 @@
 import Combine
 import ComposableArchitecture
 import SwiftUI
+import CombineSchedulers
 
 private let readMe = """
   This screen demonstrates how one can create reusable components in the Composable Architecture.
@@ -15,14 +16,14 @@ private let readMe = """
   screen to see that the state is carried over.
   """
 
-struct CityMap: Equatable, Identifiable {
+struct CityMap: Equatable, TCAIdentifiable {
   var blurb: String
   var downloadVideoUrl: URL
   let id: UUID
   var title: String
 }
 
-struct CityMapState: Equatable, Identifiable {
+struct CityMapState: Equatable, Identifiable, TCAIdentifiable {
   var downloadAlert: AlertState<DownloadComponentAction.AlertAction>?
   var downloadMode: Mode
   var cityMap: CityMap

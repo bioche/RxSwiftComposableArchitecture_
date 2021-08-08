@@ -1,5 +1,6 @@
 import ComposableArchitecture
 import SwiftUI
+import CombineSchedulers
 
 private let readMe = """
   This demonstrates how to trigger effects when a view appears, and cancel effects when a view \

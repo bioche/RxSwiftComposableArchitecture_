@@ -1,4 +1,5 @@
 import Combine
+import CombineSchedulers
 import ComposableArchitecture
 import SwiftUI
 
@@ -20,7 +21,7 @@ private let readMe = """
 
 // MARK: - Favorite domain
 
-struct FavoriteState<ID>: Equatable, Identifiable where ID: Hashable {
+struct FavoriteState<ID>: Equatable, TCAIdentifiable, Identifiable where ID: Hashable {
   var alert: AlertState<FavoriteAction>?
   let id: ID
   var isFavorite: Bool
@@ -78,7 +79,7 @@ extension Reducer {
             .cancellable(id: FavoriteCancelId(id: state.id), cancelInFlight: true)
 
         case let .response(.failure(error)):
-          state.alert = .init(title: TextState(error.localizedDescription))
+          state.alert = .init(title: error.localizedDescription)
           return .none
 
         case let .response(.success(isFavorite)):
@@ -106,7 +107,7 @@ struct FavoriteButton<ID>: View where ID: Hashable {
 
 // MARK: Feature domain -
 
-struct EpisodeState: Equatable, Identifiable {
+struct EpisodeState: Equatable, Identifiable, TCAIdentifiable {
   var alert: AlertState<FavoriteAction>?
   let id: UUID
   var isFavorite: Bool

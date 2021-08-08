@@ -1,27 +1,31 @@
 import Combine
+import RxSwift
+import RxTest
 import XCTest
 
+import ComposableArchitectureTestSupport
 @testable import ComposableArchitecture
 
+@available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 final class StoreTests: XCTestCase {
-  var cancellables: Set<AnyCancellable> = []
+  let disposeBag = DisposeBag()
 
   func testCancellableIsRemovedOnImmediatelyCompletingEffect() {
     let reducer = Reducer<Void, Void, Void> { _, _, _ in .none }
     let store = Store(initialState: (), reducer: reducer, environment: ())
 
-    XCTAssertEqual(store.effectCancellables.count, 0)
+    XCTAssertEqual(store.effectDisposeBags.count, 0)
 
     store.send(())
 
-    XCTAssertEqual(store.effectCancellables.count, 0)
+    XCTAssertEqual(store.effectDisposeBags.count, 0)
   }
 
   func testCancellableIsRemovedWhenEffectCompletes() {
-    let scheduler = DispatchQueue.test
+    let scheduler = TestScheduler.defaultTestScheduler()
     let effect = Effect<Void, Never>(value: ())
-      .delay(for: 1, scheduler: scheduler)
-      .eraseToEffect()
+      .delay(.seconds(1), scheduler: scheduler)
+      .eraseToEffect(failureType: Never.self)
 
     enum Action { case start, end }
 
@@ -35,15 +39,15 @@ final class StoreTests: XCTestCase {
     }
     let store = Store(initialState: (), reducer: reducer, environment: ())
 
-    XCTAssertEqual(store.effectCancellables.count, 0)
+    XCTAssertEqual(store.effectDisposeBags.count, 0)
 
     store.send(.start)
 
-    XCTAssertEqual(store.effectCancellables.count, 1)
+    XCTAssertEqual(store.effectDisposeBags.count, 1)
 
     scheduler.advance(by: 2)
 
-    XCTAssertEqual(store.effectCancellables.count, 0)
+    XCTAssertEqual(store.effectDisposeBags.count, 0)
   }
 
   func testScopedStoreReceivesUpdatesFromParent() {
@@ -57,9 +61,9 @@ final class StoreTests: XCTestCase {
     let childStore = parentStore.scope(state: String.init)
 
     var values: [String] = []
-    childStore.state
-      .sink(receiveValue: { values.append($0) })
-      .store(in: &self.cancellables)
+    childStore.stateRelay
+      .subscribe(onNext: { values.append($0) })
+      .disposed(by: disposeBag)
 
     XCTAssertEqual(values, ["0"])
 
@@ -79,9 +83,9 @@ final class StoreTests: XCTestCase {
     let childViewStore = ViewStore(childStore)
 
     var values: [Int] = []
-    parentStore.state
-      .sink(receiveValue: { values.append($0) })
-      .store(in: &self.cancellables)
+    parentStore.stateRelay
+      .subscribe(onNext: { values.append($0) })
+      .disposed(by: disposeBag)
 
     XCTAssertEqual(values, [0])
 
@@ -100,13 +104,13 @@ final class StoreTests: XCTestCase {
     var outputs: [String] = []
 
     parentStore
-      .publisherScope(state: { $0.map { "\($0)" }.removeDuplicates() })
-      .sink { childStore in
-        childStore.state
-          .sink { outputs.append($0) }
-          .store(in: &self.cancellables)
-      }
-      .store(in: &self.cancellables)
+      .observableScope(state: { $0.map { "\($0)" }.distinctUntilChanged() })
+        .subscribe(onNext: { childStore in
+        childStore.stateRelay
+          .subscribe(onNext: { outputs.append($0) })
+          .disposed(by: self.disposeBag)
+      })
+      .disposed(by: disposeBag)
 
     parentStore.send(0)
     XCTAssertEqual(outputs, ["0"])
@@ -245,9 +249,9 @@ final class StoreTests: XCTestCase {
     var outputs: [Int] = []
 
     parentStore
-      .publisherScope { $0.removeDuplicates() }
-      .sink { outputs.append($0.state.value) }
-      .store(in: &self.cancellables)
+      .observableScope { $0.distinctUntilChanged() }
+      .subscribe(onNext: { outputs.append($0.state) })
+      .disposed(by: disposeBag)
 
     XCTAssertEqual(outputs, [0])
 
@@ -285,13 +289,12 @@ final class StoreTests: XCTestCase {
       .ifLet(
         then: { store in
           stores.append(store)
-          outputs.append(store.state.value)
+          outputs.append(store.state)
         },
         else: {
           outputs.append(nil)
-        }
-      )
-      .store(in: &self.cancellables)
+        })
+      .disposed(by: disposeBag)
 
     XCTAssertEqual(outputs, [nil])
 
@@ -328,26 +331,103 @@ final class StoreTests: XCTestCase {
       environment: ()
     )
 
-    parentStore
-      .ifLet(then: { childStore in
-        let vs = ViewStore(childStore)
+    parentStore.ifLet { childStore in
+      let vs = ViewStore(childStore)
 
-        vs
-          .publisher
-          .sink { _ in }
-          .store(in: &self.cancellables)
+      vs
+        .driver
+        .drive(onNext: { _ in })
+        .disposed(by: self.disposeBag)
 
-        vs.send(false)
-        _ = XCTWaiter.wait(for: [.init()], timeout: 0.1)
-        vs.send(false)
-        _ = XCTWaiter.wait(for: [.init()], timeout: 0.1)
-        vs.send(false)
-        _ = XCTWaiter.wait(for: [.init()], timeout: 0.1)
-        XCTAssertEqual(vs.state, 3)
-      })
-      .store(in: &self.cancellables)
+      vs.send(false)
+      _ = XCTWaiter.wait(for: [.init()], timeout: 0.1)
+      vs.send(false)
+      _ = XCTWaiter.wait(for: [.init()], timeout: 0.1)
+      vs.send(false)
+      _ = XCTWaiter.wait(for: [.init()], timeout: 0.1)
+      XCTAssertEqual(vs.state, 3)
+    }
+    .disposed(by: disposeBag)
   }
+  
+  func testOnceAvailable() {
+    struct AppState {
+      var count: Int?
+    }
+    
+    class IntWrapper {
+      let value: Int
+      
+      init(_ value: Int) {
+        self.value = value
+      }
+    }
 
+    let appReducer = Reducer<AppState, Int?, Void> { state, action, _ in
+      state.count = action
+      return .none
+    }
+
+    let parentStore = Store(initialState: AppState(), reducer: appReducer, environment: ())
+
+    // NB: This test needs to hold a strong reference to the emitted stores
+    var outputs: [Int?] = []
+    var stores: [Any] = []
+
+    weak var weakResult: IntWrapper?
+    var disposeBag = DisposeBag()
+    
+    parentStore
+      .scope(state: { $0.count })
+      .onceAvailable(
+        { store -> IntWrapper in
+          stores.append(store)
+          outputs.append(store.state)
+          let wrapper = IntWrapper(store.state)
+          weakResult = wrapper
+          return wrapper
+        },
+        thenWhenNil: { (wrapper: IntWrapper) in
+          XCTAssertEqual(wrapper.value, outputs.last)
+          outputs.append(nil)
+        }
+      )
+      .disposed(by: disposeBag)
+    
+    XCTAssertEqual(outputs, [])
+
+    parentStore.send(1)
+    XCTAssertEqual(outputs, [1])
+
+    parentStore.send(nil)
+    XCTAssertEqual(outputs, [1, nil])
+
+    parentStore.send(1)
+    XCTAssertEqual(outputs, [1, nil, 1])
+
+    parentStore.send(nil)
+    XCTAssertEqual(outputs, [1, nil, 1, nil])
+
+    parentStore.send(1)
+    XCTAssertEqual(outputs, [1, nil, 1, nil, 1])
+
+    parentStore.send(nil)
+    XCTAssertEqual(outputs, [1, nil, 1, nil, 1, nil])
+    
+    // check that the result is cleared when the state becomes nil
+    XCTAssertNil(weakResult)
+    
+    parentStore.send(1)
+    XCTAssertEqual(outputs, [1, nil, 1, nil, 1, nil, 1])
+    
+    // The result is kept in onceAvailable closures so the weak variable shouldn't be nil
+    XCTAssertNotNil(weakResult)
+    // dispose bag gets cleared : onceAvailable should not retain anything
+    disposeBag = DisposeBag()
+    // and the weak variable should be nil
+    XCTAssertNil(weakResult)
+  }
+  
   func testActionQueuing() {
     let subject = PassthroughSubject<Void, Never>()
 

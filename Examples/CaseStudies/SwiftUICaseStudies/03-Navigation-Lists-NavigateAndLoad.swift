@@ -1,5 +1,6 @@
 import ComposableArchitecture
 import SwiftUI
+import CombineSchedulers
 
 private let readMe = """
   This screen demonstrates navigation that depends on loading optional state from a list element.
@@ -16,7 +17,7 @@ struct NavigateAndLoadListState: Equatable {
   ]
   var selection: Identified<Row.ID, CounterState?>?
 
-  struct Row: Equatable, Identifiable {
+  struct Row: Equatable, TCAIdentifiable, Identifiable {
     var count: Int
     let id: UUID
   }

@@ -3,6 +3,7 @@ import ComposableArchitecture
 import Dispatch
 import LoginCore
 import NewGameCore
+import CombineSchedulers
 
 public struct AppState: Equatable {
   public var login: LoginState? = LoginState()
@@ -11,7 +12,7 @@ public struct AppState: Equatable {
   public init() {}
 }
 
-public enum AppAction: Equatable {
+public enum AppAction {
   case login(LoginAction)
   case newGame(NewGameAction)
 }

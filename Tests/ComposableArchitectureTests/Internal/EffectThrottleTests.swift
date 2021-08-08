@@ -1,11 +1,12 @@
-import Combine
+import RxSwift
+import RxTest
 import XCTest
 
 @testable import ComposableArchitecture
 
 final class EffectThrottleTests: XCTestCase {
-  var cancellables: Set<AnyCancellable> = []
-  let scheduler = DispatchQueue.test
+  var disposeBag = DisposeBag()
+  let scheduler = RxTest.TestScheduler.defaultTestScheduler()
 
   func testThrottleLatest() {
     var values: [Int] = []
@@ -14,23 +15,24 @@ final class EffectThrottleTests: XCTestCase {
     func runThrottledEffect(value: Int) {
       struct CancelToken: Hashable {}
 
-      Deferred { () -> Just<Int> in
+      Observable.deferred { () -> Observable<Int> in
         effectRuns += 1
-        return Just(value)
+        return Observable.just(value)
       }
-      .eraseToEffect()
-      .throttle(id: CancelToken(), for: 1, scheduler: scheduler.eraseToAnyScheduler(), latest: true)
-      .sink { values.append($0) }
-      .store(in: &self.cancellables)
+      .eraseToEffect(failureType: Never.self)
+      .throttle(id: CancelToken(), for: .seconds(1), scheduler: scheduler, latest: true)
+    .debug("test throttle")
+      .subscribe(onNext: { values.append($0) })
+      .disposed(by: disposeBag)
     }
 
     runThrottledEffect(value: 1)
-
+    
     // A value emits right away.
     XCTAssertEqual(values, [1])
-
+    
     runThrottledEffect(value: 2)
-
+    
     // A second value is throttled.
     XCTAssertEqual(values, [1])
 
@@ -62,16 +64,16 @@ final class EffectThrottleTests: XCTestCase {
     func runThrottledEffect(value: Int) {
       struct CancelToken: Hashable {}
 
-      Deferred { () -> Just<Int> in
+      Observable.deferred { () -> Observable<Int> in
         effectRuns += 1
-        return Just(value)
+        return Observable.just(value)
       }
-      .eraseToEffect()
+      .eraseToEffect(failureType: Never.self)
       .throttle(
-        id: CancelToken(), for: 1, scheduler: scheduler.eraseToAnyScheduler(), latest: false
+        id: CancelToken(), for: .seconds(1), scheduler: scheduler, latest: false
       )
-      .sink { values.append($0) }
-      .store(in: &self.cancellables)
+      .subscribe(onNext: { values.append($0) })
+      .disposed(by: disposeBag)
     }
 
     runThrottledEffect(value: 1)
@@ -112,14 +114,14 @@ final class EffectThrottleTests: XCTestCase {
     func runThrottledEffect(value: Int) {
       struct CancelToken: Hashable {}
 
-      Deferred { () -> Just<Int> in
+      Observable.deferred { () -> Observable<Int> in
         effectRuns += 1
-        return Just(value)
+        return Observable.just(value)
       }
-      .eraseToEffect()
-      .throttle(id: CancelToken(), for: 1, scheduler: scheduler.eraseToAnyScheduler(), latest: true)
-      .sink { values.append($0) }
-      .store(in: &self.cancellables)
+      .eraseToEffect(failureType: Never.self)
+      .throttle(id: CancelToken(), for: .seconds(1), scheduler: scheduler, latest: true)
+      .subscribe(onNext: { values.append($0) })
+      .disposed(by: disposeBag)
     }
 
     runThrottledEffect(value: 1)
@@ -130,7 +132,7 @@ final class EffectThrottleTests: XCTestCase {
     scheduler.advance(by: 2)
 
     runThrottledEffect(value: 2)
-
+    
     // A second value is emitted right away.
     XCTAssertEqual(values, [1, 2])
   }

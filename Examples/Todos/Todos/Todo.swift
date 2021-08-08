@@ -2,7 +2,7 @@ import ComposableArchitecture
 import Foundation
 import SwiftUI
 
-struct Todo: Equatable, Identifiable {
+struct Todo: Equatable, Identifiable, TCAIdentifiable {
   var description = ""
   let id: UUID
   var isComplete = false

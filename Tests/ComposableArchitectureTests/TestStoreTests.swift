@@ -1,6 +1,9 @@
 import Combine
 import ComposableArchitecture
+import ComposableArchitectureTestSupport
 import XCTest
+import RxSwift
+import RxTest
 
 class TestStoreTests: XCTestCase {
   func testEffectConcatenation() {
@@ -10,16 +13,20 @@ class TestStoreTests: XCTestCase {
       case a, b1, b2, b3, c1, c2, c3, d
     }
 
-    let testScheduler = DispatchQueue.test
+    struct Environment {
+      let scheduler: TestScheduler
+    }
+    
+    let testScheduler = TestScheduler.defaultTestScheduler()
 
-    let reducer = Reducer<State, Action, AnySchedulerOf<DispatchQueue>> { _, action, scheduler in
+    let reducer = Reducer<State, Action, Environment> { _, action, env in
       switch action {
       case .a:
-        return .merge(
-          Effect.concatenate(.init(value: .b1), .init(value: .c1))
-            .delay(for: 1, scheduler: scheduler)
+        return Effect<Action, Never>.merge(
+          Effect<Action, Never>.concatenate(.init(value: .b1), .init(value: .c1))
+            .delay(.seconds(1), scheduler: env.scheduler)
             .eraseToEffect(),
-          Empty(completeImmediately: false)
+          Observable.never()
             .eraseToEffect()
             .cancellable(id: 1)
         )
@@ -42,12 +49,12 @@ class TestStoreTests: XCTestCase {
     let store = TestStore(
       initialState: State(),
       reducer: reducer,
-      environment: testScheduler.eraseToAnyScheduler()
+      environment: Environment(scheduler: testScheduler)
     )
 
     store.send(.a)
 
-    testScheduler.advance(by: 1)
+    store.environment.scheduler.advance(by: 1)
 
     store.receive(.b1)
     store.receive(.b2)

@@ -1,5 +1,6 @@
 import ComposableArchitecture
 import SwiftUI
+import CombineSchedulers
 
 enum Filter: LocalizedStringKey, CaseIterable, Hashable {
   case all = "All"

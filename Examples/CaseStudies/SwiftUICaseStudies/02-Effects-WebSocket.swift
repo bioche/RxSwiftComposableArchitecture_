@@ -1,4 +1,5 @@
 import Combine
+import CombineSchedulers
 import ComposableArchitecture
 import SwiftUI
 
@@ -234,7 +235,7 @@ extension WebSocketClient {
       }
     },
     open: { id, url, protocols in
-      Effect.run { subscriber in
+      Effect.run { subscriber -> Cancellable in
         let delegate = WebSocketDelegate(
           didBecomeInvalidWithError: {
             subscriber.send(.didBecomeInvalidWithError($0 as NSError?))

@@ -3,6 +3,7 @@ import ComposableArchitecture
 import Dispatch
 import TicTacToeCommon
 import TwoFactorCore
+import CombineSchedulers
 
 public struct LoginState: Equatable {
   public var alert: AlertState<LoginAction>?
@@ -72,7 +73,7 @@ public let loginReducer =
         return .none
 
       case let .loginResponse(.failure(error)):
-        state.alert = .init(title: TextState(error.localizedDescription))
+        state.alert = .init(title: error.localizedDescription)
         state.isLoginRequestInFlight = false
         return .none
 

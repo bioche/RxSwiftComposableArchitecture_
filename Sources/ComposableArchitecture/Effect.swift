@@ -1,4 +1,4 @@
-import Combine
+import RxSwift
 import Foundation
 
 /// The `Effect` type encapsulates a unit of work that can be run in the outside world, and can feed
@@ -12,8 +12,17 @@ import Foundation
 ///
 /// An effect simply wraps a `Publisher` value and provides some convenience initializers for
 /// constructing some common types of effects.
-public struct Effect<Output, Failure: Error>: Publisher {
-  public let upstream: AnyPublisher<Output, Failure>
+
+/// Error management
+/// Rx doesn't is way less explicit in its error management than Combine.
+/// We choose to keep Failure to avoid diverging too much from the original library
+/// and also try to force enforce the error handling
+
+public struct Effect<Output, Failure: Error>: ObservableType {
+  
+  public typealias Element = Output
+  
+  public let upstream: Observable<Output>
 
   /// Initializes an effect that wraps a publisher. Each emission of the wrapped publisher will be
   /// emitted by the effect.
@@ -33,42 +42,32 @@ public struct Effect<Output, Failure: Error>: Publisher {
   ///       .eraseToEffect()
   ///
   /// - Parameter publisher: A publisher.
-  public init<P: Publisher>(_ publisher: P) where P.Output == Output, P.Failure == Failure {
-    self.upstream = publisher.eraseToAnyPublisher()
+  public init<O: ObservableType>(_ observable: O) where O.Element == Output {
+    self.upstream = observable.asObservable()
   }
 
-  public func receive<S>(
-    subscriber: S
-  ) where S: Combine.Subscriber, Failure == S.Failure, Output == S.Input {
-    self.upstream.subscribe(subscriber)
+  public func subscribe<Observer: ObserverType>(_ observer: Observer) -> Disposable where Observer.Element == Element {
+    upstream.subscribe(observer)
   }
 
   /// Initializes an effect that immediately emits the value passed in.
   ///
   /// - Parameter value: The value that is immediately emitted by the effect.
   public init(value: Output) {
-    self.init(Just(value).setFailureType(to: Failure.self))
+    self.init(Observable.just(value))
   }
 
   /// Initializes an effect that immediately fails with the error passed in.
   ///
   /// - Parameter error: The error that is immediately emitted by the effect.
   public init(error: Failure) {
-    // NB: Ideally we'd return a `Fail` publisher here, but due to a bug in iOS 13 that publisher
-    //     can crash when used with certain combinations of operators such as `.retry.catch`. The
-    //     bug was fixed in iOS 14, but to remain compatible with iOS 13 and higher we need to do
-    //     a little trickery to fail in a slightly different way.
-    self.init(
-      Deferred {
-        Future { $0(.failure(error)) }
-      }
-    )
+    self.init(Observable.error(error))
   }
 
   /// An effect that does nothing and completes immediately. Useful for situations where you must
   /// return an effect, but you don't need to do anything.
   public static var none: Effect {
-    Empty(completeImmediately: true).eraseToEffect()
+    Observable.empty().eraseToEffect()
   }
 
   /// Creates an effect that can supply a single value asynchronously in the future.
@@ -102,11 +101,18 @@ public struct Effect<Output, Failure: Error>: Publisher {
   public static func future(
     _ attemptToFulfill: @escaping (@escaping (Result<Output, Failure>) -> Void) -> Void
   ) -> Effect {
-    Deferred {
-      Future { callback in
-        attemptToFulfill { result in callback(result) }
-      }
-    }
+    Observable.create({ observer -> Disposable in
+      attemptToFulfill({ result in
+        switch result {
+        case .success(let output):
+          observer.onNext(output)
+          observer.onCompleted()
+        case .failure(let error):
+          observer.onError(error)
+        }
+      })
+      return Disposables.create()
+    })
     .eraseToEffect()
   }
 
@@ -134,7 +140,9 @@ public struct Effect<Output, Failure: Error>: Publisher {
   /// - Parameter attemptToFulfill: A closure encapsulating some work to execute in the real world.
   /// - Returns: An effect.
   public static func result(_ attemptToFulfill: @escaping () -> Result<Output, Failure>) -> Self {
-    Deferred { Future { $0(attemptToFulfill()) } }.eraseToEffect()
+    Observable.just(())
+      .map { try attemptToFulfill().get() }
+      .eraseToEffect()
   }
 
   /// Initializes an effect from a callback that can send as many values as it wants, and can send
@@ -170,9 +178,9 @@ public struct Effect<Output, Failure: Error>: Publisher {
   ///   the `Effect` is completed, the cancellable will be used to clean up any resources created
   ///   when the effect was started.
   public static func run(
-    _ work: @escaping (Effect.Subscriber) -> Cancellable
+    _ work: @escaping (AnyObserver<Output>) -> Disposable
   ) -> Self {
-    AnyPublisher.create(work).eraseToEffect()
+    Observable.create(work).eraseToEffect()
   }
 
   /// Concatenates a variadic list of effects together into a single effect, which runs the effects
@@ -204,14 +212,9 @@ public struct Effect<Output, Failure: Error>: Publisher {
   public static func concatenate<C: Collection>(
     _ effects: C
   ) -> Effect where C.Element == Effect {
-    guard let first = effects.first else { return .none }
-
-    return
-      effects
-      .dropFirst()
-      .reduce(into: first) { effects, effect in
-        effects = effects.append(effect).eraseToEffect()
-      }
+    
+    // RxSwift doesn't have a reduce method
+    Observable.concat(effects.map { $0.upstream }).eraseToEffect()
   }
 
   /// Merges a variadic list of effects together into a single effect, which runs the effects at the
@@ -231,7 +234,9 @@ public struct Effect<Output, Failure: Error>: Publisher {
   /// - Parameter effects: A sequence of effects.
   /// - Returns: A new effect
   public static func merge<S: Sequence>(_ effects: S) -> Effect where S.Element == Effect {
-    Publishers.MergeMany(effects).eraseToEffect()
+    Observable
+      .merge(effects.map { $0.upstream })
+      .eraseToEffect()
   }
 
   /// Creates an effect that executes some work in the real world that doesn't need to feed data
@@ -240,17 +245,9 @@ public struct Effect<Output, Failure: Error>: Publisher {
   /// - Parameter work: A closure encapsulating some work to execute in the real world.
   /// - Returns: An effect.
   public static func fireAndForget(_ work: @escaping () -> Void) -> Effect {
-    // NB: Ideally we'd return a `Deferred` wrapping an `Empty(completeImmediately: true)`, but
-    //     due to a bug in iOS 13.2 that publisher will never complete. The bug was fixed in
-    //     iOS 13.3, but to remain compatible with iOS 13.2 and higher we need to do a little
-    //     trickery to make sure the deferred publisher completes.
-    Deferred { () -> Publishers.CompactMap<Result<Output?, Failure>.Publisher, Output> in
-      work()
-      return Just<Output?>(nil)
-        .setFailureType(to: Failure.self)
-        .compactMap { $0 }
-    }
-    .eraseToEffect()
+    Observable<Output>.empty()
+      .do(onCompleted: { work() })
+      .eraseToEffect()
   }
 
   /// Transforms all elements from the upstream effect with a provided closure.
@@ -259,7 +256,23 @@ public struct Effect<Output, Failure: Error>: Publisher {
   /// - Returns: A publisher that uses the provided closure to map elements from the upstream effect
   ///   to new elements that it then publishes.
   public func map<T>(_ transform: @escaping (Output) -> T) -> Effect<T, Failure> {
-    .init(self.map(transform) as Publishers.Map<Self, T>)
+    upstream.map(transform).eraseToEffect()
+  }
+}
+
+extension Effect {
+  public func asObservable() -> Observable<Output> {
+    self.upstream
+  }
+}
+
+extension Effect {
+  /// Inits an effect that's gonna complete immediately after emitting the provided value. Shortcut for `init(value: Output)`
+  ///
+  /// - Parameter value: the value the effect is gonna complete with
+  /// - Returns: The effect that completes immediately after emitting the provided value
+  public static func just(_ value: Output) -> Self {
+      .init(value: value)
   }
 }
 
@@ -288,40 +301,7 @@ extension Effect where Failure == Swift.Error {
   }
 }
 
-extension Publisher {
-  /// Turns any publisher into an `Effect`.
-  ///
-  /// This can be useful for when you perform a chain of publisher transformations in a reducer, and
-  /// you need to convert that publisher to an effect so that you can return it from the reducer:
-  ///
-  ///     case .buttonTapped:
-  ///       return fetchUser(id: 1)
-  ///         .filter(\.isAdmin)
-  ///         .eraseToEffect()
-  ///
-  /// - Returns: An effect that wraps `self`.
-  public func eraseToEffect() -> Effect<Output, Failure> {
-    Effect(self)
-  }
-
-  /// Turns any publisher into an `Effect` that cannot fail by wrapping its output and failure in a
-  /// result.
-  ///
-  /// This can be useful when you are working with a failing API but want to deliver its data to an
-  /// action that handles both success and failure.
-  ///
-  ///     case .buttonTapped:
-  ///       return fetchUser(id: 1)
-  ///         .catchToEffect()
-  ///         .map(ProfileAction.userResponse)
-  ///
-  /// - Returns: An effect that wraps `self`.
-  public func catchToEffect() -> Effect<Result<Output, Failure>, Never> {
-    self.map(Result.success)
-      .catch { Just(.failure($0)) }
-      .eraseToEffect()
-  }
-
+extension Effect {
   /// Turns any publisher into an `Effect` for any output and failure type by ignoring all output
   /// and any failure.
   ///
@@ -340,10 +320,9 @@ extension Publisher {
     outputType: NewOutput.Type = NewOutput.self,
     failureType: NewFailure.Type = NewFailure.self
   ) -> Effect<NewOutput, NewFailure> {
-    return
-      self
-      .flatMap { _ in Empty() }
-      .catch { _ in Empty() }
+    flatMap { _ in Observable.empty() }
+      .catch { _ in .empty() }
       .eraseToEffect()
   }
+
 }

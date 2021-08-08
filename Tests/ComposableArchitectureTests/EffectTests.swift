@@ -1,41 +1,45 @@
-import Combine
+import RxSwift
+import RxTest
 import XCTest
 
 @testable import ComposableArchitecture
 
 final class EffectTests: XCTestCase {
-  var cancellables: Set<AnyCancellable> = []
-  let scheduler = DispatchQueue.test
+  var disposeBag = DisposeBag()
+  let scheduler = RxTest.TestScheduler.defaultTestScheduler()
 
   func testEraseToEffectWithError() {
     struct Error: Swift.Error, Equatable {}
-
-    Future<Int, Error> { $0(.success(42)) }
-      .catchToEffect()
-      .sink { XCTAssertEqual($0, .success(42)) }
-      .store(in: &self.cancellables)
-
-    Future<Int, Error> { $0(.failure(Error())) }
-      .catchToEffect()
-      .sink { XCTAssertEqual($0, .failure(Error())) }
-      .store(in: &self.cancellables)
-
-    Future<Int, Never> { $0(.success(42)) }
-      .eraseToEffect()
-      .sink { XCTAssertEqual($0, 42) }
-      .store(in: &self.cancellables)
+    Observable<Int>.just(42)
+      .catchToResultEffect(assertedFailureType: Error.self)
+      .subscribe(onNext: { XCTAssertEqual($0, .success(42)) })
+      .disposed(by: disposeBag)
+    
+    Observable<Int>.create({ (observer) in
+      observer.on(.error(Error()))
+      return Disposables.create()
+    }).catchToResultEffect(assertedFailureType: Error.self)
+      .subscribe(onNext: { XCTAssertEqual($0, .failure(Error())) })
+      .disposed(by: disposeBag)
+    
+    Observable<Int>.just(42)
+      .eraseToEffect(failureType: Error.self)
+      .subscribe(onNext: { XCTAssertEqual($0, 42) })
+      .disposed(by: disposeBag)
   }
 
   func testConcatenate() {
     var values: [Int] = []
 
     let effect = Effect<Int, Never>.concatenate(
-      Effect(value: 1).delay(for: 1, scheduler: scheduler).eraseToEffect(),
-      Effect(value: 2).delay(for: 2, scheduler: scheduler).eraseToEffect(),
-      Effect(value: 3).delay(for: 3, scheduler: scheduler).eraseToEffect()
+      Effect<Int, Never>(value: 1).delay(.seconds(1), scheduler: scheduler).eraseToEffect(),
+      Effect<Int, Never>(value: 2).delay(.seconds(2), scheduler: scheduler).eraseToEffect(),
+      Effect<Int, Never>(value: 3).delay(.seconds(3), scheduler: scheduler).eraseToEffect()
     )
 
-    effect.sink(receiveValue: { values.append($0) }).store(in: &self.cancellables)
+    effect
+      .subscribe(onNext: { values.append($0) })
+      .disposed(by: disposeBag)
 
     XCTAssertEqual(values, [])
 
@@ -56,10 +60,12 @@ final class EffectTests: XCTestCase {
     var values: [Int] = []
 
     let effect = Effect<Int, Never>.concatenate(
-      Effect(value: 1).delay(for: 1, scheduler: scheduler).eraseToEffect()
+      Effect<Int, Never>(value: 1).delay(.seconds(1), scheduler: scheduler).eraseToEffect()
     )
 
-    effect.sink(receiveValue: { values.append($0) }).store(in: &self.cancellables)
+    effect
+      .subscribe(onNext: { values.append($0) })
+      .disposed(by: disposeBag)
 
     XCTAssertEqual(values, [])
 
@@ -72,13 +78,15 @@ final class EffectTests: XCTestCase {
 
   func testMerge() {
     let effect = Effect<Int, Never>.merge(
-      Effect(value: 1).delay(for: 1, scheduler: scheduler).eraseToEffect(),
-      Effect(value: 2).delay(for: 2, scheduler: scheduler).eraseToEffect(),
-      Effect(value: 3).delay(for: 3, scheduler: scheduler).eraseToEffect()
+      Effect<Int, Never>(value: 1).delay(.seconds(1), scheduler: scheduler).eraseToEffect(),
+      Effect<Int, Never>(value: 2).delay(.seconds(2), scheduler: scheduler).eraseToEffect(),
+      Effect<Int, Never>(value: 3).delay(.seconds(3), scheduler: scheduler).eraseToEffect()
     )
 
     var values: [Int] = []
-    effect.sink(receiveValue: { values.append($0) }).store(in: &self.cancellables)
+    effect
+      .subscribe(onNext: { values.append($0) })
+      .disposed(by: disposeBag)
 
     XCTAssertEqual(values, [])
 
@@ -93,25 +101,27 @@ final class EffectTests: XCTestCase {
   }
 
   func testEffectSubscriberInitializer() {
-    let effect = Effect<Int, Never>.run { subscriber in
-      subscriber.send(1)
-      subscriber.send(2)
-      self.scheduler.schedule(after: self.scheduler.now.advanced(by: .seconds(1))) {
-        subscriber.send(3)
-      }
-      self.scheduler.schedule(after: self.scheduler.now.advanced(by: .seconds(2))) {
-        subscriber.send(4)
-        subscriber.send(completion: .finished)
-      }
-
-      return AnyCancellable {}
+    let effect = Effect<Int, Never>.run { (observer) -> Disposable in
+      observer.onNext(1)
+      observer.onNext(2)
+      self.scheduler.scheduleRelative((), dueTime: .seconds(1)) { (_) in
+        observer.onNext(3)
+        return Disposables.create()
+      }.disposed(by: self.disposeBag)
+      self.scheduler.scheduleRelative((), dueTime: .seconds(2)) { (_) in
+        observer.onNext(4)
+        observer.onCompleted()
+        return Disposables.create()
+      }.disposed(by: self.disposeBag)
+      
+      return Disposables.create()
     }
 
     var values: [Int] = []
     var isComplete = false
     effect
-      .sink(receiveCompletion: { _ in isComplete = true }, receiveValue: { values.append($0) })
-      .store(in: &self.cancellables)
+      .subscribe(onNext: { values.append($0) }, onCompleted: { isComplete = true })
+      .disposed(by: disposeBag)
 
     XCTAssertEqual(values, [1, 2])
     XCTAssertEqual(isComplete, false)
@@ -130,28 +140,30 @@ final class EffectTests: XCTestCase {
   func testEffectSubscriberInitializer_WithCancellation() {
     struct CancelId: Hashable {}
 
-    let effect = Effect<Int, Never>.run { subscriber in
-      subscriber.send(1)
-      self.scheduler.schedule(after: self.scheduler.now.advanced(by: .seconds(1))) {
-        subscriber.send(2)
+    let effect = Effect<Int, Never>.run { observer -> Disposable in
+      observer.onNext(1)
+      self.scheduler.scheduleRelative((), dueTime: .seconds(1)) {
+        observer.onNext(2)
+        return Disposables.create()
       }
+      .disposed(by: self.disposeBag)
 
-      return AnyCancellable {}
+      return Disposables.create()
     }
     .cancellable(id: CancelId())
 
     var values: [Int] = []
     var isComplete = false
     effect
-      .sink(receiveCompletion: { _ in isComplete = true }, receiveValue: { values.append($0) })
-      .store(in: &self.cancellables)
+      .subscribe(onNext: { values.append($0) }, onCompleted: { isComplete = true })
+      .disposed(by: disposeBag)
 
     XCTAssertEqual(values, [1])
     XCTAssertEqual(isComplete, false)
 
     Effect<Void, Never>.cancel(id: CancelId())
-      .sink(receiveValue: { _ in })
-      .store(in: &self.cancellables)
+      .subscribe(onNext: {})
+      .disposed(by: disposeBag)
 
     self.scheduler.advance(by: 1)
 
@@ -159,29 +171,13 @@ final class EffectTests: XCTestCase {
     XCTAssertEqual(isComplete, true)
   }
 
-  func testEffectErrorCrash() {
-    let expectation = self.expectation(description: "Complete")
-
-    // This crashes on iOS 13 if Effect.init(error:) is implemented using the Fail publisher.
-    Effect<Never, Error>(error: NSError(domain: "", code: 1))
-      .retry(3)
-      .catch { _ in Fail(error: NSError(domain: "", code: 1)) }
-      .sink(
-        receiveCompletion: { _ in expectation.fulfill() },
-        receiveValue: { _ in XCTAssertTrue(false) }
-      )
-      .store(in: &self.cancellables)
-
-    self.wait(for: [expectation], timeout: 0)
-  }
-
   #if compiler(>=5.4)
     func testFailing() {
       let effect = Effect<Never, Never>.failing("failing")
       XCTExpectFailure {
         effect
-          .sink(receiveValue: { _ in })
-          .store(in: &self.cancellables)
+          .subscribe(onNext: { _ in })
+          .disposed(by: disposeBag)
       }
     }
   #endif

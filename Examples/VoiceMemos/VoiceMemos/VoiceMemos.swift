@@ -1,6 +1,8 @@
 import AVFoundation
 import ComposableArchitecture
 import SwiftUI
+import Combine
+import CombineSchedulers
 
 struct VoiceMemosState: Equatable {
   var alert: AlertState<VoiceMemosAction>?
@@ -292,5 +294,25 @@ struct VoiceMemos_Previews: PreviewProvider {
       )
     )
     .environment(\.colorScheme, .dark)
+  }
+}
+
+// This is part of PointFree original ComposableArchitecture package but we can't have it in RxComposableArchi
+// because it uses `CombineSchedulers` module which we don't want to include for now.
+
+extension Effect where Failure == Never {
+  public static func timer<S>(
+    id: AnyHashable,
+    every interval: S.SchedulerTimeType.Stride,
+    tolerance: S.SchedulerTimeType.Stride? = nil,
+    on scheduler: S,
+    options: S.SchedulerOptions? = nil
+  ) -> Effect where S: Scheduler, S.SchedulerTimeType == Output {
+
+    Publishers.Timer(every: interval, tolerance: tolerance, scheduler: scheduler, options: options)
+      .autoconnect()
+      .setFailureType(to: Failure.self)
+      .eraseToEffect()
+      .cancellable(id: id)
   }
 }

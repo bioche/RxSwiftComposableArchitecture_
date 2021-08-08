@@ -1,5 +1,5 @@
-import CasePaths
-import Combine
+//import CasePaths
+import Darwin
 
 /// A reducer describes how to evolve the current state of an application to the next state, given
 /// an action, and describes what `Effect`s should be executed later by the store, if any.
@@ -59,7 +59,7 @@ public struct Reducer<State, Action, Environment> {
   /// Combines many reducers into a single one by running each one on state in order, and merging
   /// all of the effects.
   ///
-  /// It is important to note that the order of combining reducers matter. Combining `reducerA` with
+  /// It is important to note that the order of combining reducers matter. Combining `reducerA` with 
   /// `reducerB` is not necessarily the same as combining `reducerB` with `reducerA`.
   ///
   /// This can become an issue when working with reducers that have overlapping domains. For
@@ -210,7 +210,7 @@ public struct Reducer<State, Action, Environment> {
   public func combined(with other: Reducer) -> Reducer {
     .combine(self, other)
   }
-
+  
   /// Transforms a reducer that works on local state, action, and environment into one that works on
   /// global state, action and environment. It accomplishes this by providing 3 transformations to
   /// the method:
@@ -439,7 +439,6 @@ public struct Reducer<State, Action, Environment> {
               for this reducer can only be sent to a view store when state is non-"nil". In \
               SwiftUI applications, use "IfLetStore".
               ---
-
               """,
               stderr
             )
@@ -528,7 +527,6 @@ public struct Reducer<State, Action, Environment> {
               view store when its state contains an element at this index. In SwiftUI \
               applications, use "ForEachStore".
               ---
-
               """,
               stderr
             )
@@ -622,7 +620,6 @@ public struct Reducer<State, Action, Environment> {
               when its state contains an element at this id. In SwiftUI applications, use \
               "ForEachStore".
               ---
-
               """,
               stderr
             )
@@ -696,7 +693,6 @@ public struct Reducer<State, Action, Environment> {
               key. To fix this make sure that actions for this reducer can only be sent to a view \
               store when its state contains an element at this key.
               ---
-
               """,
               stderr
             )

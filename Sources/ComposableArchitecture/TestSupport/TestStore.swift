@@ -1,7 +1,14 @@
 #if DEBUG
-  import Combine
+  import RxSwift
   import Foundation
-  import XCTestDynamicOverlay
+
+  // This file is not included in ComposableArchitecture target in pbxproj because when built for Carthage (aka in release mode), this file is not available rendering testing impossible.
+  // So we created the separate framework ComposableArchitectureTestSupport for this purpose.
+  // It is copied in build phase in this separate framework & renamed TestStore.generated.swift
+  // To summarize :
+  // - SPM users don't have ComposableArchitectureTestSupport framework and can use this file directly.
+  // - Carthage users access TestStore via the TestStore.generated.swift in ComposableArchitectureTestSupport framework.
+  // The #if DEBUG is mandatory for SPM users because this file cannot be shipped into production app due to the XCTest dynamic fetching ...
 
   /// A testable runtime for a reducer.
   ///
@@ -170,7 +177,7 @@
     private var snapshotState: State
     private var store: Store<State, TestAction>!
     private let toLocalState: (State) -> LocalState
-
+    
     private init(
       environment: Environment,
       file: StaticString,
@@ -205,16 +212,15 @@
           let effect = LongLivingEffect(file: action.file, line: action.line)
           return
             effects
-            .handleEvents(
-              receiveSubscription: { [weak self] _ in
+            .do(
+              onCompletion: { [weak self] _ in self?.longLivingEffects.remove(effect) },
+              onSubscribe: { [weak self] in
                 self?.longLivingEffects.insert(effect)
               },
-              receiveCompletion: { [weak self] _ in self?.longLivingEffects.remove(effect) },
-              receiveCancel: { [weak self] in self?.longLivingEffects.remove(effect) }
+              onDispose: { [weak self] in self?.longLivingEffects.remove(effect) }
             )
             .map { .init(origin: .receive($0), file: action.file, line: action.line) }
             .eraseToEffect()
-
         },
         environment: ()
       )
@@ -226,7 +232,7 @@
 
     private func completed() {
       if !self.receivedActions.isEmpty {
-        XCTFail(
+        _XCTFail(
           """
           The store received \(self.receivedActions.count) unexpected \
           action\(self.receivedActions.count == 1 ? "" : "s") after this one: …
@@ -237,7 +243,7 @@
         )
       }
       for effect in self.longLivingEffects {
-        XCTFail(
+        _XCTFail(
           """
           An effect returned for this action is still running. It must complete before the end of \
           the test. …
@@ -311,7 +317,7 @@
       _ update: @escaping (inout LocalState) throws -> Void = { _ in }
     ) {
       if !self.receivedActions.isEmpty {
-        XCTFail(
+        _XCTFail(
           """
           Must handle \(self.receivedActions.count) received \
           action\(self.receivedActions.count == 1 ? "" : "s") before sending an action: …
@@ -332,7 +338,7 @@
       do {
         try update(&expectedState)
       } catch {
-        XCTFail("Threw error: \(error)", file: file, line: line)
+        _XCTFail("Threw error: \(error)", file: file, line: line)
       }
       self.expectedStateShouldMatch(
         expected: expectedState,
@@ -352,7 +358,7 @@
       _ update: @escaping (inout LocalState) throws -> Void = { _ in }
     ) {
       guard !self.receivedActions.isEmpty else {
-        XCTFail(
+        _XCTFail(
           """
           Expected to receive an action, but received none.
           """,
@@ -373,7 +379,7 @@
           \(String(describing: receivedAction).indent(by: 2))
           """
 
-        XCTFail(
+        _XCTFail(
           """
           Received unexpected action: …
 
@@ -386,7 +392,7 @@
       do {
         try update(&expectedState)
       } catch {
-        XCTFail("Threw error: \(error)", file: file, line: line)
+        _XCTFail("Threw error: \(error)", file: file, line: line)
       }
       expectedStateShouldMatch(
         expected: expectedState,
@@ -408,7 +414,7 @@
     ) {
       assert(steps, file: file, line: line)
     }
-
+    
     /// Asserts against an array of actions.
     public func assert(
       _ steps: [Step],
@@ -426,7 +432,7 @@
 
         case let .environment(work):
           if !self.receivedActions.isEmpty {
-            XCTFail(
+            _XCTFail(
               """
               Must handle \(self.receivedActions.count) received \
               action\(self.receivedActions.count == 1 ? "" : "s") before performing this work: …
@@ -437,14 +443,19 @@
             )
           }
           do {
-            try work(&self.environment)
+            // Avoid simultaneous access failures when advancing scheduler
+            // (advancing scheduler triggers receive action on store above
+            // which action will be reduced using the very same environment)
+            var aux = self.environment
+            try work(&aux)
+            self.environment = aux
           } catch {
-            XCTFail("Threw error: \(error)", file: step.file, line: step.line)
+            _XCTFail("Threw error: \(error)", file: step.file, line: step.line)
           }
-
+          
         case let .do(work):
           if !receivedActions.isEmpty {
-            XCTFail(
+            _XCTFail(
               """
               Must handle \(self.receivedActions.count) received \
               action\(self.receivedActions.count == 1 ? "" : "s") before performing this work: …
@@ -457,7 +468,7 @@
           do {
             try work()
           } catch {
-            XCTFail("Threw error: \(error)", file: step.file, line: step.line)
+            _XCTFail("Threw error: \(error)", file: step.file, line: step.line)
           }
 
         case let .sequence(subSteps):
@@ -488,7 +499,7 @@
           \(String(describing: actual).indent(by: 2))
           """
 
-        XCTFail(
+        _XCTFail(
           """
           State change does not match expectation: …
 
@@ -521,13 +532,13 @@
         environment: self.environment,
         file: self.file,
         fromLocalAction: { self.fromLocalAction(fromLocalAction($0)) },
-        initialState: self.store.state.value,
+        initialState: self.store.state,
         line: self.line,
         reducer: self.reducer,
         toLocalState: { toLocalState(self.toLocalState($0)) }
       )
     }
-
+    
     /// Scopes a store to assert against more local state.
     ///
     /// Useful for testing view store-specific state.
@@ -540,13 +551,13 @@
     ) -> TestStore<State, S, Action, LocalAction, Environment> {
       self.scope(state: toLocalState, action: { $0 })
     }
-
+    
     /// A single step of a `TestStore` assertion.
     public struct Step {
       fileprivate let type: StepType
       fileprivate let file: StaticString
       fileprivate let line: UInt
-
+      
       private init(
         _ type: StepType,
         file: StaticString = #file,
@@ -556,7 +567,7 @@
         self.file = file
         self.line = line
       }
-
+      
       /// A step that describes an action sent to a store and asserts against how the store's state
       /// is expected to change.
       ///
@@ -573,7 +584,7 @@
       ) -> Step {
         Step(.send(action, update), file: file, line: line)
       }
-
+      
       /// A step that describes an action received by an effect and asserts against how the store's
       /// state is expected to change.
       ///
@@ -590,7 +601,7 @@
       ) -> Step {
         Step(.receive(action, update), file: file, line: line)
       }
-
+      
       /// A step that updates a test store's environment.
       ///
       /// - Parameter update: A function that updates the test store's environment for subsequent
@@ -603,7 +614,7 @@
       ) -> Step {
         Step(.environment(update), file: file, line: line)
       }
-
+      
       /// A step that captures some work to be done between assertions
       ///
       /// - Parameter work: A function that is called between steps.
@@ -648,7 +659,7 @@
         case sequence([Step])
       }
     }
-
+    
     private struct TestAction {
       let origin: Origin
       let file: StaticString
@@ -660,4 +671,43 @@
       }
     }
   }
+
+  // NB: Dynamically load XCTest to prevent leaking its symbols into our library code.
+  func _XCTFail(_ message: String = "", file: StaticString = #file, line: UInt = #line) {
+    guard
+      let _XCTFailureHandler = _XCTFailureHandler,
+      let _XCTCurrentTestCase = _XCTCurrentTestCase
+      else {
+        assertionFailure(
+          """
+          Couldn't load XCTest. Are you using a test store in application code?"
+          """,
+          file: file,
+          line: line
+        )
+        return
+    }
+    
+    _XCTFailureHandler(_XCTCurrentTestCase(), true, "\(file)", line, message, nil)
+  }
+
+  private typealias XCTCurrentTestCase = @convention(c) () -> AnyObject
+  private typealias XCTFailureHandler = @convention(c) (
+    AnyObject, Bool, UnsafePointer<CChar>, UInt, String, String?
+    ) -> Void
+
+  private let _XCTest = NSClassFromString("XCTest")
+    .flatMap(Bundle.init(for:))
+    .flatMap({ $0.executablePath })
+    .flatMap({ dlopen($0, RTLD_NOW) })
+
+  private let _XCTFailureHandler =
+    _XCTest
+      .flatMap { dlsym($0, "_XCTFailureHandler") }
+      .map({ unsafeBitCast($0, to: XCTFailureHandler.self) })
+
+  private let _XCTCurrentTestCase =
+    _XCTest
+      .flatMap { dlsym($0, "_XCTCurrentTestCase") }
+      .map({ unsafeBitCast($0, to: XCTCurrentTestCase.self) })
 #endif

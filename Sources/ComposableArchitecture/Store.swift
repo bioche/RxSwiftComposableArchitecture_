@@ -1,5 +1,7 @@
-import Combine
 import Foundation
+import RxSwift
+import RxRelay
+import RxCocoa
 
 /// A store represents the runtime that powers the application. It is the object that you will pass
 /// around to views that need to interact with the application.
@@ -7,10 +9,20 @@ import Foundation
 /// You will typically construct a single one of these at the root of your application, and then use
 /// the `scope` method to derive more focused stores that can be passed to subviews.
 public final class Store<State, Action> {
-  var state: CurrentValueSubject<State, Never>
-  var effectCancellables: [UUID: AnyCancellable] = [:]
+  let stateRelay: BehaviorRelay<State>
+  public internal(set) var state: State {
+    get {
+      stateRelay.value
+    }
+    set {
+      stateRelay.accept(newValue)
+    }
+  }
+
+  var effectDisposeBags: [UUID: DisposeBag] = [:]
+
   private var isSending = false
-  private var parentCancellable: AnyCancellable?
+  private let disposeBag = DisposeBag()
   private let reducer: (inout State, Action) -> Effect<Action, Never>
   private var synchronousActionsToSend: [Action] = []
   private var bufferedActions: [Action] = []
@@ -32,6 +44,173 @@ public final class Store<State, Action> {
     )
   }
 
+  /// A version of scoping where the state may not be transformable into local state.
+  /// Meant to be private for now. Could be set public if need be.
+  /// (ifLet should be enough in most cases)
+  func scope<LocalState, LocalAction>(
+    initialLocalState: LocalState,
+    state toLocalState: @escaping (State) -> LocalState?,
+    action fromLocalAction: @escaping (LocalAction) -> Action
+  ) -> Store<LocalState, LocalAction> {
+
+    let localStore = Store<LocalState, LocalAction>(
+      initialState: initialLocalState,
+      reducer: { localState, localAction in
+        self.send(fromLocalAction(localAction))
+        if let newState = toLocalState(self.state) {
+          localState = newState
+        }
+        return .none
+      }
+    )
+
+    self.stateRelay
+      .subscribe(onNext: { [weak localStore] newValue in
+        if let newState = toLocalState(newValue) {
+          localStore?.state = newState
+        }
+      }).disposed(by: localStore.disposeBag)
+    return localStore
+
+  }
+
+  /// Scopes the store to one that exposes local state.
+  ///
+  /// - Parameter toLocalState: A function that transforms `State` into `LocalState`.
+  /// - Returns: A new store with its domain (state and action) transformed.
+  public func scope<LocalState>(
+    state toLocalState: @escaping (State) -> LocalState
+  ) -> Store<LocalState, Action> {
+    scope(state: toLocalState, action: { $0 })
+  }
+
+  /// Scopes the store to a publisher of stores of more local state and local actions.
+  ///
+  /// - Parameters:
+  ///   - toLocalState: A function that transforms a publisher of `State` into a publisher of
+  ///     `LocalState`.
+  ///   - fromLocalAction: A function that transforms `LocalAction` into `Action`.
+  /// - Returns: A publisher of stores with its domain (state and action) transformed.
+  public func observableScope<O: ObservableType, LocalState, LocalAction>(
+    state toLocalState: @escaping (Observable<State>) -> O,
+    action fromLocalAction: @escaping (LocalAction) -> Action
+  ) -> Observable<Store<LocalState, LocalAction>>
+  where O.Element == LocalState {
+
+    func extractLocalState(_ state: State) -> LocalState? {
+      var localState: LocalState?
+      _ = toLocalState(Observable.just(state))
+          .subscribe(onNext: { localState = $0 })
+      return localState
+    }
+
+      return toLocalState(stateRelay.asObservable())
+      .map { localState in
+        let localStore = Store<LocalState, LocalAction>(
+          initialState: localState,
+          reducer: { (localState, localAction) -> Effect<LocalAction, Never> in
+            self.send(fromLocalAction(localAction))
+            localState = extractLocalState(self.state) ?? localState
+            return .none
+          })
+
+        self.stateRelay
+          .subscribe(onNext: { [weak localStore] state in
+            guard let localStore = localStore else { return }
+            localStore.state = extractLocalState(state) ?? localStore.state
+          })
+          .disposed(by: localStore.disposeBag)
+        return localStore
+      }.asObservable()
+  }
+
+  /// Scopes the store to a publisher of stores of more local state and local actions.
+  ///
+  /// - Parameter toLocalState: A function that transforms a publisher of `State` into a publisher
+  ///   of `LocalState`.
+  /// - Returns: A publisher of stores with its domain (state and action)
+  ///   transformed.
+  public func observableScope<O: ObservableType, LocalState>(
+    state toLocalState: @escaping (Observable<State>) -> O
+  ) -> Observable<Store<LocalState, Action>>
+    where O.Element == LocalState {
+      self.observableScope(state: toLocalState, action: { $0 })
+  }
+
+  /// Sends an action to the store.
+  ///
+  /// `Store` is not thread safe and you should only send actions to it from the main thread.
+  /// If you are wanting to send actions on background threads due to the fact that the reducer
+  /// is performing computationally expensive work, then a better way to handle this is to wrap
+  /// that work in an `Effect` that is performed on a background thread so that the result can
+  /// be fed back into the store.
+  ///
+  /// - Parameter action: An action.
+  public func send(_ action: Action) {
+    if !self.isSending {
+      self.synchronousActionsToSend.append(action)
+    } else {
+      self.bufferedActions.append(action)
+      return
+    }
+
+    while !self.synchronousActionsToSend.isEmpty || !self.bufferedActions.isEmpty {
+      let action =
+        !self.synchronousActionsToSend.isEmpty
+        ? self.synchronousActionsToSend.removeFirst()
+        : self.bufferedActions.removeFirst()
+
+      self.isSending = true
+      let effect = self.reducer(&self.state, action)
+      self.isSending = false
+
+      var didComplete = false
+      let uuid = UUID()
+
+      var isProcessingEffects = true
+      let effectDisposeBag = DisposeBag()
+      effect.subscribe(
+        onNext: { [weak self] action in
+          if isProcessingEffects {
+            self?.synchronousActionsToSend.append(action)
+          } else {
+            self?.send(action)
+          }
+        },
+        onCompletion: { [weak self] _ in
+          didComplete = true
+          self?.effectDisposeBags[uuid] = nil
+        }
+      ).disposed(by: effectDisposeBag)
+      isProcessingEffects = false
+
+      if !didComplete {
+        self.effectDisposeBags[uuid] = effectDisposeBag
+      }
+    }
+  }
+
+  /// Returns a "stateless" store by erasing state to `Void`.
+  public var stateless: Store<Void, Action> {
+    self.scope(state: { _ in () })
+  }
+
+  /// Returns an "actionless" store by erasing action to `Never`.
+  public var actionless: Store<State, Never> {
+    func absurd<A>(_ never: Never) -> A {}
+    return self.scope(state: { $0 }, action: absurd)
+  }
+
+  private init(
+    initialState: State,
+    reducer: @escaping (inout State, Action) -> Effect<Action, Never>
+  ) {
+    self.reducer = reducer
+    self.stateRelay = BehaviorRelay(value: initialState)
+  }
+}
+
+extension Store {
   /// Scopes the store to one that exposes local state and actions.
   ///
   /// This can be useful for deriving new stores to hand to child views in an application. For
@@ -42,6 +221,7 @@ public final class Store<State, Action> {
   ///     struct AppAction { case login(LoginAction), ... }
   ///
   ///     // A store that runs the entire application.
+  ///     let store = Store(initialState: AppState(), reducer: appReducer, environment: ())
   ///     let store = Store(
   ///       initialState: AppState(),
   ///       reducer: appReducer,
@@ -49,6 +229,7 @@ public final class Store<State, Action> {
   ///     )
   ///
   ///     // Construct a login view by scoping the store to one that works with only login domain.
+  ///     let loginView = LoginView(
   ///     LoginView(
   ///       store: store.scope(
   ///         state: { $0.login },
@@ -156,175 +337,71 @@ public final class Store<State, Action> {
   /// This view store is now incapable of reading any state but view state (and will not recompute
   /// when non-view state changes), and is incapable of sending any actions but view actions.
   ///
-  /// - Parameters:
-  ///   - toLocalState: A function that transforms `State` into `LocalState`.
-  ///   - fromLocalAction: A function that transforms `LocalAction` into `Action`.
-  /// - Returns: A new store with its domain (state and action) transformed.
   public func scope<LocalState, LocalAction>(
     state toLocalState: @escaping (State) -> LocalState,
     action fromLocalAction: @escaping (LocalAction) -> Action
   ) -> Store<LocalState, LocalAction> {
-    let localStore = Store<LocalState, LocalAction>(
-      initialState: toLocalState(self.state.value),
-      reducer: { localState, localAction in
-        self.send(fromLocalAction(localAction))
-        localState = toLocalState(self.state.value)
-        return .none
-      }
-    )
-    localStore.parentCancellable = self.state
-      .sink { [weak localStore] newValue in localStore?.state.value = toLocalState(newValue) }
-    return localStore
-  }
-
-  /// Scopes the store to one that exposes local state.
-  ///
-  /// - Parameter toLocalState: A function that transforms `State` into `LocalState`.
-  /// - Returns: A new store with its domain (state and action) transformed.
-  public func scope<LocalState>(
-    state toLocalState: @escaping (State) -> LocalState
-  ) -> Store<LocalState, Action> {
-    self.scope(state: toLocalState, action: { $0 })
-  }
-
-  /// Scopes the store to a publisher of stores of more local state and local actions.
-  ///
-  /// - Parameters:
-  ///   - toLocalState: A function that transforms a publisher of `State` into a publisher of
-  ///     `LocalState`.
-  ///   - fromLocalAction: A function that transforms `LocalAction` into `Action`.
-  /// - Returns: A publisher of stores with its domain (state and action) transformed.
-  public func publisherScope<P: Publisher, LocalState, LocalAction>(
-    state toLocalState: @escaping (AnyPublisher<State, Never>) -> P,
-    action fromLocalAction: @escaping (LocalAction) -> Action
-  ) -> AnyPublisher<Store<LocalState, LocalAction>, Never>
-  where P.Output == LocalState, P.Failure == Never {
-
-    func extractLocalState(_ state: State) -> LocalState? {
-      var localState: LocalState?
-      _ = toLocalState(Just(state).eraseToAnyPublisher())
-        .sink { localState = $0 }
-      return localState
-    }
-
-    return toLocalState(self.state.eraseToAnyPublisher())
-      .map { localState in
-        let localStore = Store<LocalState, LocalAction>(
-          initialState: localState,
-          reducer: { localState, localAction in
-            self.send(fromLocalAction(localAction))
-            localState = extractLocalState(self.state.value) ?? localState
-            return .none
-          })
-
-        localStore.parentCancellable = self.state
-          .sink { [weak localStore] state in
-            guard let localStore = localStore else { return }
-            localStore.state.value = extractLocalState(state) ?? localStore.state.value
-          }
-        return localStore
-      }
-      .eraseToAnyPublisher()
-  }
-
-  /// Scopes the store to a publisher of stores of more local state and local actions.
-  ///
-  /// - Parameter toLocalState: A function that transforms a publisher of `State` into a publisher
-  ///   of `LocalState`.
-  /// - Returns: A publisher of stores with its domain (state and action)
-  ///   transformed.
-  public func publisherScope<P: Publisher, LocalState>(
-    state toLocalState: @escaping (AnyPublisher<State, Never>) -> P
-  ) -> AnyPublisher<Store<LocalState, Action>, Never>
-  where P.Output == LocalState, P.Failure == Never {
-    self.publisherScope(state: toLocalState, action: { $0 })
-  }
-
-  func send(_ action: Action) {
-    if !self.isSending {
-      self.synchronousActionsToSend.append(action)
-    } else {
-      self.bufferedActions.append(action)
-      return
-    }
-
-    while !self.synchronousActionsToSend.isEmpty || !self.bufferedActions.isEmpty {
-      let action =
-        !self.synchronousActionsToSend.isEmpty
-        ? self.synchronousActionsToSend.removeFirst()
-        : self.bufferedActions.removeFirst()
-
-      self.isSending = true
-      let effect = self.reducer(&self.state.value, action)
-      self.isSending = false
-
-      var didComplete = false
-      let uuid = UUID()
-
-      var isProcessingEffects = true
-      let effectCancellable = effect.sink(
-        receiveCompletion: { [weak self] _ in
-          didComplete = true
-          self?.effectCancellables[uuid] = nil
-        },
-        receiveValue: { [weak self] action in
-          if isProcessingEffects {
-            self?.synchronousActionsToSend.append(action)
-          } else {
-            self?.send(action)
-          }
-        }
-      )
-      isProcessingEffects = false
-
-      if !didComplete {
-        self.effectCancellables[uuid] = effectCancellable
-      }
-    }
-  }
-
-  /// Returns a "stateless" store by erasing state to `Void`.
-  public var stateless: Store<Void, Action> {
-    self.scope(state: { _ in () })
-  }
-
-  /// Returns an "actionless" store by erasing action to `Never`.
-  public var actionless: Store<State, Never> {
-    func absurd<A>(_ never: Never) -> A {}
-    return self.scope(state: { $0 }, action: absurd)
-  }
-
-  private init(
-    initialState: State,
-    reducer: @escaping (inout State, Action) -> Effect<Action, Never>
-  ) {
-    self.reducer = reducer
-    self.state = CurrentValueSubject(initialState)
+    scope(initialLocalState: toLocalState(state),
+          state: toLocalState,
+          action: fromLocalAction)
   }
 }
 
-/// A publisher of store state.
+extension Store: TCAIdentifiable where State: TCAIdentifiable {
+  public var id: State.ID {
+    ViewStore(self, removeDuplicates: {_, _ in false }).id
+  }
+}
+
+extension Store {
+  /// Allows observation of State from the store.
+  /// New event is not fired for duplicated state (using `isDuplicate` to detect duplicates)
+  /// Useful for UIKit controllers or coordinators as we avoid the boilerplate of having both ViewStore and Store to manage.
+  /// - Parameter isDuplicate: Returns true if both states should be considered equal
+  /// - Returns: A driver on the state
+  public func driver(removeDuplicates isDuplicate: @escaping (State, State) -> Bool) -> StoreDriver<State> {
+    .init(stateRelay.distinctUntilChanged(isDuplicate))
+  }
+}
+
+extension Store where State: Equatable {
+  /// Allows observation of State from the store.
+  /// New event is not fired for duplicated state.
+  /// Useful for UIKit controllers or coordinators as we avoid the boilerplate of having both ViewStore and Store to manage.
+  public var driver: StoreDriver<State> {
+    .init(stateRelay.distinctUntilChanged())
+  }
+}
+
+
+/// The goal of this structure is to be able to perform a subscript as a quick way of mapping & avoid duplicates. As it comes from the ViewStore, the Driver trait is the more appropriate
 @dynamicMemberLookup
-public struct StorePublisher<State>: Publisher {
-  public typealias Output = State
-  public typealias Failure = Never
+public struct StoreDriver<State>: SharedSequenceConvertibleType {
 
-  public let upstream: AnyPublisher<State, Never>
+  public typealias Element = State
 
-  public func receive<S>(subscriber: S)
-  where S: Subscriber, Failure == S.Failure, Output == S.Input {
-    self.upstream.subscribe(subscriber)
+  private let upstream: Observable<State>
+
+  public func subscribe<Observer: ObserverType>(_ observer: Observer) -> Disposable where Observer.Element == State {
+    upstream.subscribe(observer)
   }
 
-  init<P>(_ upstream: P) where P: Publisher, Failure == P.Failure, Output == P.Output {
-    self.upstream = upstream.eraseToAnyPublisher()
+  public init<O: ObservableType>(_ observable: O) where O.Element == State {
+    self.upstream = observable.asObservable()
   }
 
-  /// Returns the resulting publisher of a given key path.
+  public func asSharedSequence() -> Driver<State> {
+    upstream
+      .do(onError: { error in assertionFailure("An error occurred in the stream handled by a store driver : \(error)") })
+      .asDriver(onErrorDriveWith: .empty())
+  }
+
+  /// Returns the resulting driver of a given key path.
   public subscript<LocalState>(
     dynamicMember keyPath: KeyPath<State, LocalState>
-  ) -> StorePublisher<LocalState>
+  ) -> StoreDriver<LocalState>
   where LocalState: Equatable {
-    .init(self.upstream.map(keyPath).removeDuplicates())
+    .init(upstream.map { $0[keyPath: keyPath] }
+      .distinctUntilChanged())
   }
 }

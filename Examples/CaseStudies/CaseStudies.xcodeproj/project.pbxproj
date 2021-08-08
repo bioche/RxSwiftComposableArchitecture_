@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		410F88ED247C618B002FED62 /* CounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410F88EC247C618B002FED62 /* CounterViewController.swift */; };
+		410F88EF247C65CB002FED62 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 410F88EE247C65CB002FED62 /* ComposableArchitecture */; };
+		41147DFB24854770002906F5 /* ListOfStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41147DFA24854770002906F5 /* ListOfStates.swift */; };
+		41412FD124855B0300363E37 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41412FD024855B0300363E37 /* RootViewController.swift */; };
+		4142542E2469CA160037D818 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4142542D2469CA160037D818 /* AppDelegate.swift */; };
+		414254352469CA160037D818 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 414254332469CA160037D818 /* Main.storyboard */; };
+		414254372469CA180037D818 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 414254362469CA180037D818 /* Assets.xcassets */; };
+		4142543A2469CA180037D818 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 414254382469CA180037D818 /* LaunchScreen.storyboard */; };
+		41F6B0C625607BEE008861FB /* CombineSchedulers in Frameworks */ = {isa = PBXBuildFile; productRef = 41F6B0C525607BEE008861FB /* CombineSchedulers */; };
+		41F6B0C825607E3D008861FB /* Effect+Timer+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F6B0C725607E3D008861FB /* Effect+Timer+Combine.swift */; };
+		41F6B0CA2560802F008861FB /* CombineSchedulers in Frameworks */ = {isa = PBXBuildFile; productRef = 41F6B0C92560802F008861FB /* CombineSchedulers */; };
 		4F5AC11F24ECC7E4009DC50B /* 01-GettingStarted-SharedStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5AC11E24ECC7E4009DC50B /* 01-GettingStarted-SharedStateTests.swift */; };
 		CA0C0C4724B89BEC00CBDD8A /* 04-HigherOrderReducers-LifecycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0C0C4624B89BEC00CBDD8A /* 04-HigherOrderReducers-LifecycleTests.swift */; };
 		CA0C51FB245389CC00A04EAB /* 04-HigherOrderReducers-ReusableOfflineDownloadsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0C51FA245389CC00A04EAB /* 04-HigherOrderReducers-ReusableOfflineDownloadsTests.swift */; };
@@ -104,6 +115,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		414254422469EE9C0037D818 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DC4C6ECD2450E0B30066A05D /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -147,6 +168,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		410F88EC247C618B002FED62 /* CounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterViewController.swift; sourceTree = "<group>"; };
+		41147DFA24854770002906F5 /* ListOfStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOfStates.swift; sourceTree = "<group>"; };
+		41412FD024855B0300363E37 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		4142542B2469CA160037D818 /* UIKitCaseStudiesiOS12.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UIKitCaseStudiesiOS12.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4142542D2469CA160037D818 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		414254342469CA160037D818 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		414254362469CA180037D818 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		414254392469CA180037D818 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4142543B2469CA180037D818 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		41F6B0C725607E3D008861FB /* Effect+Timer+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Effect+Timer+Combine.swift"; sourceTree = "<group>"; };
 		4F5AC11E24ECC7E4009DC50B /* 01-GettingStarted-SharedStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "01-GettingStarted-SharedStateTests.swift"; sourceTree = "<group>"; };
 		CA0C0C4624B89BEC00CBDD8A /* 04-HigherOrderReducers-LifecycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "04-HigherOrderReducers-LifecycleTests.swift"; sourceTree = "<group>"; };
 		CA0C51FA245389CC00A04EAB /* 04-HigherOrderReducers-ReusableOfflineDownloadsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "04-HigherOrderReducers-ReusableOfflineDownloadsTests.swift"; sourceTree = "<group>"; };
@@ -229,6 +260,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		414254282469CA160037D818 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				410F88EF247C65CB002FED62 /* ComposableArchitecture in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CAF88E6D24B8E26D00539345 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -248,6 +287,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41F6B0CA2560802F008861FB /* CombineSchedulers in Frameworks */,
 				DC1394102469E27300EE1157 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -263,6 +303,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41F6B0C625607BEE008861FB /* CombineSchedulers in Frameworks */,
 				DC13940E2469E25C00EE1157 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -277,6 +318,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4142542C2469CA160037D818 /* UIKitCaseStudiesiOS12 */ = {
+			isa = PBXGroup;
+			children = (
+				4142542D2469CA160037D818 /* AppDelegate.swift */,
+				41412FD024855B0300363E37 /* RootViewController.swift */,
+				414254332469CA160037D818 /* Main.storyboard */,
+				414254362469CA180037D818 /* Assets.xcassets */,
+				414254382469CA180037D818 /* LaunchScreen.storyboard */,
+				4142543B2469CA180037D818 /* Info.plist */,
+				410F88EC247C618B002FED62 /* CounterViewController.swift */,
+				41147DFA24854770002906F5 /* ListOfStates.swift */,
+			);
+			path = UIKitCaseStudiesiOS12;
+			sourceTree = "<group>";
+		};
 		CA6AC25F2451131C00C71CB3 /* 04-HigherOrderReducers-ResuableOfflineDownloads */ = {
 			isa = PBXGroup;
 			children = (
@@ -358,15 +414,17 @@
 			children = (
 				DC89C43824460FC7006900B9 /* swift-composable-architecture */,
 				DC89C43924460FFF006900B9 /* README.md */,
-				DC89C43A2446106D006900B9 /* Frameworks */,
-				DC89C41424460F95006900B9 /* Products */,
 				DC89C41524460F95006900B9 /* SwiftUICaseStudies */,
 				DC89C42C24460F96006900B9 /* SwiftUICaseStudiesTests */,
 				CAF88E7124B8E26D00539345 /* tvOSCaseStudies */,
 				CAF88E8624B8E26E00539345 /* tvOSCaseStudiesTests */,
 				DC4C6EA82450DD380066A05D /* UIKitCaseStudies */,
 				DC4C6EBF2450DD390066A05D /* UIKitCaseStudiesTests */,
+				4142542C2469CA160037D818 /* UIKitCaseStudiesiOS12 */,
+				DC89C41424460F95006900B9 /* Products */,
+				DC89C43A2446106D006900B9 /* Frameworks */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
 		};
 		DC89C41424460F95006900B9 /* Products */ = {
@@ -376,6 +434,7 @@
 				DC89C42924460F96006900B9 /* SwiftUICaseStudiesTests.xctest */,
 				DC4C6EA72450DD380066A05D /* UIKitCaseStudies.app */,
 				DC4C6EBC2450DD390066A05D /* UIKitCaseStudiesTests.xctest */,
+				4142542B2469CA160037D818 /* UIKitCaseStudiesiOS12.app */,
 				CAF88E7024B8E26D00539345 /* tvOSCaseStudies.app */,
 				CAF88E8324B8E26E00539345 /* tvOSCaseStudiesTests.xctest */,
 			);
@@ -450,6 +509,7 @@
 		DC89C44524461416006900B9 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
+				41F6B0C725607E3D008861FB /* Effect+Timer+Combine.swift */,
 				DC89C44624461431006900B9 /* ActivityIndicator.swift */,
 				CA6AC2612451135C00C71CB3 /* CircularProgressView.swift */,
 				DCC68EDE2447BC810037F998 /* TemplateText.swift */,
@@ -461,6 +521,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4142542A2469CA160037D818 /* UIKitCaseStudiesiOS12 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4142543C2469CA180037D818 /* Build configuration list for PBXNativeTarget "UIKitCaseStudiesiOS12" */;
+			buildPhases = (
+				414254272469CA160037D818 /* Sources */,
+				414254282469CA160037D818 /* Frameworks */,
+				414254292469CA160037D818 /* Resources */,
+				414254422469EE9C0037D818 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UIKitCaseStudiesiOS12;
+			packageProductDependencies = (
+				410F88EE247C65CB002FED62 /* ComposableArchitecture */,
+			);
+			productName = UIKitCaseStudiesiOS12;
+			productReference = 4142542B2469CA160037D818 /* UIKitCaseStudiesiOS12.app */;
+			productType = "com.apple.product-type.application";
+		};
 		CAF88E6F24B8E26D00539345 /* tvOSCaseStudies */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CAF88E8E24B8E26E00539345 /* Build configuration list for PBXNativeTarget "tvOSCaseStudies" */;
@@ -515,6 +596,7 @@
 			name = UIKitCaseStudies;
 			packageProductDependencies = (
 				DC13940F2469E27300EE1157 /* ComposableArchitecture */,
+				41F6B0C92560802F008861FB /* CombineSchedulers */,
 			);
 			productName = UIKitCaseStudies;
 			productReference = DC4C6EA72450DD380066A05D /* UIKitCaseStudies.app */;
@@ -557,6 +639,7 @@
 			name = SwiftUICaseStudies;
 			packageProductDependencies = (
 				DC13940D2469E25C00EE1157 /* ComposableArchitecture */,
+				41F6B0C525607BEE008861FB /* CombineSchedulers */,
 			);
 			productName = CaseStudies;
 			productReference = DC89C41324460F95006900B9 /* SwiftUICaseStudies.app */;
@@ -593,6 +676,9 @@
 				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "Point-Free";
 				TargetAttributes = {
+					4142542A2469CA160037D818 = {
+						CreatedOnToolsVersion = 11.4.1;
+					};
 					CAF88E6F24B8E26D00539345 = {
 						CreatedOnToolsVersion = 11.5;
 					};
@@ -625,6 +711,9 @@
 				Base,
 			);
 			mainGroup = DC89C40A24460F95006900B9;
+			packageReferences = (
+				41F6B0C425607BEE008861FB /* XCRemoteSwiftPackageReference "combine-schedulers" */,
+			);
 			productRefGroup = DC89C41424460F95006900B9 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -633,6 +722,7 @@
 				DC89C42824460F96006900B9 /* SwiftUICaseStudiesTests */,
 				DC4C6EA62450DD380066A05D /* UIKitCaseStudies */,
 				DC4C6EBB2450DD390066A05D /* UIKitCaseStudiesTests */,
+				4142542A2469CA160037D818 /* UIKitCaseStudiesiOS12 */,
 				CAF88E6F24B8E26D00539345 /* tvOSCaseStudies */,
 				CAF88E8224B8E26E00539345 /* tvOSCaseStudiesTests */,
 			);
@@ -640,6 +730,16 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		414254292469CA160037D818 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4142543A2469CA180037D818 /* LaunchScreen.storyboard in Resources */,
+				414254372469CA180037D818 /* Assets.xcassets in Resources */,
+				414254352469CA160037D818 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CAF88E6E24B8E26D00539345 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -690,6 +790,17 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		414254272469CA160037D818 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				410F88ED247C618B002FED62 /* CounterViewController.swift in Sources */,
+				41147DFB24854770002906F5 /* ListOfStates.swift in Sources */,
+				41412FD124855B0300363E37 /* RootViewController.swift in Sources */,
+				4142542E2469CA160037D818 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CAF88E6C24B8E26D00539345 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -768,6 +879,7 @@
 				DCE63B71245CC0B90080A23D /* 04-HigherOrderReducers-Recursion.swift in Sources */,
 				CA27C0B7245780CE00CB1E59 /* 03-Effects-SystemEnvironment.swift in Sources */,
 				CAA9ADCA2446605B0003A984 /* 02-Effects-LongLiving.swift in Sources */,
+				41F6B0C825607E3D008861FB /* Effect+Timer+Combine.swift in Sources */,
 				DC89C45124462DE7006900B9 /* 03-Navigation-Lists-LoadThenNavigate.swift in Sources */,
 				DC89C45524465C44006900B9 /* 02-Effects-Timers.swift in Sources */,
 				CA410EE0247A15FE00E41798 /* 02-Effects-WebSocket.swift in Sources */,
@@ -815,6 +927,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		414254332469CA160037D818 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				414254342469CA160037D818 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		414254382469CA180037D818 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				414254392469CA180037D818 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
 		DC4C6EB42450DD380066A05D /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -826,6 +954,44 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4142543D2469CA180037D818 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = MLDJM8453C;
+				INFOPLIST_FILE = UIKitCaseStudiesiOS12/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.UIKitCaseStudiesiOS12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4142543E2469CA180037D818 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = MLDJM8453C;
+				INFOPLIST_FILE = UIKitCaseStudiesiOS12/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bioche.UIKitCaseStudiesiOS12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		CAF88E8A24B8E26E00539345 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -918,6 +1084,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"UIKitCaseStudies/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = UIKitCaseStudies/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -937,6 +1104,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"UIKitCaseStudies/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = UIKitCaseStudies/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1179,6 +1347,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4142543C2469CA180037D818 /* Build configuration list for PBXNativeTarget "UIKitCaseStudiesiOS12" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4142543D2469CA180037D818 /* Debug */,
+				4142543E2469CA180037D818 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		CAF88E8E24B8E26E00539345 /* Build configuration list for PBXNativeTarget "tvOSCaseStudies" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1244,7 +1421,32 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		41F6B0C425607BEE008861FB /* XCRemoteSwiftPackageReference "combine-schedulers" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/combine-schedulers";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		410F88EE247C65CB002FED62 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ComposableArchitecture;
+		};
+		41F6B0C525607BEE008861FB /* CombineSchedulers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 41F6B0C425607BEE008861FB /* XCRemoteSwiftPackageReference "combine-schedulers" */;
+			productName = CombineSchedulers;
+		};
+		41F6B0C92560802F008861FB /* CombineSchedulers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 41F6B0C425607BEE008861FB /* XCRemoteSwiftPackageReference "combine-schedulers" */;
+			productName = CombineSchedulers;
+		};
 		CAF88E9024B8E3AF00539345 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ComposableArchitecture;
