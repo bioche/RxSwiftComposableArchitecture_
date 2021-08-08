@@ -512,3 +512,4 @@ There are also many architecture libraries in the Swift and iOS community. Each 
 ## License
 
 This library is released under the MIT license. See [LICENSE](LICENSE) for details.
+
