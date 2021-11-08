@@ -6,7 +6,7 @@ let package = Package(
   name: "swift-composable-architecture",
   platforms: [
     // these are arbitrary but seem reasonable. Below this we will have to add even more @available annotations.
-    .macOS(.v10_12), .iOS(.v10), .tvOS(.v10), .watchOS(.v3)
+    .macOS(.v10_12), .iOS(.v11), .tvOS(.v10), .watchOS(.v3)
   ],
   products: [
     .library(
