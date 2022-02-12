@@ -405,3 +405,28 @@ public struct StoreDriver<State>: SharedSequenceConvertibleType {
       .distinctUntilChanged())
   }
 }
+
+extension Store {
+  public func delayed(
+    when condition: @escaping (State) -> Bool,
+    by delay: DispatchTimeInterval,
+    using scheduler: SchedulerType
+  ) -> Store {
+    Store(
+      initialState: state,
+      reducer: { state, action -> Effect in
+        var possiblyDelayedState = self.state
+        let possiblyDelayedEffect = self.reducer(&possiblyDelayedState, action)
+        if condition(possiblyDelayedState) {
+          DispatchQueue.main.asyncAfter(deadline: .now() + delay.timeInterval) {
+            self.state = possiblyDelayedState
+          }
+          //TODO:  return delayed effect
+          return .none
+        } else {
+          state = possiblyDelayedState
+          return possiblyDelayedEffect
+        }
+      })
+  }
+}
