@@ -406,27 +406,60 @@ public struct StoreDriver<State>: SharedSequenceConvertibleType {
   }
 }
 
+//extension Store {
+//  public func delayed(
+//    when condition: @escaping (State) -> Bool,
+//    by delay: DispatchTimeInterval,
+//    using scheduler: SchedulerType
+//  ) -> Store {
+//    var delayedStore: Store?
+//    let delayedStore = Store(
+//      initialState: state,
+//      reducer: { state, action -> Effect in
+//        var possiblyDelayedState = self.state
+//        let effect = self.reducer(&possiblyDelayedState, action)
+//        if condition(possiblyDelayedState) {
+//          DispatchQueue.main.asyncAfter(deadline: .now() + delay.timeInterval) {
+//            delayedStore?.state = possiblyDelayedState
+//          }
+//        } else {
+//          state = possiblyDelayedState
+//        }
+//        return effect
+//      })
+//
+//    stateRelay
+//      .subscribe(onNext: { [weak delayedStore] newValue in
+//        delayedStore?.state = newState
+//      }).disposed(by: localStore.disposeBag)
+//  }
+//}
+
 extension Store {
   public func delayed(
     when condition: @escaping (State) -> Bool,
     by delay: DispatchTimeInterval,
-    using scheduler: SchedulerType
+    using scheduler: SchedulerType = MainScheduler()
   ) -> Store {
-    Store(
+    let delayedStore = Store(
       initialState: state,
-      reducer: { state, action -> Effect in
-        var possiblyDelayedState = self.state
-        let possiblyDelayedEffect = self.reducer(&possiblyDelayedState, action)
-        if condition(possiblyDelayedState) {
-          DispatchQueue.main.asyncAfter(deadline: .now() + delay.timeInterval) {
-            self.state = possiblyDelayedState
-          }
-          //TODO:  return delayed effect
-          return .none
-        } else {
-          state = possiblyDelayedState
-          return possiblyDelayedEffect
-        }
+      reducer: { _, action -> Effect in
+        self.send(action)
+        return .none
       })
+
+    stateRelay
+      .flatMapLatest { newState -> Observable<State> in
+        if condition(newState) {
+          return .just(newState).delay(delay, scheduler: scheduler)
+        } else {
+          return .just(newState)
+        }
+      }
+      .subscribe(onNext: { [weak delayedStore] newState in
+        delayedStore?.state = newState
+      }).disposed(by: delayedStore.disposeBag)
+    
+    return delayedStore
   }
 }
