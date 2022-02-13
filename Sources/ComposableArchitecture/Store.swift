@@ -420,8 +420,11 @@ extension Store {
   ) -> Store {
     let delayedStore = Store(
       initialState: state,
-      reducer: { _, action -> Effect in
+      reducer: { state, action -> Effect in
         self.send(action)
+        if !condition(self.state) {
+          state = self.state
+        }
         return .none
       })
 
