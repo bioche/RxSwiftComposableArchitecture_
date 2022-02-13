@@ -406,36 +406,13 @@ public struct StoreDriver<State>: SharedSequenceConvertibleType {
   }
 }
 
-//extension Store {
-//  public func delayed(
-//    when condition: @escaping (State) -> Bool,
-//    by delay: DispatchTimeInterval,
-//    using scheduler: SchedulerType
-//  ) -> Store {
-//    var delayedStore: Store?
-//    let delayedStore = Store(
-//      initialState: state,
-//      reducer: { state, action -> Effect in
-//        var possiblyDelayedState = self.state
-//        let effect = self.reducer(&possiblyDelayedState, action)
-//        if condition(possiblyDelayedState) {
-//          DispatchQueue.main.asyncAfter(deadline: .now() + delay.timeInterval) {
-//            delayedStore?.state = possiblyDelayedState
-//          }
-//        } else {
-//          state = possiblyDelayedState
-//        }
-//        return effect
-//      })
-//
-//    stateRelay
-//      .subscribe(onNext: { [weak delayedStore] newValue in
-//        delayedStore?.state = newState
-//      }).disposed(by: localStore.disposeBag)
-//  }
-//}
-
 extension Store {
+  /// Delays state updates that match the given condition
+  /// - Parameters:
+  ///   - condition: A condition on the state. Any state that matches it will be delayed
+  ///   - delay: Delay of states matching condition
+  ///   - scheduler: Scheduler on which delaying occurs (`MainScheduler` by default)
+  /// - Returns: A new store with some states delayed
   public func delayed(
     when condition: @escaping (State) -> Bool,
     by delay: DispatchTimeInterval,
