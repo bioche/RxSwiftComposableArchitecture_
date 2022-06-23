@@ -60,7 +60,6 @@ public final class ViewStore<State, Action> {
 
   // N.B. `ViewStore` does not use a `@Published` property, so `objectWillChange`
   // won't be synthesized automatically. To work around issues on iOS 13 we explicitly declare it.
-  @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
   public private(set) lazy var objectWillChange = ObservableObjectPublisher()
 
   /// Initializes a view store from a store.
