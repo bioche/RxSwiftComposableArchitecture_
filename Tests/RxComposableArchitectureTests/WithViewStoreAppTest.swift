@@ -1,6 +1,6 @@
 // NB: This file gathers coverage of `WithViewStore` use as a `Scene`.
 
-import ComposableArchitecture
+import RxComposableArchitecture
 import SwiftUI
 
 #if compiler(>=5.3)

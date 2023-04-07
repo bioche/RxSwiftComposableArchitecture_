@@ -2,7 +2,7 @@ import RxTest
 import RxSwift
 import XCTest
 
-@testable import ComposableArchitecture
+@testable import RxComposableArchitecture
 
 final class DebugTests: XCTestCase {
   func testCollection() {

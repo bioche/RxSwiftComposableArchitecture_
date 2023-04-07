@@ -3,8 +3,7 @@ import RxSwift
 import RxTest
 import XCTest
 
-import ComposableArchitectureTestSupport
-@testable import ComposableArchitecture
+@testable import RxComposableArchitecture
 
 @available(iOS 13, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 final class StoreTests: XCTestCase {

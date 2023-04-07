@@ -1,6 +1,6 @@
 import XCTest
 
-@testable import ComposableArchitecture
+@testable import RxComposableArchitecture
 
 final class IdentifiedArrayTests: XCTestCase {
   func testIdSubscript() {

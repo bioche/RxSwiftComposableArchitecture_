@@ -1,6 +1,6 @@
 import RxSwift
 import RxTest
-import ComposableArchitecture
+import RxComposableArchitecture
 import XCTest
 
 final class MemoryManagementTests: XCTestCase {

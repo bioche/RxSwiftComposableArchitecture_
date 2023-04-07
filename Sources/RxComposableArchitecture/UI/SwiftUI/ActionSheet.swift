@@ -123,7 +123,7 @@ extension ActionSheetState: CustomDebugOutputConvertible {
       message: self.message,
       buttons: self.buttons
     )
-    return "\(Self.self)\(ComposableArchitecture.debugOutput(fields))"
+    return "\(Self.self)\(RxComposableArchitecture.debugOutput(fields))"
   }
 }
 

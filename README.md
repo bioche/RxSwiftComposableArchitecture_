@@ -31,7 +31,7 @@ The ComposableArchitecture framework includes public CasePath source files from 
 
 The TestStore has been adapted to be based on `RxTest` using `TestScheduler`. It is not meant to be used in production application.
 To use TestStore, if using Carthage, import the ComposableArchitectureTestSupport framework in your test target. It is not meant to be imported in the main application.
-If using SPM, just import ComposableArchitecture in the tests and use TestStore directly.
+If using SPM, just import RxComposableArchitecture in the tests and use TestStore directly.
 
 ### Limitations 
 

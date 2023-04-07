@@ -1,7 +1,6 @@
 import RxSwift
 import RxTest
-import ComposableArchitecture
-import ComposableArchitectureTestSupport
+import RxComposableArchitecture
 import XCTest
 
 final class ComposableArchitectureTests: XCTestCase {

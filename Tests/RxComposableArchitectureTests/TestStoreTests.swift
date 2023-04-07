@@ -1,6 +1,5 @@
 import Combine
-import ComposableArchitecture
-import ComposableArchitectureTestSupport
+import RxComposableArchitecture
 import XCTest
 import RxSwift
 import RxTest

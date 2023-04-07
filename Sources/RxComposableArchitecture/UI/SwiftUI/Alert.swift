@@ -197,7 +197,7 @@ extension AlertState: CustomDebugOutputConvertible {
       primaryButton: self.primaryButton,
       secondaryButton: self.secondaryButton
     )
-    return "\(Self.self)\(ComposableArchitecture.debugOutput(fields))"
+    return "\(Self.self)\(RxComposableArchitecture.debugOutput(fields))"
   }
 }
 

@@ -10,7 +10,7 @@ extension CasePath {
   public static func `case`(_ embed: @escaping (Value) -> Root) -> CasePath {
     return self.init(
       embed: embed,
-      extract: { ComposableArchitecture.extract(case: embed, from: $0) }
+      extract: { RxComposableArchitecture.extract(case: embed, from: $0) }
     )
   }
 }
