@@ -1,6 +1,16 @@
 import Foundation
 import RxSwift
 
+fileprivate extension Observable {
+    func observeOnMainThreadIfNeeded() -> Observable<Element> {
+        if NSClassFromString("XCTest") != nil { // in test stay on current thread
+            return self
+        } else {
+            return self.observe(on: MainScheduler())
+        }
+    }
+}
+
 extension ObservableConvertibleType {
   
   /// Creates an effect from an observable with expected failure type.
@@ -8,7 +18,7 @@ extension ObservableConvertibleType {
   /// Shortcut for `eraseToEffect(failureType:)` when `failureType` can be guessed at compile time
   /// - Returns: The effect of output type `Element` and failure type `Failure`
   public func eraseToEffect<Failure: Error>() -> Effect<Element, Failure> {
-    Effect(asObservable())
+      Effect(asObservable().observeOnMainThreadIfNeeded())
   }
   
   /// Creates an effect from an observable with expected failure type
@@ -16,7 +26,7 @@ extension ObservableConvertibleType {
   /// - Parameter failureType: The Failure type that can be encountered by this observable.
   /// - Returns: The effect of output type `Element` and failure type `failureType`
   public func eraseToEffect<Failure: Error>(failureType: Failure.Type) -> Effect<Element, Failure> {
-    Effect(asObservable())
+      Effect(asObservable().observeOnMainThreadIfNeeded())
   }
 
   /// Turns any observable into an `Effect` that cannot fail by wrapping its output and failure in a
@@ -40,6 +50,7 @@ extension ObservableConvertibleType {
   ) -> Effect<Result<Element, Failure>, Never> {
     Effect(
       asObservable()
+        .observeOnMainThreadIfNeeded()
         .map(Result.success)
         // Because Rx doesn't give any guaranty on the error type,
         // We have to make sure the error is of type Failure
