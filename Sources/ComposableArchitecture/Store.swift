@@ -147,6 +147,11 @@ public final class Store<State, Action> {
   ///
   /// - Parameter action: An action.
   public func send(_ action: Action) {
+      
+      if !Thread.isMainThread {
+          runtimeWarn("Trying to send action on a background thread ! You should wrap your call in a DispatchQueue.main.async... or if it's in a Rx subscribe, add .observeOn(MainScheduler()) right before.")
+      }
+      
     if !self.isSending {
       self.synchronousActionsToSend.append(action)
     } else {
