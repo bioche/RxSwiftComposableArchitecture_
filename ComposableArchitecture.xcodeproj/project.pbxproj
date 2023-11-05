@@ -100,6 +100,7 @@
 		BE66156E24DDBC9C0049DAE6 /* ComposableArchitectureTestSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5A7FE2724CF245E00608A39 /* ComposableArchitectureTestSupport.framework */; platformFilter = ios; };
 		BEC93A4424B8EE0B00D8082D /* IfLetUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC93A4324B8EE0B00D8082D /* IfLetUIKit.swift */; };
 		D000D2A824E9787300ADE15C /* Reducer+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D000D2A724E9787300ADE15C /* Reducer+Utils.swift */; };
+		D0618D142ACF1811003DB91E /* RuntimeWarnings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0618D132ACF1811003DB91E /* RuntimeWarnings.swift */; };
 		D07A4C7624E2BF1D008377C5 /* UIAlertController+ActionSheetState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07A4C7524E2BF1D008377C5 /* UIAlertController+ActionSheetState.swift */; };
 		D07A4C8024E2C2EF008377C5 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41626040248D2E14003FCAA8 /* RxCocoa.framework */; };
 		D07A4C8324E2C2F0008377C5 /* RxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4162603F248D2E14003FCAA8 /* RxRelay.framework */; };
@@ -245,6 +246,7 @@
 		BED7DF6124C2068B007EDABE /* TestStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestStore.swift; sourceTree = "<group>"; };
 		BED7DF6424C21EA7007EDABE /* RxTestScheduler+utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RxTestScheduler+utils.swift"; sourceTree = "<group>"; };
 		D000D2A724E9787300ADE15C /* Reducer+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Reducer+Utils.swift"; sourceTree = "<group>"; };
+		D0618D132ACF1811003DB91E /* RuntimeWarnings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RuntimeWarnings.swift; sourceTree = "<group>"; };
 		D07A4C7524E2BF1D008377C5 /* UIAlertController+ActionSheetState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+ActionSheetState.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -363,6 +365,7 @@
 		41364CA5248C6028007EBA46 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
+				D0618D132ACF1811003DB91E /* RuntimeWarnings.swift */,
 				41364CA6248C6028007EBA46 /* Diff.swift */,
 				41364CA7248C6028007EBA46 /* Deprecations.swift */,
 				41364CA8248C6028007EBA46 /* Throttling.swift */,
@@ -901,6 +904,7 @@
 				41364CE4248C6028007EBA46 /* TCAIdentifiable.swift in Sources */,
 				41C84FF1263F0C3300E64690 /* Binding.swift in Sources */,
 				419FC4E32651C3350059D3A7 /* Disposable+asCancellable.swift in Sources */,
+				D0618D142ACF1811003DB91E /* RuntimeWarnings.swift in Sources */,
 				418033AE24D715B700EA11AB /* Store+CollectionBinding.swift in Sources */,
 				418033A924D715B700EA11AB /* RxSectionedTableDataSource.swift in Sources */,
 				4162604F248D31E3003FCAA8 /* CasePaths.swift in Sources */,
