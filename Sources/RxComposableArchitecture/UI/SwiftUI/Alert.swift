@@ -153,13 +153,16 @@ public struct AlertState<Action> {
       Self(action: action, type: .destructive(label: label))
     }
 
-    public enum `Type`: Hashable {
+    public enum `Type`: Hashable, Sendable {
       case cancel(label: String?)
       case `default`(label: String)
       case destructive(label: String)
     }
   }
 }
+
+extension AlertState: Sendable where Action: Sendable { }
+extension AlertState.Button: Sendable where Action: Sendable { }
 
 #if canImport(Combine)
 import SwiftUI
